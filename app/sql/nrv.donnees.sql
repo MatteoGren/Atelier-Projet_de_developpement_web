@@ -15,20 +15,6 @@ INSERT INTO soiree (id, nom, thematique, date, lieu, capacite) VALUES
 ('22222222-0000-0000-0000-000000000006', 'Grande Finale',         'Rock',         '2027-06-17 20:00', 'Zénith de Nancy',     1200),
 ('22222222-0000-0000-0000-000000000007', 'Session Intimiste',     'Blues rock',   '2027-06-15 21:00', 'Café Le Terminus',       4);
 
--- Artistes
-INSERT INTO artiste (id, nom_scene) VALUES
-('33333333-0000-0000-0000-000000000001', 'The Stanislas Boys'),
-('33333333-0000-0000-0000-000000000002', 'Route 54'),
-('33333333-0000-0000-0000-000000000003', 'Blue Meurthe'),
-('33333333-0000-0000-0000-000000000004', 'Mama Delta'),
-('33333333-0000-0000-0000-000000000005', 'Iron Lorraine'),
-('33333333-0000-0000-0000-000000000006', 'Black Tide'),
-('33333333-0000-0000-0000-000000000007', 'Hélène Verlaine'),
-('33333333-0000-0000-0000-000000000008', 'Les Chardons'),
-('33333333-0000-0000-0000-000000000009', 'Neon Nancy'),
-('33333333-0000-0000-0000-000000000010', 'Pierre Lambert'),
-('33333333-0000-0000-0000-000000000011', 'Static Fire');
-
 -- Spectacles (styles validés côté métier)
 INSERT INTO spectacle (id, soiree_id, style, titre, artistes, description, chemin_images, chemin_video, horaire) VALUES
 ('44444444-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'classic rock', 'Retour aux sources', 'The Stanislas Boys', 'Les grands classiques du rock des années 70.', 'img/retour-aux-sources-1.jpg;img/retour-aux-sources-2.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-04 20:30'),
