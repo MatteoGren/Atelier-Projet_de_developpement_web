@@ -30,49 +30,22 @@ INSERT INTO artiste (id, nom_scene) VALUES
 ('33333333-0000-0000-0000-000000000011', 'Static Fire');
 
 -- Spectacles (styles validés côté métier)
-INSERT INTO spectacle (id, soiree_id, style, titre, description, chemin_image, chemin_video, horaire) VALUES
--- Soirée 1
-('44444444-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'classic rock', 'Retour aux sources',   'Les grands classiques du rock des années 70.', 'img/retour-aux-sources.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-04 20:30'),
-('44444444-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000001', 'classic rock', 'Highway Night',        'Un set énergique sur la route 54.',             'img/highway-night.jpg',      'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-04 22:00'),
--- Soirée 2
-('44444444-0000-0000-0000-000000000003', '22222222-0000-0000-0000-000000000002', 'blues rock',    'Blues de la rivière', 'Du blues rock chaud au bord de l''eau.',        'img/blues-riviere.jpg',      'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-06 20:00'),
-('44444444-0000-0000-0000-000000000004', '22222222-0000-0000-0000-000000000002', 'blues rock',    'Delta Stories',       'Racines du delta et slide guitar.',             'img/delta-stories.jpg',      'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-06 21:30'),
--- Soirée 3
-('44444444-0000-0000-0000-000000000005', '22222222-0000-0000-0000-000000000003', 'métal',         'Forge d''acier',      'Riffs lourds et batterie double pédale.',       'img/forge-acier.jpg',        'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-09 21:00'),
-('44444444-0000-0000-0000-000000000006', '22222222-0000-0000-0000-000000000003', 'métal',         'Marée noire',         'Un metal sombre et atmosphérique.',             'img/maree-noire.jpg',        'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-09 22:30'),
--- Soirée 4
-('44444444-0000-0000-0000-000000000007', '22222222-0000-0000-0000-000000000004', 'chanson',       'Poèmes en musique',   'Textes et mélodies intimistes.',                'img/poemes-musique.jpg',     'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-11 20:30'),
-('44444444-0000-0000-0000-000000000008', '22222222-0000-0000-0000-000000000004', 'chanson',       'Folk des chardons',   'Chanson française aux accents folk.',           'img/folk-chardons.jpg',      'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-11 21:45'),
--- Soirée 5
-('44444444-0000-0000-0000-000000000009', '22222222-0000-0000-0000-000000000005', 'rock',          'Néons et guitares',   'Rock moderne aux couleurs néon.',               'img/neons-guitares.jpg',     'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 19:30'),
-('44444444-0000-0000-0000-000000000010', '22222222-0000-0000-0000-000000000005', 'chanson',       'Piano-voix',          'Un récital de chansons au piano.',              'img/piano-voix.jpg',         'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 20:45'),
-('44444444-0000-0000-0000-000000000011', '22222222-0000-0000-0000-000000000005', 'métal',         'Étincelles',          'Un final métal explosif.',                      'img/etincelles.jpg',         'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 22:00'),
--- Soirée 6
-('44444444-0000-0000-0000-000000000012', '22222222-0000-0000-0000-000000000006', 'rock',          'Tous ensemble',       'Les artistes du festival réunis sur scène.',    'img/tous-ensemble.jpg',      'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-17 20:30'),
-('44444444-0000-0000-0000-000000000013', '22222222-0000-0000-0000-000000000006', 'classic rock',  'Dernier rappel',      'Les classiques pour clôturer le festival.',     'img/dernier-rappel.jpg',     'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-17 22:00'),
--- Soirée 7
-('44444444-0000-0000-0000-000000000014', '22222222-0000-0000-0000-000000000007', 'blues rock',    'Acoustique au comptoir', 'Un concert acoustique en petit comité.',     'img/acoustique-comptoir.jpg','https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-15 21:30');
+INSERT INTO spectacle (id, soiree_id, style, titre, artistes, description, chemin_images, chemin_video, horaire) VALUES
+('44444444-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'classic rock', 'Retour aux sources', 'The Stanislas Boys', 'Les grands classiques du rock des années 70.', 'img/retour-aux-sources-1.jpg;img/retour-aux-sources-2.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-04 20:30'),
+('44444444-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000001', 'classic rock', 'Highway Night', 'Route 54', 'Un set énergique sur la route 54.', 'img/highway-night.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-04 22:00'),
+('44444444-0000-0000-0000-000000000003', '22222222-0000-0000-0000-000000000002', 'blues rock', 'Blues de la rivière', 'Blue Meurthe', 'Du blues rock chaud au bord de l''eau.', 'img/blues-riviere-1.jpg;img/blues-riviere-2.jpg;img/blues-riviere-3.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-06 20:00'),
+('44444444-0000-0000-0000-000000000004', '22222222-0000-0000-0000-000000000002', 'blues rock', 'Delta Stories', 'Mama Delta, Blue Meurthe', 'Racines du delta et slide guitar.', 'img/delta-stories.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-06 21:30'),
+('44444444-0000-0000-0000-000000000005', '22222222-0000-0000-0000-000000000003', 'métal', 'Forge d''acier', 'Iron Lorraine', 'Riffs lourds et batterie double pédale.', 'img/forge-acier-1.jpg;img/forge-acier-2.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-09 21:00'),
+('44444444-0000-0000-0000-000000000006', '22222222-0000-0000-0000-000000000003', 'métal', 'Marée noire', 'Black Tide', 'Un metal sombre et atmosphérique.', 'img/maree-noire.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-09 22:30'),
+('44444444-0000-0000-0000-000000000007', '22222222-0000-0000-0000-000000000004', 'chanson', 'Poèmes en musique', 'Hélène Verlaine', 'Textes et mélodies intimistes.', 'img/poemes-musique.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-11 20:30'),
+('44444444-0000-0000-0000-000000000008', '22222222-0000-0000-0000-000000000004', 'chanson', 'Folk des chardons', 'Les Chardons', 'Chanson française aux accents folk.', 'img/folk-chardons-1.jpg;img/folk-chardons-2.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-11 21:45'),
+('44444444-0000-0000-0000-000000000009', '22222222-0000-0000-0000-000000000005', 'rock', 'Néons et guitares', 'Neon Nancy', 'Rock moderne aux couleurs néon.', 'img/neons-guitares.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 19:30'),
+('44444444-0000-0000-0000-000000000010', '22222222-0000-0000-0000-000000000005', 'chanson', 'Piano-voix', 'Pierre Lambert', 'Un récital de chansons au piano.', 'img/piano-voix.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 20:45'),
+('44444444-0000-0000-0000-000000000011', '22222222-0000-0000-0000-000000000005', 'métal', 'Étincelles', 'Static Fire', 'Un final métal explosif.', 'img/etincelles.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-13 22:00'),
+('44444444-0000-0000-0000-000000000012', '22222222-0000-0000-0000-000000000006', 'rock', 'Tous ensemble', 'The Stanislas Boys, Neon Nancy, Static Fire', 'Les artistes du festival réunis sur scène.', 'img/tous-ensemble-1.jpg;img/tous-ensemble-2.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-17 20:30'),
+('44444444-0000-0000-0000-000000000013', '22222222-0000-0000-0000-000000000006', 'classic rock', 'Dernier rappel', 'Route 54', 'Les classiques pour clôturer le festival.', 'img/dernier-rappel.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-17 22:00'),
+('44444444-0000-0000-0000-000000000014', '22222222-0000-0000-0000-000000000007', 'blues rock', 'Acoustique au comptoir', 'Mama Delta', 'Un concert acoustique en petit comité.', 'img/acoustique-comptoir.jpg', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '2027-06-15 21:30');
 
--- Artistes <-> spectacles
-INSERT INTO artiste_spectacle (artiste_id, spectacle_id) VALUES
-('33333333-0000-0000-0000-000000000001', '44444444-0000-0000-0000-000000000001'),
-('33333333-0000-0000-0000-000000000002', '44444444-0000-0000-0000-000000000002'),
-('33333333-0000-0000-0000-000000000003', '44444444-0000-0000-0000-000000000003'),
-('33333333-0000-0000-0000-000000000004', '44444444-0000-0000-0000-000000000004'),
-('33333333-0000-0000-0000-000000000003', '44444444-0000-0000-0000-000000000004'), -- 2 artistes
-('33333333-0000-0000-0000-000000000005', '44444444-0000-0000-0000-000000000005'),
-('33333333-0000-0000-0000-000000000006', '44444444-0000-0000-0000-000000000006'),
-('33333333-0000-0000-0000-000000000007', '44444444-0000-0000-0000-000000000007'),
-('33333333-0000-0000-0000-000000000008', '44444444-0000-0000-0000-000000000008'),
-('33333333-0000-0000-0000-000000000009', '44444444-0000-0000-0000-000000000009'),
-('33333333-0000-0000-0000-000000000010', '44444444-0000-0000-0000-000000000010'),
-('33333333-0000-0000-0000-000000000011', '44444444-0000-0000-0000-000000000011'),
-('33333333-0000-0000-0000-000000000001', '44444444-0000-0000-0000-000000000012'),
-('33333333-0000-0000-0000-000000000009', '44444444-0000-0000-0000-000000000012'),
-('33333333-0000-0000-0000-000000000011', '44444444-0000-0000-0000-000000000012'),
-('33333333-0000-0000-0000-000000000002', '44444444-0000-0000-0000-000000000013'),
-('33333333-0000-0000-0000-000000000004', '44444444-0000-0000-0000-000000000014');
-*
 -- Commandes et billets (tarifs : normal 25 €, réduit 15 €)
 INSERT INTO commande (id, utilisateur_id, statut, montant_total, created_at, paid_at) VALUES
 ('55555555-0000-0000-0000-000000000001', '11111111-0000-0000-0000-000000000001', 'validee',    65.00, '2026-10-19 10:00', '2026-10-19 10:02'),

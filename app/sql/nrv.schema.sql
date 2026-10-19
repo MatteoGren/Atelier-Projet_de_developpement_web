@@ -33,28 +33,13 @@ CREATE TABLE soiree (
 CREATE TABLE spectacle (
     id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     soiree_id      UUID NOT NULL REFERENCES soiree(id) ON DELETE CASCADE,
-    style          VARCHAR(50) NOT NULL,            
+    style          VARCHAR(50) NOT NULL,          
     titre          VARCHAR(150) NOT NULL,
+    artistes       VARCHAR(255) NOT NULL,           -- ex : 'Blue Meurthe, Mama Delta'
     description    TEXT,
-    chemin_image   VARCHAR(255),
+    chemin_images  TEXT,                            -- plusieurs URLs séparées par ';'
     chemin_video   VARCHAR(255),
     horaire        TIMESTAMP NOT NULL               -- horaire prévisionnel
-);
-
-CREATE INDEX idx_spectacle_soiree ON spectacle(soiree_id);
-CREATE INDEX idx_spectacle_style  ON spectacle(style);
-
-
--- Artistes et association N-N avec les spectacles
-CREATE TABLE artiste (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nom_scene  VARCHAR(150) NOT NULL
-);
-
-CREATE TABLE artiste_spectacle (
-    artiste_id    UUID NOT NULL REFERENCES artiste(id)   ON DELETE CASCADE,
-    spectacle_id  UUID NOT NULL REFERENCES spectacle(id) ON DELETE CASCADE,
-    PRIMARY KEY (artiste_id, spectacle_id)
 );
 
 -- Commandes (le panier validé devient une commande)
