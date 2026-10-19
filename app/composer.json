@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4" : {
-      "toubilib\\" : "./src"
+      "Atelier\\" : "./src"
     }
   },
   "autoload-dev": {
