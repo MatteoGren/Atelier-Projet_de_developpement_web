@@ -1,0 +1,27 @@
+.idea/
+# IDE
+.vscode/
+.DS_STORE
+/coverage/
+# Vendor
+/vendor/
+# Logs
+/app/logs/*
+!/app/logs/README.md
+# Cache
+/var/cache/*
+.phpunit.result.cache
+cache.properties
+.php_cs.cache
+# Composer
+composer.phar
+composer.lock
+/app/vendor/
+/app/config/.env
+/toubiauthdb.env
+/toubilib.env
+/toubipatientdb.env
+/toubipratdb.env
+/toubirdvdb.env
+
+*.env
