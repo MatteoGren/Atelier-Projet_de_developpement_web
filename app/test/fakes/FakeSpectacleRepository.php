@@ -25,4 +25,12 @@ class FakeSpectacleRepository implements SpectacleRepositoryInterface
     {
         return $this->spectacles;
     }
+
+    public function findBySoireeId(string $soireeId): array
+    {
+        return array_values(array_filter(
+            $this->spectacles,
+            fn (Spectacle $spectacle) => $spectacle->getSoireeId() === $soireeId
+        ));
+    }
 }

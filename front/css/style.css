@@ -28,6 +28,7 @@ body {
 
 .entete h1 {
   color: #c0262d;
+  overflow-wrap: anywhere;
 }
 
 main {
@@ -80,4 +81,94 @@ main {
 }
 .carte-spectacle__infos p {
   margin: 0;
+}
+
+.carte-spectacle__infos h3 a {
+  color: inherit;
+}
+.carte-spectacle__infos h3 a:hover, .carte-spectacle__infos h3 a:focus {
+  color: #c0262d;
+}
+
+.soiree {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.soiree__entete h2 {
+  margin: 0;
+  color: #c0262d;
+}
+.soiree__thematique {
+  margin: 0.25rem 0 0;
+  font-weight: bold;
+}
+.soiree__infos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  margin: 0;
+}
+.soiree__infos dt {
+  font-weight: bold;
+}
+.soiree__infos dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.soiree__tarifs h3, .soiree__spectacles h3 {
+  margin: 0 0 0.5rem;
+}
+.soiree__tarifs ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.liste-detail-spectacles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 1000px) {
+  .liste-detail-spectacles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.spectacle {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.spectacle h3,
+.spectacle p {
+  margin: 0;
+}
+.spectacle__infos {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+.spectacle__infos dt {
+  font-weight: bold;
+}
+.spectacle__infos dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.spectacle__video iframe {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+  display: block;
 }

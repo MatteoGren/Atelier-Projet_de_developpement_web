@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 use nrv\adapters\config\ContainerConfig;
+use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\middlewares\Cors;
 
@@ -18,7 +19,6 @@ $container = ContainerConfig::build();
 
 $app = AppFactory::createFromContainer($container);
 $app->addBodyParsingMiddleware();
-$app->add(Cors::class);
 $app->addRoutingMiddleware();
 
 $errorMiddleware = $app->addErrorMiddleware(true, false, false);
@@ -33,7 +33,11 @@ $errorHandler->registerErrorRenderer(
     }
 );
 
+// Ajouté après le middleware d'erreurs pour l'englober : les réponses 400/404 ont aussi les en-têtes CORS.
+$app->add(Cors::class);
+
 $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
+$app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
 
 $app->options(
     '/{routes:.+}',

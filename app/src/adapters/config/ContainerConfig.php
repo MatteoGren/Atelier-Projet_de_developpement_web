@@ -6,9 +6,13 @@ namespace nrv\adapters\config;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use nrv\adapters\persistence\PDOSoireeRepository;
 use nrv\adapters\persistence\PDOSpectacleRepository;
+use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
+use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
+use nrv\application\usecases\ServiceSoiree;
 use nrv\application\usecases\ServiceSpectacle;
 use PDO;
 use Psr\Container\ContainerInterface;
@@ -39,6 +43,15 @@ class ContainerConfig
             },
             ServiceSpectacleInterface::class => function (ContainerInterface $c): ServiceSpectacleInterface {
                 return new ServiceSpectacle($c->get(SpectacleRepositoryInterface::class));
+            },
+            SoireeRepositoryInterface::class => function (ContainerInterface $c): SoireeRepositoryInterface {
+                return new PDOSoireeRepository($c->get(PDO::class));
+            },
+            ServiceSoireeInterface::class => function (ContainerInterface $c): ServiceSoireeInterface {
+                return new ServiceSoiree(
+                    $c->get(SoireeRepositoryInterface::class),
+                    $c->get(SpectacleRepositoryInterface::class)
+                );
             },
         ]);
 

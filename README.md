@@ -51,6 +51,7 @@ docker compose restart api.nrv
 | Méthode | Route | Description |
 |---------|-------|-------------|
 | GET | `/spectacles` | Liste des spectacles (titre, date, horaire, image) |
+| GET | `/soirees/{id}` | Détail d'une soirée (nom, thématique, date, horaire, lieu, tarifs, spectacles) ; 400 si l'identifiant n'est pas un UUID, 404 si la soirée n'existe pas |
 
 ## Tests unitaires
 

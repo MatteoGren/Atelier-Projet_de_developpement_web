@@ -35,6 +35,7 @@ body {
 
 .entete h1 {
     color: $couleur-principale;
+    overflow-wrap: anywhere;
 }
 
 main {
@@ -89,5 +90,117 @@ main {
         p {
             margin: 0;
         }
+    }
+}
+
+.carte-spectacle__infos h3 a {
+    color: inherit;
+
+    &:hover,
+    &:focus {
+        color: $couleur-principale;
+    }
+}
+
+// Détail d'une soirée
+.soiree {
+    display: flex;
+    flex-direction: column;
+    gap: $espace;
+    margin-top: $espace;
+
+    &__entete {
+        h2 {
+            margin: 0;
+            color: $couleur-principale;
+        }
+    }
+
+    &__thematique {
+        margin: 0.25rem 0 0;
+        font-weight: bold;
+    }
+
+    // Libellés à gauche, valeurs à droite
+    &__infos {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.5rem $espace;
+        margin: 0;
+
+        dt {
+            font-weight: bold;
+        }
+
+        dd {
+            margin: 0;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    &__tarifs,
+    &__spectacles {
+        h3 {
+            margin: 0 0 0.5rem;
+        }
+    }
+
+    &__tarifs ul {
+        margin: 0;
+        padding-left: 1.25rem;
+    }
+}
+
+// 1 colonne sur mobile et tablette, 2 sur desktop
+.liste-detail-spectacles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $espace;
+
+    @media (min-width: $desktop) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.spectacle {
+    // Sans min-width: 0, un élément de grille ne rétrécit pas sous la largeur de son contenu (débordement mobile).
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #fff;
+    border-radius: 6px;
+    padding: $espace;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    h3,
+    p {
+        margin: 0;
+    }
+
+    &__infos {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.25rem $espace;
+        margin: 0;
+
+        dt {
+            font-weight: bold;
+        }
+
+        dd {
+            margin: 0;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    &__video iframe {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+        display: block;
     }
 }

@@ -30,6 +30,19 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
         return array_map(fn (array $ligne) => $this->versEntite($ligne), $stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
+    public function findBySoireeId(string $soireeId): array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT id, soiree_id, titre, artistes, description, chemin_images, chemin_video, horaire, style
+             FROM spectacle
+             WHERE soiree_id = :soiree_id
+             ORDER BY horaire ASC'
+        );
+        $stmt->execute(['soiree_id' => $soireeId]);
+
+        return array_map(fn (array $ligne) => $this->versEntite($ligne), $stmt->fetchAll(PDO::FETCH_ASSOC));
+    }
+
     private function versEntite(array $ligne): Spectacle
     {
         // chemin_images contient plusieurs chemins séparés par ';'
