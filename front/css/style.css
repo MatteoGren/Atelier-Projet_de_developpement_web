@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.entete,
+.pied {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+.entete h1,
+.entete p,
+.pied h1,
+.pied p {
+  margin: 0;
+}
+
+.entete h1 {
+  color: #c0262d;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.message {
+  font-style: italic;
+}
+
+.liste-spectacles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 600px) {
+  .liste-spectacles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1000px) {
+  .liste-spectacles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.carte-spectacle {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.carte-spectacle img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+}
+.carte-spectacle__infos {
+  padding: 1rem;
+}
+.carte-spectacle__infos h3 {
+  margin: 0 0 0.5rem;
+}
+.carte-spectacle__infos p {
+  margin: 0;
+}

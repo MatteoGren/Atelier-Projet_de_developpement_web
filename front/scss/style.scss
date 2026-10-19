@@ -1,0 +1,93 @@
+$couleur-fond: #f4f4f4;
+$couleur-texte: #1e1e1e;
+$couleur-principale: #c0262d;
+$espace: 1rem;
+
+$tablette: 600px;
+$desktop: 1000px;
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: $couleur-fond;
+    color: $couleur-texte;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.entete,
+.pied {
+    background-color: $couleur-texte;
+    color: #fff;
+    padding: $espace;
+    text-align: center;
+
+    h1,
+    p {
+        margin: 0;
+    }
+}
+
+.entete h1 {
+    color: $couleur-principale;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: $espace;
+}
+
+.message {
+    font-style: italic;
+}
+
+// 1 colonne sur mobile, 2 sur tablette, 3 sur desktop
+.liste-spectacles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $espace;
+
+    @media (min-width: $tablette) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: $desktop) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.carte-spectacle {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        display: block;
+    }
+
+    &__infos {
+        padding: $espace;
+
+        h3 {
+            margin: 0 0 0.5rem;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+}

@@ -13,6 +13,8 @@
 .phpunit.result.cache
 cache.properties
 .php_cs.cache
+# Node (compilation SASS du front)
+node_modules/
 # Composer
 composer.phar
 composer.lock

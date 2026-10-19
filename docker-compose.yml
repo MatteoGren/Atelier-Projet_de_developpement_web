@@ -31,7 +31,21 @@ services:
     networks:
       - nrv.net
     volumes:
-      - ./sql:/var/sql
+      - ./app/sql:/var/sql
+
+
+  # service front.nrv : pages HTML/CSS/JS servies telles quelles
+  front.nrv:
+    image: 'nginx:1.27-alpine'
+    restart: unless-stopped
+    ports:
+      - '1012:80'
+    volumes:
+      - ./front:/usr/share/nginx/html:ro
+    networks:
+      - nrv.net
+    depends_on:
+      - api.nrv
 
 
   adminer:

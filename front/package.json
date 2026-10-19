@@ -1,0 +1,11 @@
+{
+  "name": "nrv-front",
+  "private": true,
+  "scripts": {
+    "sass": "sass scss/style.scss css/style.css --no-source-map",
+    "sass:watch": "sass --watch scss/style.scss css/style.css --no-source-map"
+  },
+  "devDependencies": {
+    "sass": "1.83.0"
+  }
+}
