@@ -66,6 +66,7 @@ main {
 }
 
 .carte-spectacle {
+    position: relative;
     display: flex;
     flex-direction: column;
     background-color: #fff;
@@ -95,6 +96,13 @@ main {
 
 .carte-spectacle__infos h3 a {
     color: inherit;
+
+    // Le lien du titre s'étend à toute la carte : un clic sur l'image ouvre aussi la soirée.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
 
     &:hover,
     &:focus {
