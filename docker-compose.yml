@@ -1,35 +1,35 @@
 networks:
-  toubilib.net:
+  nrv.net:
     driver: bridge
 
 services:
-  # service api.toubeelib : api pour la prise de rdv
+  # service api.nrv : api pour la prise de rdv
   #
-  api.toubilib:
+  api.nrv:
     build:
       context: build
       dockerfile: 8.5-cli.Dockerfile
     ports:
-      - '7080:80'
+      - '1010:80'
     volumes:
       - ./app:/var/php
-      - ./toubilib.env:/var/toubilib.env:ro
+      - ./nrv.env:/var/nrv.env:ro
     working_dir: /var/php
     networks:
-      - toubilib.net
+      - nrv.net
     depends_on:
-      - toubilib.db
+      - nrv.db
 
     command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
 
 
-  toubilib.db:
+  nrv.db:
     image: 'postgres:18.6'
-    env_file: ./toubilib.env
+    env_file: ./nrv.env
     ports:
       - '5532:5432'
     networks:
-      - toubilib.net
+      - nrv.net
     volumes:
       - ./sql:/var/sql
 
@@ -37,6 +37,6 @@ services:
   adminer:
     image: adminer
     ports:
-      - '8880:8080'
+      - '1011:8080'
     networks:
-      - toubilib.net
+      - nrv.net
