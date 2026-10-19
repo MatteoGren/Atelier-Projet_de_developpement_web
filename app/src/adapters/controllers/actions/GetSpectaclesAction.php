@@ -10,8 +10,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class GetSpectaclesAction
 {
-    public function __construct(private ServiceSpectacleInterface $serviceSpectacle)
+    private ServiceSpectacleInterface $serviceSpectacle;
+
+    public function __construct(ServiceSpectacleInterface $serviceSpectacle)
     {
+        $this->serviceSpectacle = $serviceSpectacle;
     }
 
     public function __invoke(Request $request, Response $response): Response

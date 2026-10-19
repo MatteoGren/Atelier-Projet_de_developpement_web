@@ -9,14 +9,27 @@ use nrv\domain\entities\Spectacle;
 // Vue « liste » d'un spectacle : uniquement ce que la liste affiche.
 final class SpectacleListeDTO
 {
+    public readonly string $id;
+    public readonly string $soireeId;
+    public readonly string $titre;
+    public readonly string $date;
+    public readonly string $horaire;
+    public readonly ?string $image;
+
     public function __construct(
-        public readonly string $id,
-        public readonly string $soireeId,
-        public readonly string $titre,
-        public readonly string $date,
-        public readonly string $horaire,
-        public readonly ?string $image
+        string $id,
+        string $soireeId,
+        string $titre,
+        string $date,
+        string $horaire,
+        ?string $image
     ) {
+        $this->id = $id;
+        $this->soireeId = $soireeId;
+        $this->titre = $titre;
+        $this->date = $date;
+        $this->horaire = $horaire;
+        $this->image = $image;
     }
 
     public static function fromEntity(Spectacle $spectacle): self

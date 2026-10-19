@@ -10,8 +10,11 @@ use nrv\application\ports\spi\SpectacleRepositoryInterface;
 
 class ServiceSpectacle implements ServiceSpectacleInterface
 {
-    public function __construct(private SpectacleRepositoryInterface $spectacleRepository)
+    private SpectacleRepositoryInterface $spectacleRepository;
+
+    public function __construct(SpectacleRepositoryInterface $spectacleRepository)
     {
+        $this->spectacleRepository = $spectacleRepository;
     }
 
     public function listerSpectacles(): array

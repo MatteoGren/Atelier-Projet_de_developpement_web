@@ -10,11 +10,15 @@ use nrv\domain\entities\Spectacle;
 // Repository en mémoire : permet de tester le service sans base de données.
 class FakeSpectacleRepository implements SpectacleRepositoryInterface
 {
+    /** @var Spectacle[] */
+    private array $spectacles;
+
     /**
      * @param Spectacle[] $spectacles
      */
-    public function __construct(private array $spectacles = [])
+    public function __construct(array $spectacles = [])
     {
+        $this->spectacles = $spectacles;
     }
 
     public function findAll(): array

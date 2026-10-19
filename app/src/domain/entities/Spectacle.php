@@ -8,20 +8,40 @@ use DateTimeImmutable;
 
 class Spectacle
 {
+    private string $id;
+    private string $soireeId;
+    private string $titre;
+    private string $artistes;
+    private ?string $description;
+    /** @var string[] chemins des images, la première est l'image principale */
+    private array $images;
+    private ?string $video;
+    private DateTimeImmutable $horaire;
+    private string $style;
+
     /**
-     * @param string[] $images chemins des images, la première est l'image principale
+     * @param string[] $images
      */
     public function __construct(
-        private string $id,
-        private string $soireeId,
-        private string $titre,
-        private string $artistes,
-        private ?string $description,
-        private array $images,
-        private ?string $video,
-        private DateTimeImmutable $horaire,
-        private string $style
+        string $id,
+        string $soireeId,
+        string $titre,
+        string $artistes,
+        ?string $description,
+        array $images,
+        ?string $video,
+        DateTimeImmutable $horaire,
+        string $style
     ) {
+        $this->id = $id;
+        $this->soireeId = $soireeId;
+        $this->titre = $titre;
+        $this->artistes = $artistes;
+        $this->description = $description;
+        $this->images = $images;
+        $this->video = $video;
+        $this->horaire = $horaire;
+        $this->style = $style;
     }
 
     public function getId(): string
