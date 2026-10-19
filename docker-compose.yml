@@ -1,0 +1,42 @@
+networks:
+  nrv.net:
+    driver: bridge
+
+services:
+  # service api.nrv : api pour la prise de rdv
+  #
+  api.nrv:
+    build:
+      context: build
+      dockerfile: 8.5-cli.Dockerfile
+    ports:
+      - '1010:80'
+    volumes:
+      - ./app:/var/php
+      - ./nrv.env:/var/nrv.env:ro
+    working_dir: /var/php
+    networks:
+      - nrv.net
+    depends_on:
+      - nrv.db
+
+    command: sh -c "composer install && php -S 0.0.0.0:80 -t /var/php/public"
+
+
+  nrv.db:
+    image: 'postgres:18.6'
+    env_file: ./nrv.env
+    ports:
+      - '5532:5432'
+    networks:
+      - nrv.net
+    volumes:
+      - ./sql:/var/sql
+
+
+  adminer:
+    image: adminer
+    ports:
+      - '1011:8080'
+    networks:
+      - nrv.net
