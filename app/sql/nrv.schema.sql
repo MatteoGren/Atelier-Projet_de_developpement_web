@@ -1,8 +1,6 @@
 DROP TABLE IF EXISTS billet CASCADE;
 DROP TABLE IF EXISTS commande CASCADE;
-DROP TABLE IF EXISTS artiste_spectacle CASCADE;
 DROP TABLE IF EXISTS spectacle CASCADE;
-DROP TABLE IF EXISTS artiste CASCADE;
 DROP TABLE IF EXISTS soiree CASCADE;
 DROP TABLE IF EXISTS utilisateur CASCADE;
 
@@ -15,8 +13,7 @@ CREATE TABLE utilisateur (
     telephone     VARCHAR(20),
     mot_de_passe  VARCHAR(255) NOT NULL,          -- hash (password_hash)
     role          VARCHAR(20)  NOT NULL DEFAULT 'client'
-                  CHECK (role IN ('client', 'organisateur', 'administrateur')),
-    created_at    TIMESTAMP    NOT NULL DEFAULT now()
+                  CHECK (role IN ('client', 'organisateur', 'administrateur'))
 );
 
 -- Soirées
