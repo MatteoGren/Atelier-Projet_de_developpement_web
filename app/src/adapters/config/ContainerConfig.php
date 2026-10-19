@@ -11,8 +11,7 @@ use nrv\application\ports\api\ServiceSpectacleInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
 use nrv\application\usecases\ServiceSpectacle;
 use PDO;
-
-use function DI\autowire;
+use Psr\Container\ContainerInterface;
 
 class ContainerConfig
 {
@@ -35,8 +34,12 @@ class ContainerConfig
             },
 
             // Ports -> implémentations (inversion de dépendances)
-            SpectacleRepositoryInterface::class => autowire(PDOSpectacleRepository::class),
-            ServiceSpectacleInterface::class => autowire(ServiceSpectacle::class),
+            SpectacleRepositoryInterface::class => function (ContainerInterface $c): SpectacleRepositoryInterface {
+                return new PDOSpectacleRepository($c->get(PDO::class));
+            },
+            ServiceSpectacleInterface::class => function (ContainerInterface $c): ServiceSpectacleInterface {
+                return new ServiceSpectacle($c->get(SpectacleRepositoryInterface::class));
+            },
         ]);
 
         return $builder->build();
