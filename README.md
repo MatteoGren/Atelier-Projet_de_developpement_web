@@ -25,6 +25,19 @@ API RESTful (PHP / Slim, architecture hexagonale) et front HTML/SCSS/JS.
    docker compose exec nrv.db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /var/sql/nrv.donnees.sql'
    ```
 
+Ces deux commandes peuvent être relancées sans risque : le schéma supprime les tables existantes avant de les recréer.
+
+## Mise à jour après un `git pull`
+
+```bash
+docker compose up -d
+docker compose restart api.nrv
+```
+
+- `up -d` recrée les conteneurs dont la configuration a changé et lance les nouveaux services.
+- `restart api.nrv` relance `composer install`, ce qui régénère l'autoload. À faire si l'API affiche `Class "..." not found` (nouvelle classe ou nouveau namespace).
+- Si les fichiers SQL ont changé, relancer les deux commandes de l'étape 3.
+
 ## Services
 
 | Service | URL |
@@ -46,6 +59,8 @@ docker compose exec api.nrv vendor/bin/phpunit
 ```
 
 ## Front : compilation SCSS
+
+Le fichier `front/css/style.css` compilé est versionné : Node/npm n'est nécessaire que pour modifier le SCSS.
 
 ```bash
 cd front
