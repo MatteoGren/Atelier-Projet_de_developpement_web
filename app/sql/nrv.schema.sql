@@ -1,0 +1,85 @@
+DROP TABLE IF EXISTS billet CASCADE;
+DROP TABLE IF EXISTS commande CASCADE;
+DROP TABLE IF EXISTS artiste_spectacle CASCADE;
+DROP TABLE IF EXISTS spectacle CASCADE;
+DROP TABLE IF EXISTS artiste CASCADE;
+DROP TABLE IF EXISTS soiree CASCADE;
+DROP TABLE IF EXISTS utilisateur CASCADE;
+
+-- Utilisateurs
+CREATE TABLE utilisateur (
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nom           VARCHAR(100) NOT NULL,
+    prenom        VARCHAR(100) NOT NULL,
+    mail          VARCHAR(255) NOT NULL UNIQUE,
+    telephone     VARCHAR(20),
+    mot_de_passe  VARCHAR(255) NOT NULL,          -- hash (password_hash)
+    role          VARCHAR(20)  NOT NULL DEFAULT 'client'
+                  CHECK (role IN ('client', 'organisateur', 'administrateur')),
+    created_at    TIMESTAMP    NOT NULL DEFAULT now()
+);
+
+-- Soirées
+CREATE TABLE soiree (
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nom           VARCHAR(150) NOT NULL,
+    thematique    VARCHAR(100) NOT NULL,
+    date          TIMESTAMP    NOT NULL,           -- date + horaire de début
+    lieu          VARCHAR(150) NOT NULL,
+    capacite      INT          NOT NULL CHECK (capacite > 0)
+);
+
+-- Spectacles
+CREATE TABLE spectacle (
+    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    soiree_id      UUID NOT NULL REFERENCES soiree(id) ON DELETE CASCADE,
+    style          VARCHAR(50) NOT NULL,            
+    titre          VARCHAR(150) NOT NULL,
+    description    TEXT,
+    chemin_image   VARCHAR(255),
+    chemin_video   VARCHAR(255),
+    horaire        TIMESTAMP NOT NULL               -- horaire prévisionnel
+);
+
+CREATE INDEX idx_spectacle_soiree ON spectacle(soiree_id);
+CREATE INDEX idx_spectacle_style  ON spectacle(style);
+
+
+-- Artistes et association N-N avec les spectacles
+CREATE TABLE artiste (
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nom_scene  VARCHAR(150) NOT NULL
+);
+
+CREATE TABLE artiste_spectacle (
+    artiste_id    UUID NOT NULL REFERENCES artiste(id)   ON DELETE CASCADE,
+    spectacle_id  UUID NOT NULL REFERENCES spectacle(id) ON DELETE CASCADE,
+    PRIMARY KEY (artiste_id, spectacle_id)
+);
+
+-- Commandes (le panier validé devient une commande)
+CREATE TABLE commande (
+    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    utilisateur_id  UUID NOT NULL REFERENCES utilisateur(id),
+    statut          VARCHAR(20) NOT NULL DEFAULT 'en_attente'
+                    CHECK (statut IN ('en_attente', 'validee', 'annulee')),
+    montant_total   NUMERIC(10,2) NOT NULL DEFAULT 0 CHECK (montant_total >= 0),
+    created_at      TIMESTAMP NOT NULL DEFAULT now(),
+    paid_at         TIMESTAMP
+);
+
+CREATE INDEX idx_commande_utilisateur ON commande(utilisateur_id);
+
+-- Billets
+CREATE TABLE billet (
+    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    commande_id   UUID NOT NULL REFERENCES commande(id) ON DELETE CASCADE,
+    soiree_id     UUID NOT NULL REFERENCES soiree(id),
+    ref           VARCHAR(30) NOT NULL UNIQUE,
+    token         VARCHAR(64) NOT NULL UNIQUE,     -- token aléatoire pour l'URL
+    tarif_reduit  BOOLEAN NOT NULL DEFAULT FALSE,
+    prix          NUMERIC(8,2) NOT NULL CHECK (prix >= 0)  -- prix figé à l'achat
+);
+
+CREATE INDEX idx_billet_commande ON billet(commande_id);
+CREATE INDEX idx_billet_soiree   ON billet(soiree_id);
