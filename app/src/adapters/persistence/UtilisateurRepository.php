@@ -14,7 +14,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
         $this->pdo = $pdo;
     }
 
-    public function FindByEmail(string $email): ?Utilisateur {
+    public function findByEmail(string $email): ?Utilisateur {
         $stmt = $this->pdo->prepare('SELECT * FROM utilisateurs WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

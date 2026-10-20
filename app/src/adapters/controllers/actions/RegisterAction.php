@@ -30,7 +30,7 @@ final class RegisterAction
         $role = $data['role'] ?? 'client';
 
         try {
-            $this->serviceUtilisateur->register($nom, $prenom, $email, $telephone, $motDePasse, $role);
+            $this->serviceUtilisateur->register($nom, $prenom, $email, $telephone, $motDePasse, 'client');
 
             return $response
                 ->withHeader('Location', '/connexion')

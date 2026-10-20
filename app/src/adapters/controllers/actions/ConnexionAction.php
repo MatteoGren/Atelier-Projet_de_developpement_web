@@ -31,6 +31,8 @@ final class ConnexionAction
                 session_start();
             }
 
+            session_regenerate_id(true);
+
             // Stockage des informations de l'utilisateur dans la session
             $_SESSION['user'] = [
                 'id' => $utilisateur->getIdUtilisateur(),

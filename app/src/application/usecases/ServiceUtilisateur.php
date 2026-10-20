@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace nrv\application\usecases;
 
+use nrv\application\ports\spi\UtilisateurRepositoryInterface;
+use nrv\application\exceptions\UtilisateurIntrouvableException;
+use nrv\application\exceptions\MotDePasseInvalideException;
+use nrv\domain\entities\Utilisateur;
 use nrv\application\ports\api\ServiceUtilisateurInterface;
+use InvalidArgumentException;
 
 
 class ServiceUtilisateur implements ServiceUtilisateurInterface
