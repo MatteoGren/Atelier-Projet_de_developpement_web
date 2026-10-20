@@ -11,7 +11,7 @@ use nrv\application\ports\api\ServiceSpectacleInterface;
 
 final class FiltrerParDateAction {
 
-    private function __construct(
+    public function __construct(
         private readonly ServiceSpectacleInterface $service
     ) {}
 

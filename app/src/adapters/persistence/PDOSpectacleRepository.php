@@ -56,7 +56,7 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
                                   WHERE date = :dateSoiree)                
                                 ');     //selectionne ls valeurs des specatcle dont soiree à la bonne date
 
-        $stmt->execute(['dateSoiree' => $date->format('Y-m-d h:i:s')]);
+        $stmt->execute(['dateSoiree' => $date->format('Y-m-d H:i:s')]);
 
         $spectacles = [];   
 

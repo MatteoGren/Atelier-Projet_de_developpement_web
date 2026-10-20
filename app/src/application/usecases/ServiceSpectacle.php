@@ -31,7 +31,7 @@ class ServiceSpectacle implements ServiceSpectacleInterface
     public function filtrerParDate(DateTime $date): array
     {
         return array_map(
-            function ($spectacle) {SpectacleListeDTO::fromEntity($spectacle);},
+            function ($spectacle) {return SpectacleListeDTO::fromEntity($spectacle);},
             $this->spectacleRepository->filtrerParDate($date)
         );
     }
