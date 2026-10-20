@@ -8,14 +8,21 @@ use DI\Container;
 use DI\ContainerBuilder;
 use nrv\adapters\persistence\PDOSoireeRepository;
 use nrv\adapters\persistence\PDOSpectacleRepository;
+use nrv\adapters\persistence\UtilisateurRepository;
 use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
+use nrv\application\ports\api\ServiceUtilisateurInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
+use nrv\application\ports\spi\UtilisateurRepositoryInterface;
 use nrv\application\usecases\ServiceSoiree;
 use nrv\application\usecases\ServiceSpectacle;
+use nrv\application\usecases\ServiceUtilisateur;
 use PDO;
 use Psr\Container\ContainerInterface;
+
+use nrv\adapters\controllers\actions\RegisterAction;
+use nrv\adapters\controllers\actions\ConnexionAction;
 
 class ContainerConfig
 {
@@ -53,6 +60,16 @@ class ContainerConfig
                     $c->get(SpectacleRepositoryInterface::class)
                 );
             },
+
+
+            //ajout pour des test perso 
+            UtilisateurRepositoryInterface::class => function (ContainerInterface $c): UtilisateurRepositoryInterface {
+                return new UtilisateurRepository($c->get(PDO::class));
+            },
+            ServiceUtilisateurInterface::class => function (ContainerInterface $c): ServiceUtilisateurInterface {
+                return new ServiceUtilisateur($c->get(UtilisateurRepositoryInterface::class));
+            },
+
         ]);
 
         return $builder->build();

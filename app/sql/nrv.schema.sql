@@ -6,12 +6,12 @@ DROP TABLE IF EXISTS utilisateur CASCADE;
 
 -- Utilisateurs
 CREATE TABLE utilisateur (
-    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    idUtilisateur            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nom           VARCHAR(100) NOT NULL,
     prenom        VARCHAR(100) NOT NULL,
-    mail          VARCHAR(255) NOT NULL UNIQUE,
+    email         VARCHAR(255) NOT NULL UNIQUE,
     telephone     VARCHAR(20),
-    mot_de_passe  VARCHAR(255) NOT NULL,          -- hash (password_hash)
+    mdp           VARCHAR(255) NOT NULL,          -- hash (password_hash)
     role          VARCHAR(20)  NOT NULL DEFAULT 'client'
                   CHECK (role IN ('client', 'organisateur', 'administrateur'))
 );
@@ -42,7 +42,7 @@ CREATE TABLE spectacle (
 -- Commandes (le panier validé devient une commande)
 CREATE TABLE commande (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    utilisateur_id  UUID NOT NULL REFERENCES utilisateur(id),
+    utilisateur_id  UUID NOT NULL REFERENCES utilisateur(idUtilisateur) ON DELETE CASCADE,
     statut          VARCHAR(20) NOT NULL DEFAULT 'en_attente'
                     CHECK (statut IN ('en_attente', 'validee', 'annulee')),
     montant_total   NUMERIC(10,2) NOT NULL DEFAULT 0 CHECK (montant_total >= 0),

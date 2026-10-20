@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification - NRV</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .auth-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 24px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b7280;
+        }
+        .tab-btn.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            margin-bottom: -2px;
+        }
+        .form-group {
+            margin-bottom: 14px;
+        }
+        label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button[type="submit"] {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover {
+            background-color: #1d4ed8;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <div class="tabs">
+        <button id="btn-connexion" class="tab-btn active" onclick="switchTab('connexion')">Connexion</button>
+        <button id="btn-inscription" class="tab-btn" onclick="switchTab('inscription')">Inscription</button>
+    </div>
+
+    <!-- Formulaire de Connexion -->
+    <form id="form-connexion" action="/connexion" method="POST">
+        <div class="form-group">
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" name="email" required placeholder="nom@exemple.com">
+        </div>
+        <div class="form-group">
+            <label for="c-motDePasse">Mot de passe</label>
+            <input type="password" id="c-motDePasse" name="motDePasse" required>
+        </div>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <!-- Formulaire d'Inscription -->
+    <form id="form-inscription" action="/register" method="POST" class="hidden">
+        <div class="form-group">
+            <label for="r-nom">Nom</label>
+            <input type="text" id="r-nom" name="nom" required>
+        </div>
+        <div class="form-group">
+            <label for="r-prenom">Prénom</label>
+            <input type="text" id="r-prenom" name="prenom" required>
+        </div>
+        <div class="form-group">
+            <label for="r-email">Email</label>
+            <input type="email" id="r-email" name="email" required placeholder="nom@exemple.com">
+        </div>
+        <div class="form-group">
+            <label for="r-telephone">Téléphone</label>
+            <input type="tel" id="r-telephone" name="telephone" required placeholder="0600000000">
+        </div>
+        <div class="form-group">
+            <label for="r-motDePasse">Mot de passe</label>
+            <input type="password" id="r-motDePasse" name="motDePasse" required minlength="8">
+        </div>
+        <button type="submit">Créer un compte</button>
+    </form>
+</div>
+
+<script>
+    function switchTab(tab) {
+        const formConnexion = document.getElementById('form-connexion');
+        const formInscription = document.getElementById('form-inscription');
+        const btnConnexion = document.getElementById('btn-connexion');
+        const btnInscription = document.getElementById('btn-inscription');
+
+        if (tab === 'connexion') {
+            formConnexion.classList.remove('hidden');
+            formInscription.classList.add('hidden');
+            btnConnexion.classList.add('active');
+            btnInscription.classList.remove('active');
+        } else {
+            formConnexion.classList.add('hidden');
+            formInscription.classList.remove('hidden');
+            btnConnexion.classList.remove('active');
+            btnInscription.classList.add('active');
+        }
+    }
+</script>
+
+</body>
+</html>
