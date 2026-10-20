@@ -1,5 +1,5 @@
 -- Utilisateurs
-INSERT INTO utilisateur (id, nom, prenom, mail, telephone, mot_de_passe, role) VALUES
+INSERT INTO utilisateur (idUtilisateur, nom, prenom, email, telephone, mdp, role) VALUES
 ('11111111-0000-0000-0000-000000000001', 'Martin',  'Lucie', 'lucie.martin@example.com', '0612345678', '$2y$10$OURn2gDBWVo4a9FpA/KSY.q5VHIe0QncWR..2U6s3o8KVLBMuDFqW', 'client'),
 ('11111111-0000-0000-0000-000000000002', 'Durand',  'Karim', 'karim.durand@example.com', '0687654321', '$2y$10$OURn2gDBWVo4a9FpA/KSY.q5VHIe0QncWR..2U6s3o8KVLBMuDFqW', 'client'),
 ('11111111-0000-0000-0000-000000000003', 'Petit',   'Sophie', 'orga@nrv.net',            NULL,         '$2y$10$OURn2gDBWVo4a9FpA/KSY.q5VHIe0QncWR..2U6s3o8KVLBMuDFqW', 'organisateur'),

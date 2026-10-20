@@ -45,9 +45,7 @@ class Utilisateur {
         return $this->role;
     }
 
-    
 
-    
 
 
 }

@@ -9,7 +9,7 @@ use nrv\domain\entities\Utilisateur;
 
 
 interface UtilisateurRepositoryInterface
-{
+{ 
 
     public function findByEmail(string $email): ?Utilisateur;
 

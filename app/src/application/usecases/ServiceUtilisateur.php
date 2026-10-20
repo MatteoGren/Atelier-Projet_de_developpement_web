@@ -24,14 +24,15 @@ class ServiceUtilisateur implements ServiceUtilisateurInterface
     }
 
     public function connecter(string $email, string $motDePasse): Utilisateur {
-        $utilisateur = $this->utilisateurRepository->FindByEmail($email);
+        $utilisateur = $this->utilisateurRepository->findByEmail($email);
         if (!$utilisateur) {
-            throw new UtilisateurIntrouvableException('Utilisateur non trouvé');
+            throw new UtilisateurIntrouvableException($email);        
         }
 
         if (!password_verify($motDePasse, $utilisateur->getMotDePasse())) {
-            throw new MotDePasseInvalideException('Mot de passe incorrect');
+            throw new MotDePasseInvalideException($email);        
         }
+
         return $utilisateur;
     }
 
@@ -39,15 +40,14 @@ class ServiceUtilisateur implements ServiceUtilisateurInterface
 
 
     public function register(string $nom, string $prenom, string $email, string $telephone, string $motDePasse, string $role): void {
-        $existant = $this->utilisateurRepository->FindByEmail($email);
+        $existant = $this->utilisateurRepository->findByEmail($email);
         if ($existant) {
             throw new \InvalidArgumentException("Un compte existe déjà avec cet email : $email");
         }
 
         $motDePasseHache = password_hash($motDePasse, PASSWORD_DEFAULT);
 
-        $idUtilisateur = uniqid('usr_', true);
-
+        $idUtilisateur = bin2hex(random_bytes(16));
 
         $nouvelUtilisateur = new Utilisateur(
             $idUtilisateur,

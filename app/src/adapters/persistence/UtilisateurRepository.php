@@ -15,7 +15,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
     }
 
     public function findByEmail(string $email): ?Utilisateur {
-        $stmt = $this->pdo->prepare('SELECT * FROM utilisateurs WHERE email = :email');
+        $stmt = $this->pdo->prepare('SELECT * FROM utilisateur WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,12 +24,12 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
         }
 
         return new Utilisateur(
-            $row['idUtilisateur'],
+            $row['idutilisateur'],
             $row['nom'],
             $row['prenom'],
             $row['email'],
             $row['telephone'],
-            $row['motDePasse'],
+            $row['mdp'],
             $row['role']
         );
     }
@@ -37,8 +37,8 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
 
     public function save(Utilisateur $utilisateur): void {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO utilisateurs (idUtilisateur, nom, prenom, email, telephone, motDePasse, role) 
-             VALUES (:id, :nom, :prenom, :email, :telephone, :motDePasse, :role)'
+            'INSERT INTO utilisateur (idUtilisateur, nom, prenom, email, telephone, mdp, role) 
+             VALUES (:id, :nom, :prenom, :email, :telephone, :mdp, :role)'
         );
 
         $stmt->execute([
@@ -47,7 +47,7 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
             'prenom' => $utilisateur->getPrenom(),
             'email' => $utilisateur->getEmail(),
             'telephone' => $utilisateur->getTelephone(),
-            'motDePasse' => $utilisateur->getMotDePasse(), // Le mot de passe doit déjà être haché par le service !
+            'mdp' => $utilisateur->getMotDePasse(), // Le mot de passe doit déjà être haché par le service !
             'role' => $utilisateur->getRole()
         ]);
     }

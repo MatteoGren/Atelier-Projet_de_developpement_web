@@ -21,8 +21,8 @@ final class ConnexionAction
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         $data = $request->getParsedBody() ?? [];
-        $email = $data['email'] ?? '';
-        $motDePasse = $data['motDePasse'] ?? '';
+        $email = (string) ($data['email'] ?? '');
+        $motDePasse = (string) ($data['motDePasse'] ?? '');
 
         try {
             $utilisateur = $this->serviceUtilisateur->connecter($email, $motDePasse);  // Appel à la méthode connecter du service utilisateur
@@ -42,7 +42,7 @@ final class ConnexionAction
 
             // renvoyer vers la page d'accueil après une connexion réussie
             return $response
-                ->withHeader('Location', '/')
+                ->withHeader('Location', '/connexion')
                 ->withStatus(302);
 
         } catch (Exception $e) {

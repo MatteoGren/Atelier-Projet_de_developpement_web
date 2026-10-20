@@ -22,16 +22,16 @@ final class RegisterAction
     {
         $data = $request->getParsedBody() ?? [];
         
-        $nom = $data['nom'] ?? '';
-        $prenom = $data['prenom'] ?? '';
-        $email = $data['email'] ?? '';
-        $telephone = $data['telephone'] ?? '';
-        $motDePasse = $data['motDePasse'] ?? '';
-        $role = $data['role'] ?? 'client';
+        $nom = (string) ($data['nom'] ?? '');
+        $prenom = (string) ($data['prenom'] ?? '');
+        $email = (string) ($data['email'] ?? '');
+        $telephone = (string) ($data['telephone'] ?? '');
+        $motDePasse = (string) ($data['motDePasse'] ?? '');
 
         try {
             $this->serviceUtilisateur->register($nom, $prenom, $email, $telephone, $motDePasse, 'client');
 
+            
             return $response
                 ->withHeader('Location', '/connexion')
                 ->withStatus(302);

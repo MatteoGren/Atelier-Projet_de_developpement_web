@@ -21,6 +21,9 @@ use nrv\application\usecases\ServiceUtilisateur;
 use PDO;
 use Psr\Container\ContainerInterface;
 
+use nrv\adapters\controllers\actions\RegisterAction;
+use nrv\adapters\controllers\actions\ConnexionAction;
+
 class ContainerConfig
 {
     public static function build(): Container
@@ -59,6 +62,7 @@ class ContainerConfig
             },
 
 
+            //ajout pour des test perso 
             UtilisateurRepositoryInterface::class => function (ContainerInterface $c): UtilisateurRepositoryInterface {
                 return new UtilisateurRepository($c->get(PDO::class));
             },

@@ -6,6 +6,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
+use nrv\adapters\controllers\actions\RegisterAction;
+use nrv\adapters\controllers\actions\ConnexionAction;
+
 use nrv\adapters\config\ContainerConfig;
 use nrv\adapters\controllers\actions\FiltrerParDateAction;
 use nrv\adapters\controllers\actions\GetSoireeAction;
@@ -40,7 +43,30 @@ $app->add(Cors::class);
 $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
 $app->get('/spectacles/{date}[/]', FiltrerParDateAction::class)->setName('GetSpectacles');
 $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
-$app->post('/register[/]', RegisterAction::class)->setName('Register');
+
+
+
+// Ajout pour des tests perso
+$app->get('/connexion[/]', function (Request $request, Response $response): Response {
+    $filePath = realpath(__DIR__ . '/../src/adapters/views/auth.html');
+
+    if ($filePath === false || !file_exists($filePath)) {
+        $response->getBody()->write(
+            "Erreur : Le fichier HTML n'a pas été trouvé. " .
+            "Chemin cherché : " . htmlspecialchars(__DIR__ . '/../src/adapters/views/auth.html')
+        );
+        return $response->withStatus(500);
+    }
+
+    $response->getBody()->write(file_get_contents($filePath));
+    return $response->withHeader('Content-Type', 'text/html; charset=UTF-8');
+})->setName('ConnexionView');
+
+// Ajout pour des tests perso
+$app->post('/connexion[/]', ConnexionAction::class)->setName('ConnexionProcess');
+$app->post('/register[/]', RegisterAction::class)->setName('RegisterProcess');
+
+
 
 $app->options(
     '/{routes:.+}',
