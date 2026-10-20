@@ -1,3 +1,6 @@
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Variables
 $couleur-fond: #f4f4f4;
 $couleur-texte: #1e1e1e;
 $couleur-principale: #c0262d;
@@ -6,6 +9,7 @@ $espace: 1rem;
 $tablette: 600px;
 $desktop: 1000px;
 
+// ---------------------------------- Styles généraux
 * {
     box-sizing: border-box;
 }
@@ -21,7 +25,7 @@ body {
 }
 
 .entete,
-.pied {
+.pieddepage {
     background-color: $couleur-texte;
     color: #fff;
     padding: $espace;
@@ -35,7 +39,31 @@ body {
 
 .entete h1 {
     color: $couleur-principale;
-    overflow-wrap: anywhere;
+}
+
+a {
+    color: $couleur-principale;
+    transition: color 0.4s ease;
+    
+    &:hover,
+    &:focus {
+        color: $couleur-texte;
+    }
+}
+
+nav a {
+    font-weight: bold;
+    text-decoration: none;
+    padding-right: $espace;
+
+    &::before {
+        content: "> ";
+    }
+}
+
+
+.message {
+    font-style: italic;
 }
 
 main {
@@ -46,22 +74,19 @@ main {
     padding: $espace;
 }
 
-.message {
-    font-style: italic;
-}
+// ---------------------------------- Page Programme (index)
 
-// 1 colonne sur mobile, 2 sur tablette, 3 sur desktop
 .liste-spectacles {
     display: grid;
-    grid-template-columns: 1fr;
     gap: $espace;
+    @include mix.colonnes(1);
 
-    @media (min-width: $tablette) {
-        grid-template-columns: repeat(2, 1fr);
+    @include mix.a-partir-de($tablette) {
+        @include mix.colonnes(2);
     }
 
-    @media (min-width: $desktop) {
-        grid-template-columns: repeat(3, 1fr);
+    @include mix.a-partir-de($desktop) {
+        @include mix.colonnes(3);
     }
 }
 
@@ -78,14 +103,19 @@ main {
         width: 100%;
         aspect-ratio: 16 / 10;
         object-fit: cover;
-        display: block;
+        // display: block;
     }
 
-    &__infos {
+    .infos {
         padding: $espace;
 
         h3 {
             margin: 0 0 0.5rem;
+            a::after {
+                content: '';
+                position: absolute;
+                inset: 0;  // Le lien recouvre toute la carte
+            }
         }
 
         p {
@@ -94,121 +124,168 @@ main {
     }
 }
 
-.carte-spectacle__infos h3 a {
-    color: inherit;
+// ---------------------------------- Page Soirée
 
-    // Le lien du titre s'étend à toute la carte : un clic sur l'image ouvre aussi la soirée.
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-    }
-
-    &:hover,
-    &:focus {
+article.soiree {
+    header h2 {
+        margin: 0;
         color: $couleur-principale;
     }
+
+    h2, h3 {
+        margin: $espace * 2 0 $espace;
+    }
+
+    .achat {
+        list-style: none;
+        margin: 0 0 $espace;
+        padding: 0;
+        display: grid;
+        gap: $espace;
+
+        @include mix.colonnes(1);
+        
+        @include mix.a-partir-de($tablette) {
+            @include mix.colonnes(2);
+        }
+
+        li {
+            display: flex;
+            justify-content: end; 
+            align-items: center;
+            padding: $espace;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        label {
+            flex-grow: 1;
+            font-weight: 600;
+        }
+
+        p {
+            margin: 0.25rem 0 0 0;
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        input[type='number'] {
+            width: 4.5rem;
+            min-height: 2.75rem;
+            font-size: 1rem;
+            padding: 0.4rem;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+        }
+    }
+
+    #btn-ajouter {
+        color: $couleur-principale;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+
+        font-weight: 600;
+        border-radius: 6px;
+        padding: $espace / 2 $espace;
+    } 
 }
 
-// Détail d'une soirée
-.soiree {
+#liste-detail-spectacles {
+    display: grid;
+    gap: $espace;
+    @include mix.colonnes(1);
+
+    @include mix.a-partir-de($tablette) {
+        @include mix.colonnes(2);
+    }
+
+    article {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background-color: #fff;
+        border-radius: 6px;
+        padding: $espace;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+        h4 {
+            color: $couleur-principale;
+            margin: 0;
+        }
+
+        p.artiste {
+            font-weight: 600;
+            margin: 0;
+        }
+    
+        p.description {
+            font-style: italic;
+            margin-top: 0;
+        }
+
+        .video iframe {
+            width: 100%;
+            max-width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            display: block;
+
+            p {
+                padding-top: $espace;
+            }
+        }
+    }
+}
+
+// ---------------------------------- Page Panier
+
+#contenu-panier {
     display: flex;
     flex-direction: column;
     gap: $espace;
-    margin-top: $espace;
 
-    &__entete {
-        h2 {
-            margin: 0;
-            color: $couleur-principale;
-        }
-    }
+    .ligne-panier {
+        background-color: #fff;
+        border-radius: 6px;
+        padding: $espace;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
-    &__thematique {
-        margin: 0.25rem 0 0;
-        font-weight: bold;
-    }
-
-    // Libellés à gauche, valeurs à droite
-    &__infos {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: 0.5rem $espace;
-        margin: 0;
-
-        dt {
-            font-weight: bold;
-        }
-
-        dd {
-            margin: 0;
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
-    }
-
-    &__tarifs,
-    &__spectacles {
         h3 {
             margin: 0 0 0.5rem;
+            color: $couleur-principale;
+        }
+
+        p {
+            margin: 0 0 0.5rem;
+        }
+
+        .date {
+            color: #555;
+        }
+
+        .sous-total {
+            font-weight: 600;
         }
     }
 
-    &__tarifs ul {
+    .total {
         margin: 0;
-        padding-left: 1.25rem;
-    }
-}
-
-// 1 colonne sur mobile et tablette, 2 sur desktop
-.liste-detail-spectacles {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: $espace;
-
-    @media (min-width: $desktop) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.spectacle {
-    // Sans min-width: 0, un élément de grille ne rétrécit pas sous la largeur de son contenu (débordement mobile).
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    background-color: #fff;
-    border-radius: 6px;
-    padding: $espace;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-
-    h3,
-    p {
-        margin: 0;
+        text-align: right;
+        font-size: 1.25rem;
+        font-weight: 600;
     }
 
-    &__infos {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: 0.25rem $espace;
-        margin: 0;
-
-        dt {
-            font-weight: bold;
-        }
-
-        dd {
-            margin: 0;
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
-    }
-
-    &__video iframe {
-        width: 100%;
-        max-width: 100%;
-        aspect-ratio: 16 / 9;
-        border: 0;
-        display: block;
+    .btn-retirer,
+    #btn-vider-panier {
+        align-self: flex-start;
+        color: $couleur-principale;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        padding: 0.5rem $espace;
+        font-weight: 600;
     }
 }

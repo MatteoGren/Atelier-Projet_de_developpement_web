@@ -1,11 +1,25 @@
 import { getSoiree } from './api.js';
-import { detailSoiree } from './templates.js';
 import { ajouterBillets } from './panier.js';
+import { displaySoiree } from './ui.js';
 
-const conteneur = document.getElementById('detail-soiree');
 const message = document.getElementById('message');
 
-async function afficherSoiree() {
+function afficherSoiree(soiree) {
+    displaySoiree(soiree);
+    document.title = `NRV.net - ${soiree.nom}`;
+
+    document.querySelector('#btn-ajouter').addEventListener('click', () => {
+        const ok = ajouterBillets(
+            soiree,
+            document.querySelector('#nb-normal').value,
+            document.querySelector('#nb-reduit').value
+        );
+        document.querySelector('#msg-panier').textContent =
+            ok ? 'Billets ajoutés au panier.' : 'Choisissez au moins un billet.';
+    });
+}
+
+async function chargerSoiree() {
     const id = new URLSearchParams(window.location.search).get('id');
     if (!id) {
         message.textContent = 'Aucune soirée demandée.';
@@ -15,28 +29,15 @@ async function afficherSoiree() {
     try {
         const soiree = await getSoiree(id);
         if (soiree === null) {
-            message.textContent = 'Cette soirée n\'existe pas.';
+            message.textContent = 'Cette soirée n’existe pas.';
             return;
         }
-        conteneur.innerHTML = detailSoiree(soiree);
-        document.title = `NRV.net - ${soiree.nom}`;
+        afficherSoiree(soiree);
         message.textContent = '';
-
-        document.querySelector('#btn-ajouter').addEventListener('click', () => {
-        const ok = ajouterBillets(
-            soiree,                                    
-            document.querySelector('#nb-normal').value,
-            document.querySelector('#nb-reduit').value
-        );
-        document.querySelector('#msg-panier').textContent =
-            ok ? 'Billets ajoutés au panier.' : 'Choisissez au moins un billet.';
-        });
-
-
     } catch (erreur) {
         message.textContent = 'Impossible de charger la soirée. Réessayez plus tard.';
         console.error(erreur);
     }
 }
 
-afficherSoiree();
+chargerSoiree();

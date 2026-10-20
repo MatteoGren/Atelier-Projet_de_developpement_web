@@ -1,10 +1,9 @@
 import { getSpectacles } from './api.js';
-import { listeSpectacles, IMAGE_PAR_DEFAUT } from './templates.js';
+import { displaySpectacles, IMAGE_PAR_DEFAUT } from './ui.js';
 
 const conteneur = document.getElementById('liste-spectacles');
 const message = document.getElementById('message');
 
-// Image absente ou cassée : on affiche l'image par défaut (l'évènement error ne remonte pas, d'où la capture).
 conteneur.addEventListener('error', (evenement) => {
     const image = evenement.target;
     if (image.tagName === 'IMG' && !image.src.endsWith(IMAGE_PAR_DEFAUT)) {
@@ -12,14 +11,15 @@ conteneur.addEventListener('error', (evenement) => {
     }
 }, true);
 
-async function afficherSpectacles() {
+async function chargerSpectacles() {
     try {
         const spectacles = await getSpectacles();
         if (spectacles.length === 0) {
             message.textContent = 'Aucun spectacle programmé pour le moment.';
             return;
         }
-        conteneur.innerHTML = listeSpectacles(spectacles);
+
+        displaySpectacles(spectacles);
         message.textContent = `${spectacles.length} spectacles au programme`;
     } catch (erreur) {
         message.textContent = 'Impossible de charger les spectacles. Réessayez plus tard.';
@@ -27,4 +27,4 @@ async function afficherSpectacles() {
     }
 }
 
-afficherSpectacles();
+chargerSpectacles();
