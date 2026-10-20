@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NRV.net - Détail d'une soirée</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/soiree.js"></script>
 </head>
 <body>
@@ -20,6 +21,64 @@
         </nav>
         <p id="message" class="message" role="status">Chargement de la soirée...</p>
         <div id="detail-soiree"></div>
+
+        <script id="tpl-soiree" type="text/x-handlebars-template">
+            <article class="soiree">
+                <header class="soiree__entete">
+                    <h2 class="nom">{{nom}}</h2>
+                    <p class="soiree__thematique">{{thematique}}</p>
+                </header>
+                <dl class="soiree__infos">
+                    <dt>Date</dt>
+                    <dd><time datetime="{{date}}">{{dateFormatee}}</time></dd>
+                    <dt>Horaire</dt>
+                    <dd><time datetime="{{horaire}}">{{horaire}}</time></dd>
+                    <dt>Lieu</dt>
+                    <dd>{{lieu}}</dd>
+                </dl>
+                <section class="soiree__tarifs" aria-labelledby="titre-tarifs">
+                    <h3 id="titre-tarifs">Tarifs et billets</h3>
+                    <ul class="achat">
+                        <li>
+                            <label for="nb-normal">Normal : {{prixNormalFormate}}</label>
+                            <input type="number" id="nb-normal" min="0" max="10" value="1">
+                        </li>
+                        <li>
+                            <label for="nb-reduit">Réduit : {{prixReduitFormate}}
+                                <small>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</small>
+                            </label>
+                            <input type="number" id="nb-reduit" min="0" max="10" value="0">
+                        </li>
+                    </ul>
+                    <button type="button" id="btn-ajouter">Ajouter au panier</button>
+                    <p id="msg-panier" role="status"></p>
+                </section>
+                <section class="soiree__spectacles" aria-labelledby="titre-programme">
+                    <h3 id="titre-programme">Spectacles de la soirée</h3>
+                    <div class="liste-detail-spectacles">
+                        {{#each spectacles}}
+                        <article class="spectacle">
+                            <h3>{{titre}}</h3>
+                            <dl class="spectacle__infos">
+                                <dt>Artistes</dt><dd>{{artistes}}</dd>
+                                <dt>Style</dt><dd>{{style}}</dd>
+                            </dl>
+                            <p>{{description}}</p>
+                            {{#if video}}
+                            <div class="spectacle__video">
+                                {{#if urlVideoIntegree}}
+                                <iframe src="{{urlVideoIntegree}}" title="Vidéo : {{titre}}" loading="lazy" allowfullscreen></iframe>
+                                {{/if}}
+                                <p><a href="{{video}}" target="_blank" rel="noopener">Voir la vidéo</a></p>
+                            </div>
+                            {{/if}}
+                        </article>
+                        {{/each}}
+                    </div>
+                </section>
+            </article>
+        </script>
+
     </main>
 
     <footer class="pied">

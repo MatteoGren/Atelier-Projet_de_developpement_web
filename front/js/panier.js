@@ -1,3 +1,5 @@
+import { displayPanier } from './ui.js';
+
 const CLE = 'nrv_panier';
 
 // -------------------- Prix
@@ -20,7 +22,8 @@ export function lirePanier() {
     }
 
     try {
-        return JSON.parse(donnees);
+        const panier = JSON.parse(donnees);
+        return Array.isArray(panier) ? panier : [];
     } catch {
         return [];
     }
@@ -34,7 +37,7 @@ export function viderPanier() {
     localStorage.removeItem(CLE);
 }
 
-// -------------------- Ajouter des billets
+// -------------------- Actions
 
 export function ajouterBillets(soiree, nbNormal, nbReduit) {
     const nbN = Number(nbNormal);
@@ -76,8 +79,6 @@ export function ajouterBillets(soiree, nbNormal, nbReduit) {
     return true;
 }
 
-// -------------------- Retirer une soirée
-
 export function retirerSoiree(soireeId) {
     const panier = lirePanier();
     const nouveauPanier = [];
@@ -91,7 +92,7 @@ export function retirerSoiree(soireeId) {
     ecrirePanier(nouveauPanier);
 }
 
-// -------------------- Calculer le panier
+// -------------------- Calcul du panier
 
 export function panierPourAffichage() {
     const panier = lirePanier();
@@ -126,8 +127,6 @@ export function panierPourAffichage() {
     };
 }
 
-// -------------------- Nombre de billets
-
 export function nombreBillets() {
     const panier = lirePanier();
     let total = 0;
@@ -139,56 +138,28 @@ export function nombreBillets() {
     return total;
 }
 
-// -------------------- Affichage de la page panier
 
-const template = document.getElementById('tpl-ligne-panier');
+// -------------------- Affichage du panier (uniquement dans panier.html)
+
 const contenuPanier = document.getElementById('contenu-panier');
 
-function afficherPanier() {
-    const panier = panierPourAffichage();
+if (contenuPanier) {
+    contenuPanier.addEventListener('click', (evenement) => {
+        const boutonRetirer = evenement.target.closest('.btn-retirer');
+        if (boutonRetirer) {
+            retirerSoiree(boutonRetirer.dataset.retirer);
+            afficherPanier();
+        }
 
-    contenuPanier.innerHTML = '';
-
-    if (panier.vide) {
-        contenuPanier.textContent = 'Votre panier est vide.';
-        return;
-    }
-
-    for (let i = 0; i < panier.lignes.length; i++) {
-        const ligne = panier.lignes[i];
-        const copie = template.content.cloneNode(true);
-
-        copie.querySelector('.nom').textContent = ligne.nom;
-        copie.querySelector('.date').textContent = ligne.date;
-
-        copie.querySelector('.billets').textContent =
-            ligne.nbNormal + ' billets normaux, '
-            + ligne.nbReduit + ' billets réduits';
-
-        copie.querySelector('.sous-total').textContent =
-            'Sous-total : ' + ligne.sousTotal;
-
-        copie.querySelector('.btn-retirer').dataset.retirer =
-            ligne.soireeId;
-
-        contenuPanier.appendChild(copie);
-    }
-
-    const total = document.createElement('p');
-    total.textContent = 'Total : ' + panier.total;
-    contenuPanier.appendChild(total);
-}
-
-// Afficher le panier uniquement sur la page panier.html
-if (contenuPanier && template) {
-    afficherPanier();
-
-    contenuPanier.addEventListener('click', function(event) {
-        const bouton = event.target.closest('.btn-retirer');
-
-        if (bouton) {
-            retirerSoiree(bouton.dataset.retirer);
+        if (evenement.target.closest('#btn-vider-panier')) {
+            viderPanier();
             afficherPanier();
         }
     });
+
+    afficherPanier();
+}
+
+function afficherPanier() {
+    displayPanier(panierPourAffichage());
 }

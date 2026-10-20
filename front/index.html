@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NRV.net - Programme du festival</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </head>
 <body>
@@ -18,6 +19,18 @@
             <h2 id="titre-spectacles">Spectacles</h2>
             <p id="message" class="message" role="status">Chargement des spectacles...</p>
             <div id="liste-spectacles" class="liste-spectacles"></div>
+
+            <script id="tpl-spectacle" type="text/x-handlebars-template">
+                {{#each spectacles}}
+                <article class="carte-spectacle">
+                    <img class="image" src="{{image}}" alt="{{titre}}" loading="lazy">
+                    <div class="carte-spectacle__infos">
+                        <h3><a class="lien-titre" href="{{lienDetail}}">{{titre}}</a></h3>
+                        <p><time class="date" datetime="{{date}}T{{horaire}}">{{dateFormatee}} à {{horaire}}</time></p>
+                    </div>
+                </article>
+                {{/each}}
+            </script>
         </section>
     </main>
 
