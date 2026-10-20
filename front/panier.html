@@ -17,31 +17,34 @@
     </header>
 
     <main>
-        <nav aria-label="Navigation">
-            <a href="index.html">Retour au programme</a>
+        <nav class="Navigation">
+            <a href="index.html">Programme</a>
+            <a href="panier.html">Panier</a>
         </nav>
-        <section id="contenu-panier" aria-live="polite"></section>
+        <section id="contenu-panier"></section>
 
         <script id="tpl-panier" type="text/x-handlebars-template">
+            <h2>Votre panier</h2>
+
             {{#if vide}}
                 <p>Votre panier est vide.</p>
             {{else}}
                 {{#each lignes}}
                 <article class="ligne-panier">
-                    <h3 class="nom">{{nom}}</h3>
+                    <h3>{{nom}}</h3>
                     <p class="date">{{date}}</p>
-                    <p class="billets">{{nbNormal}} billets normaux ({{prixNormal}}), {{nbReduit}} billets réduits ({{prixReduit}})</p>
+                    <p>{{nbNormal}} billets normaux ({{prixNormal}}), {{nbReduit}} billets réduits ({{prixReduit}})</p>
                     <p class="sous-total">Sous-total : {{sousTotal}}</p>
-                    <button type="button" class="btn-retirer" data-retirer="{{soireeId}}">Retirer cette soirée</button>
+                    <button type="button" class="btn-retirer" data-retirer="{{soireeId}}">Retirer</button>
                 </article>
                 {{/each}}
-                <p class="total">Total : {{total}}</p>
                 <button type="button" id="btn-vider-panier">Vider le panier</button>
+                <p class="total">Total : {{total}}</p>
             {{/if}}
         </script>
     </main>
 
-    <footer class="pied">
+    <footer class="pieddepage">
         <p>NRV.net - Billetterie du festival</p>
     </footer>
 </body>

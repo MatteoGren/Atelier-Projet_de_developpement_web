@@ -15,29 +15,27 @@
     </header>
 
     <main>
-        <nav aria-label="Navigation">
-            <a href="index.html">Retour au programme</a>
-            <a href="panier.html">Voir le panier</a>
+        <nav class="Navigation">
+            <a href="index.html">Programme</a>
+            <a href="panier.html">Panier</a>
         </nav>
         <p id="message" class="message" role="status">Chargement de la soirée...</p>
         <div id="detail-soiree"></div>
 
         <script id="tpl-soiree" type="text/x-handlebars-template">
             <article class="soiree">
-                <header class="soiree__entete">
-                    <h2 class="nom">{{nom}}</h2>
-                    <p class="soiree__thematique">{{thematique}}</p>
+                <header>
+                    <h2>{{nom}}</h2>
+                    <p>{{thematique}}</p>
                 </header>
-                <dl class="soiree__infos">
-                    <dt>Date</dt>
-                    <dd><time datetime="{{date}}">{{dateFormatee}}</time></dd>
-                    <dt>Horaire</dt>
-                    <dd><time datetime="{{horaire}}">{{horaire}}</time></dd>
-                    <dt>Lieu</dt>
-                    <dd>{{lieu}}</dd>
-                </dl>
-                <section class="soiree__tarifs" aria-labelledby="titre-tarifs">
-                    <h3 id="titre-tarifs">Tarifs et billets</h3>
+                <div>
+                    <h3>Informations</h2>
+                    <p>Date : {{dateFormatee}}</p>
+                    <p>Heure : {{horaire}} </p>
+                    <p>Lieu : {{lieu}}</p>
+                </div>
+                <section>
+                    <h3>Tarifs et billets</h3>
                     <ul class="achat">
                         <li>
                             <label for="nb-normal">Normal : {{prixNormalFormate}}</label>
@@ -45,27 +43,24 @@
                         </li>
                         <li>
                             <label for="nb-reduit">Réduit : {{prixReduitFormate}}
-                                <small>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</small>
+                                <p>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</p>
                             </label>
                             <input type="number" id="nb-reduit" min="0" max="10" value="0">
                         </li>
                     </ul>
                     <button type="button" id="btn-ajouter">Ajouter au panier</button>
-                    <p id="msg-panier" role="status"></p>
+                    <p class="message" id="msg-panier" role="status"></p>
                 </section>
-                <section class="soiree__spectacles" aria-labelledby="titre-programme">
-                    <h3 id="titre-programme">Spectacles de la soirée</h3>
-                    <div class="liste-detail-spectacles">
+                <section>
+                    <h3>Spectacles de la soirée</h3>
+                    <div id="liste-detail-spectacles">
                         {{#each spectacles}}
-                        <article class="spectacle">
-                            <h3>{{titre}}</h3>
-                            <dl class="spectacle__infos">
-                                <dt>Artistes</dt><dd>{{artistes}}</dd>
-                                <dt>Style</dt><dd>{{style}}</dd>
-                            </dl>
-                            <p>{{description}}</p>
+                        <article>
+                            <h4>{{titre}}</h4>
+                            <p class="artiste">{{artistes}} ({{style}})</p>
+                            <p class="description">{{description}}</p>
                             {{#if video}}
-                            <div class="spectacle__video">
+                            <div class="video">
                                 {{#if urlVideoIntegree}}
                                 <iframe src="{{urlVideoIntegree}}" title="Vidéo : {{titre}}" loading="lazy" allowfullscreen></iframe>
                                 {{/if}}
@@ -81,7 +76,7 @@
 
     </main>
 
-    <footer class="pied">
+    <footer class="pieddepage">
         <p>NRV.net - Billetterie du festival</p>
     </footer>
 </body>

@@ -15,7 +15,11 @@
     </header>
 
     <main>
-        <section aria-labelledby="titre-spectacles">
+        <nav class="Navigation">
+            <a href="index.html">Programme</a>
+            <a href="panier.html">Panier</a>
+        </nav>
+        <section>
             <h2 id="titre-spectacles">Spectacles</h2>
             <p id="message" class="message" role="status">Chargement des spectacles...</p>
             <div id="liste-spectacles" class="liste-spectacles"></div>
@@ -23,8 +27,8 @@
             <script id="tpl-spectacle" type="text/x-handlebars-template">
                 {{#each spectacles}}
                 <article class="carte-spectacle">
-                    <img class="image" src="{{image}}" alt="{{titre}}" loading="lazy">
-                    <div class="carte-spectacle__infos">
+                    <img src="{{image}}" alt="{{titre}}" loading="lazy">
+                    <div class="infos">
                         <h3><a class="lien-titre" href="{{lienDetail}}">{{titre}}</a></h3>
                         <p><time class="date" datetime="{{date}}T{{horaire}}">{{dateFormatee}} à {{horaire}}</time></p>
                     </div>
@@ -34,7 +38,7 @@
         </section>
     </main>
 
-    <footer class="pied">
+    <footer class="pieddepage">
         <p>NRV.net - Billetterie du festival</p>
     </footer>
 </body>
