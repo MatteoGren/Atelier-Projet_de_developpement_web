@@ -13,7 +13,7 @@ body {
 }
 
 .entete,
-.pied {
+.pieddepage {
   background-color: #1e1e1e;
   color: #fff;
   padding: 1rem;
@@ -21,14 +21,34 @@ body {
 }
 .entete h1,
 .entete p,
-.pied h1,
-.pied p {
+.pieddepage h1,
+.pieddepage p {
   margin: 0;
 }
 
 .entete h1 {
   color: #c0262d;
-  overflow-wrap: anywhere;
+}
+
+a {
+  color: #c0262d;
+  transition: color 0.4s ease;
+}
+a:hover, a:focus {
+  color: #1e1e1e;
+}
+
+nav a {
+  font-weight: bold;
+  text-decoration: none;
+  padding-right: 1rem;
+}
+nav a::before {
+  content: "> ";
+}
+
+.message {
+  font-style: italic;
 }
 
 main {
@@ -39,14 +59,10 @@ main {
   padding: 1rem;
 }
 
-.message {
-  font-style: italic;
-}
-
 .liste-spectacles {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
 }
 @media (min-width: 600px) {
   .liste-spectacles {
@@ -71,79 +87,91 @@ main {
 .carte-spectacle img {
   width: 100%;
   aspect-ratio: 16/10;
-  object-fit: cover;
-  display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
-.carte-spectacle__infos {
+.carte-spectacle .infos {
   padding: 1rem;
 }
-.carte-spectacle__infos h3 {
+.carte-spectacle .infos h3 {
   margin: 0 0 0.5rem;
 }
-.carte-spectacle__infos p {
-  margin: 0;
-}
-
-.carte-spectacle__infos h3 a {
-  color: inherit;
-}
-.carte-spectacle__infos h3 a::after {
+.carte-spectacle .infos h3 a::after {
   content: "";
   position: absolute;
   inset: 0;
 }
-.carte-spectacle__infos h3 a:hover, .carte-spectacle__infos h3 a:focus {
-  color: #c0262d;
+.carte-spectacle .infos p {
+  margin: 0;
 }
 
-.soiree {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.soiree__entete h2 {
+article.soiree header h2 {
   margin: 0;
   color: #c0262d;
 }
-.soiree__thematique {
-  margin: 0.25rem 0 0;
-  font-weight: bold;
+article.soiree h2, article.soiree h3 {
+  margin: 2rem 0 1rem;
 }
-.soiree__infos {
+article.soiree .achat {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
   display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.5rem 1rem;
-  margin: 0;
-}
-.soiree__infos dt {
-  font-weight: bold;
-}
-.soiree__infos dd {
-  margin: 0;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.soiree__tarifs h3, .soiree__spectacles h3 {
-  margin: 0 0 0.5rem;
-}
-.soiree__tarifs ul {
-  margin: 0;
-  padding-left: 1.25rem;
-}
-
-.liste-detail-spectacles {
-  display: grid;
-  grid-template-columns: 1fr;
   gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
 }
-@media (min-width: 1000px) {
-  .liste-detail-spectacles {
+@media (min-width: 600px) {
+  article.soiree .achat {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+article.soiree .achat li {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+article.soiree .achat label {
+  flex-grow: 1;
+  font-weight: 600;
+}
+article.soiree .achat p {
+  margin: 0.25rem 0 0 0;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #555;
+}
+article.soiree .achat input[type=number] {
+  width: 4.5rem;
+  min-height: 2.75rem;
+  font-size: 1rem;
+  padding: 0.4rem;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+article.soiree #btn-ajouter {
+  color: #c0262d;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+}
 
-.spectacle {
+#liste-detail-spectacles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 600px) {
+  #liste-detail-spectacles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+#liste-detail-spectacles article {
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -153,28 +181,66 @@ main {
   padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
-.spectacle h3,
-.spectacle p {
+#liste-detail-spectacles article h4 {
+  color: #c0262d;
   margin: 0;
 }
-.spectacle__infos {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0.25rem 1rem;
+#liste-detail-spectacles article p.artiste {
+  font-weight: 600;
   margin: 0;
 }
-.spectacle__infos dt {
-  font-weight: bold;
+#liste-detail-spectacles article p.description {
+  font-style: italic;
+  margin-top: 0;
 }
-.spectacle__infos dd {
-  margin: 0;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-.spectacle__video iframe {
+#liste-detail-spectacles article .video iframe {
   width: 100%;
   max-width: 100%;
   aspect-ratio: 16/9;
   border: 0;
   display: block;
 }
+#liste-detail-spectacles article .video iframe p {
+  padding-top: 1rem;
+}
+
+#contenu-panier {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#contenu-panier .ligne-panier {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+#contenu-panier .ligne-panier h3 {
+  margin: 0 0 0.5rem;
+  color: #c0262d;
+}
+#contenu-panier .ligne-panier p {
+  margin: 0 0 0.5rem;
+}
+#contenu-panier .ligne-panier .date {
+  color: #555;
+}
+#contenu-panier .ligne-panier .sous-total {
+  font-weight: 600;
+}
+#contenu-panier .total {
+  margin: 0;
+  text-align: right;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+#contenu-panier .btn-retirer,
+#contenu-panier #btn-vider-panier {
+  align-self: flex-start;
+  color: #c0262d;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}/*# sourceMappingURL=style.css.map */

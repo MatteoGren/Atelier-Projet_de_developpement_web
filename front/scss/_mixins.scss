@@ -1,0 +1,9 @@
+@mixin colonnes($nb) {
+    grid-template-columns: repeat($nb, 1fr);
+}
+
+@mixin a-partir-de($largeur) {
+    @media (min-width: $largeur) {
+        @content;
+    }
+}
