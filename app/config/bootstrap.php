@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 use nrv\adapters\config\ContainerConfig;
+use nrv\adapters\controllers\actions\FiltrerParDateAction;
 use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\middlewares\Cors;
@@ -37,6 +38,7 @@ $errorHandler->registerErrorRenderer(
 $app->add(Cors::class);
 
 $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
+$app->get('/spectacles/{date}[/]', FiltrerParDateAction::class)->setName('GetSpectacles');
 $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
 
 $app->options(

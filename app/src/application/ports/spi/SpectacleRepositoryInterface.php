@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace nrv\application\ports\spi;
 
+use DateTime;
 use nrv\domain\entities\Spectacle;
 
 interface SpectacleRepositoryInterface
@@ -17,4 +18,7 @@ interface SpectacleRepositoryInterface
      * @return Spectacle[] spectacles de la soirée, triés par horaire croissant
      */
     public function findBySoireeId(string $soireeId): array;
+
+    //fonction pour trier avec la date
+    public function filtrerParDate(DateTime $date): array;
 }
