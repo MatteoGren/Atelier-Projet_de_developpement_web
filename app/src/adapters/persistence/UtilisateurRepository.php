@@ -35,5 +35,23 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
     }
 
 
+    public function save(Utilisateur $utilisateur): void {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO utilisateurs (idUtilisateur, nom, prenom, email, telephone, motDePasse, role) 
+             VALUES (:id, :nom, :prenom, :email, :telephone, :motDePasse, :role)'
+        );
+
+        $stmt->execute([
+            'id' => $utilisateur->getIdUtilisateur(),
+            'nom' => $utilisateur->getNom(),
+            'prenom' => $utilisateur->getPrenom(),
+            'email' => $utilisateur->getEmail(),
+            'telephone' => $utilisateur->getTelephone(),
+            'motDePasse' => $utilisateur->getMotDePasse(), // Le mot de passe doit déjà être haché par le service !
+            'role' => $utilisateur->getRole()
+        ]);
+    }
+
+
 
 }

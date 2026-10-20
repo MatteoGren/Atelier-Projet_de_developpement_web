@@ -12,4 +12,6 @@ interface UtilisateurRepositoryInterface
 
     public function FindByEmail(string $email): ?Utilisateur;
 
+    public function save(Utilisateur $utilisateur): void;
+
 }
