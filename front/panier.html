@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NRV.net - Votre panier</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/panier.js"></script>
+</head>
+
+<body>
+    <header class="entete">
+        <h1>Nancy Rock Vibration</h1>
+        <p>Votre panier</p>
+    </header>
+
+    <main>
+        <nav aria-label="Navigation">
+            <a href="index.html">Retour au programme</a>
+        </nav>
+        <template id="tpl-ligne-panier">
+            <article class="ligne-panier">
+                <h3 class="nom"></h3>
+                <p class="date"></p>
+                <p class="billets"></p>
+                <p class="sous-total"></p>
+                <button type="button" class="btn-retirer">
+                    Retirer cette soirée
+                </button>
+            </article>
+        </template>
+        
+        <section id="contenu-panier"></section>
+    </main>
+
+    <footer class="pied">
+        <p>NRV.net - Billetterie du festival</p>
+    </footer>
+</body>
+
+</html>

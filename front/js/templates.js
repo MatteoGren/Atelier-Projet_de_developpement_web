@@ -110,12 +110,21 @@ export function detailSoiree(soiree) {
             </dl>
 
             <section class="soiree__tarifs" aria-labelledby="titre-tarifs">
-                <h3 id="titre-tarifs">Tarifs</h3>
-                <ul>
-                    <li>Normal : ${echapper(formatPrix.format(soiree.tarifs.normal))}</li>
-                    <li>Réduit : ${echapper(formatPrix.format(soiree.tarifs.reduit))}
-                        <small>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</small></li>
+                <h3 id="titre-tarifs">Tarifs et billets</h3>
+                <ul class="achat">
+                    <li>
+                        <label for="nb-normal">Normal : ${echapper(formatPrix.format(soiree.tarifs.normal))}</label>
+                        <input type="number" id="nb-normal" min="0" max="10" value="1">
+                    </li>
+                    <li>
+                        <label for="nb-reduit">Réduit : ${echapper(formatPrix.format(soiree.tarifs.reduit))}
+                            <small>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</small>
+                        </label>
+                        <input type="number" id="nb-reduit" min="0" max="10" value="0">
+                    </li>
                 </ul>
+                <button type="button" id="btn-ajouter">Ajouter au panier</button>
+                <p id="msg-panier" role="status"></p>
             </section>
 
             <section class="soiree__spectacles" aria-labelledby="titre-programme">
