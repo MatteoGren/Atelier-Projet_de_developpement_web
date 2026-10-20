@@ -41,7 +41,7 @@ $errorHandler->registerErrorRenderer(
 $app->add(Cors::class);
 
 $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
-$app->get('/spectacles/{date}[/]', FiltrerParDateAction::class)->setName('GetSpectacles');
+$app->get('/spectacles/filtre', FiltrerParDateAction::class)->setName('FiltrerSpectacles');
 $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
 
 

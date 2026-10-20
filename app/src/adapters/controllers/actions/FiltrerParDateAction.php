@@ -17,9 +17,19 @@ final class FiltrerParDateAction {
 
     public function __invoke(ServerRequestInterface $request,ResponseInterface $response,array $args
         ): ResponseInterface {
+            $requestdate = $request->getQueryParams()['date'] ?? null;
+            //$rquestStyleMusique = $request->getQueryParams()['style'] ?? null;
             try{
-                $date = new DateTime($args['date']);
-                $dtos = $this->service->filtrerParDate($date);
+                $dtos = null;
+                if($requestdate != null){
+                    $date = new DateTime($requestdate);
+                    $dtos = $this->service->filtrerParDate($date);
+                }
+                /*if($rquestStyleMusique != null){
+                    $date = new DateTime();
+                    $dtos = $this->service->filtrerParStyle($date);
+                }*/
+                
 
                 return $this->json($response, $dtos, 200);
             }catch (\Throwable $e) {

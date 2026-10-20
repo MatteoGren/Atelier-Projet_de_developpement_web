@@ -53,10 +53,10 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
              FROM spectacle
              WHERE soiree_id = (SELECT id
                                   FROM soiree
-                                  WHERE date = :dateSoiree)                
+                                  WHERE CAST(date as VARCHAR) LIKE :dateSoiree)                
                                 ');     //selectionne ls valeurs des specatcle dont soiree à la bonne date
 
-        $stmt->execute(['dateSoiree' => $date->format('Y-m-d H:i:s')]);
+        $stmt->execute(['dateSoiree' => $date->format('Y-m-d') .'%']);
 
         $spectacles = [];   
 
