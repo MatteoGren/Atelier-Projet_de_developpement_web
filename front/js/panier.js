@@ -1,4 +1,6 @@
 import { displayPanier } from './ui.js';
+import { API_URL } from './config.js'; 
+import { validerPanier } from './api.js';
 
 const CLE = 'nrv_panier';
 
@@ -162,4 +164,25 @@ if (contenuPanier) {
 
 function afficherPanier() {
     displayPanier(panierPourAffichage());
+}
+
+
+// -------------------- Validation du panier (uniquement dans panier.html)
+
+const btnValider = document.getElementById('btn-valider');
+
+if (btnValider) {
+    btnValider.addEventListener('click', async (evenement) => {
+        const message = document.getElementById('msg-validation');
+        evenement.disabled = true;
+
+        try {
+            const resultat = await validerPanier(lirePanier());
+            viderPanier();
+            // window.location.href = `paiement.html?commande=${encodeURIComponent(resultat.commande.id)}`;
+        } catch (erreur) {
+            message.textContent = erreur.message;
+            bouton.disabled = false;
+        }
+    });
 }
