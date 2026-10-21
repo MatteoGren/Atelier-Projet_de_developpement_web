@@ -61,3 +61,21 @@ export function displayPanier(panier) {
 
     document.querySelector('#contenu-panier').innerHTML = templatePanier(panier);
 }
+
+export function displayPaiement(commande) {
+    const templatePaiement = Handlebars.compile(document.querySelector('#tpl-paiement').innerHTML);
+
+    document.querySelector('#contenu-paiement').innerHTML = templatePaiement({
+        ...commande,
+        montantFormate: prixEuros(commande.montantTotal)
+    });
+}
+
+export function displayConfirmation(commande) {
+    const templateConfirmation = Handlebars.compile(document.querySelector('#tpl-confirmation').innerHTML);
+
+    document.querySelector('#contenu-paiement').innerHTML = templateConfirmation({
+        ...commande,
+        montantFormate: prixEuros(commande.montantTotal)
+    });
+}

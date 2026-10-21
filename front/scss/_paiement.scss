@@ -1,0 +1,103 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Page Paiement
+
+.paiement-grille {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: $espace * 2;
+    margin-top: $espace * 2;
+
+    @include mix.a-partir-de($desktop) {
+        grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+}
+
+// ---------------------------------- Formulaire de carte
+
+.carte-paiement {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: $espace;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    fieldset {
+        margin: 0 0 $espace;
+        padding: 0;
+        border: 0;
+    }
+
+    legend {
+        margin-bottom: $espace;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        min-height: 2.5rem;
+        margin-bottom: $espace;
+        padding: 0 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+
+        &:focus {
+            outline: 2px solid $couleur-principale;
+            border-color: transparent;
+        }
+    }
+
+    .erreur {
+        color: $couleur-principale;
+    }
+
+    .note-paiement {
+        margin: $espace 0 0;
+        font-size: 0.8rem;
+        font-style: italic;
+        color: #555;
+    }
+}
+
+.paiement-ligne {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 $espace;
+
+    @include mix.a-partir-de($tablette) {
+        @include mix.colonnes(2);
+    }
+}
+
+// ---------------------------------- Confirmation
+
+.confirmation-paiement {
+    max-width: 40rem;
+    margin: $espace * 2 auto;
+    padding: $espace * 2;
+    background-color: #fff;
+    border-radius: 6px;
+    border-top: 4px solid $couleur-principale;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    text-align: center;
+
+    h2 {
+        margin-top: 0;
+    }
+
+    .reference {
+        font-size: 0.85rem;
+        color: #555;
+        word-break: break-all;
+    }
+}

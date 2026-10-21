@@ -23,7 +23,9 @@ CREATE TABLE soiree (
     thematique    VARCHAR(100) NOT NULL,
     date          TIMESTAMP    NOT NULL,           -- date + horaire de début
     lieu          VARCHAR(150) NOT NULL,
-    capacite      INT          NOT NULL CHECK (capacite > 0)
+    capacite      INT          NOT NULL CHECK (capacite > 0),
+    places_vendues INT         NOT NULL DEFAULT 0   -- mis à jour au paiement
+                  CHECK (places_vendues >= 0 AND places_vendues <= capacite)
 );
 
 -- Spectacles

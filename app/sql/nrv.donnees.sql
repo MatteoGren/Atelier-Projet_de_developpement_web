@@ -6,14 +6,14 @@ INSERT INTO utilisateur (idUtilisateur, nom, prenom, email, telephone, mdp, role
 ('11111111-0000-0000-0000-000000000004', 'Admin',   'Nrv',    'admin@nrv.net',           NULL,         '$2y$10$OURn2gDBWVo4a9FpA/KSY.q5VHIe0QncWR..2U6s3o8KVLBMuDFqW', 'administrateur');
 
 -- Soirées (festival de 2 semaines)
-INSERT INTO soiree (id, nom, thematique, date, lieu, capacite) VALUES
-('22222222-0000-0000-0000-000000000001', 'Ouverture Électrique',  'Classic rock', '2027-06-04 20:00', 'Place Stanislas',     800),
-('22222222-0000-0000-0000-000000000002', 'Blues sur la Meurthe',  'Blues',        '2027-06-06 19:30', 'Parc de la Pépinière', 500),
-('22222222-0000-0000-0000-000000000003', 'Nuit Métal',            'Métal',        '2027-06-09 20:30', 'Zénith de Nancy',     1200),
-('22222222-0000-0000-0000-000000000004', 'Chansons d''Ici',       'Chanson',      '2027-06-11 20:00', 'Opéra national',       400),
-('22222222-0000-0000-0000-000000000005', 'Mix & Rock',            'Mélange',      '2027-06-13 19:00', 'Parc de la Pépinière', 600),
-('22222222-0000-0000-0000-000000000006', 'Grande Finale',         'Rock',         '2027-06-17 20:00', 'Zénith de Nancy',     1200),
-('22222222-0000-0000-0000-000000000007', 'Session Intimiste',     'Blues rock',   '2027-06-15 21:00', 'Café Le Terminus',       4);
+INSERT INTO soiree (id, nom, thematique, date, lieu, capacite, places_vendues) VALUES
+('22222222-0000-0000-0000-000000000001', 'Ouverture Électrique',  'Classic rock', '2027-06-04 20:00', 'Place Stanislas',     800, 3),
+('22222222-0000-0000-0000-000000000002', 'Blues sur la Meurthe',  'Blues',        '2027-06-06 19:30', 'Parc de la Pépinière', 500, 0),
+('22222222-0000-0000-0000-000000000003', 'Nuit Métal',            'Métal',        '2027-06-09 20:30', 'Zénith de Nancy',     1200, 0),
+('22222222-0000-0000-0000-000000000004', 'Chansons d''Ici',       'Chanson',      '2027-06-11 20:00', 'Opéra national',       400, 0),
+('22222222-0000-0000-0000-000000000005', 'Mix & Rock',            'Mélange',      '2027-06-13 19:00', 'Parc de la Pépinière', 600, 0),
+('22222222-0000-0000-0000-000000000006', 'Grande Finale',         'Rock',         '2027-06-17 20:00', 'Zénith de Nancy',     1200, 0),
+('22222222-0000-0000-0000-000000000007', 'Session Intimiste',     'Blues rock',   '2027-06-15 21:00', 'Café Le Terminus',       4, 4);   -- complète
 
 -- Spectacles (styles validés côté métier)
 INSERT INTO spectacle (id, soiree_id, style, titre, artistes, description, chemin_images, chemin_video, horaire) VALUES
@@ -36,7 +36,8 @@ INSERT INTO spectacle (id, soiree_id, style, titre, artistes, description, chemi
 INSERT INTO commande (id, utilisateur_id, statut, montant_total, created_at, paid_at) VALUES
 ('55555555-0000-0000-0000-000000000001', '11111111-0000-0000-0000-000000000001', 'validee',    65.00, '2026-10-19 10:00', '2026-10-19 10:02'),
 ('55555555-0000-0000-0000-000000000002', '11111111-0000-0000-0000-000000000002', 'validee',   100.00, '2026-10-19 14:00', '2026-10-19 14:03'),
-('55555555-0000-0000-0000-000000000003', '11111111-0000-0000-0000-000000000001', 'en_attente', 25.00, '2026-10-19 09:00', NULL);
+('55555555-0000-0000-0000-000000000003', '11111111-0000-0000-0000-000000000001', 'en_attente', 25.00, '2026-10-19 09:00', NULL),
+('55555555-0000-0000-0000-000000000004', '11111111-0000-0000-0000-000000000001', 'en_attente', 25.00, '2026-10-20 18:00', NULL);   -- soirée complète : paiement refusé
 
 INSERT INTO billet (commande_id, soiree_id, ref, token, tarif_reduit, prix) VALUES
 ('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0001', md5(random()::text) || md5(random()::text), FALSE, 25.00),
@@ -45,4 +46,6 @@ INSERT INTO billet (commande_id, soiree_id, ref, token, tarif_reduit, prix) VALU
 ('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0004', md5(random()::text) || md5(random()::text), FALSE, 25.00),
 ('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0005', md5(random()::text) || md5(random()::text), FALSE, 25.00),
 ('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0006', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0007', md5(random()::text) || md5(random()::text), FALSE, 25.00);
+('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0007', md5(random()::text) || md5(random()::text), FALSE, 25.00),
+('55555555-0000-0000-0000-000000000003', '22222222-0000-0000-0000-000000000002', 'NRV-0008', md5(random()::text) || md5(random()::text), FALSE, 25.00),
+('55555555-0000-0000-0000-000000000004', '22222222-0000-0000-0000-000000000007', 'NRV-0009', md5(random()::text) || md5(random()::text), FALSE, 25.00);

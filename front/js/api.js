@@ -53,3 +53,34 @@ export async function validerPanier(panier) {
     }
     return donnees;  
 }
+
+// Renvoie null si la commande n'existe pas (404) ou si l'identifiant est invalide (400).
+export async function getCommande(id) {
+    const reponse = await fetch(`${API_URL}/commandes/${encodeURIComponent(id)}`);
+    if (reponse.status === 404 || reponse.status === 400) {
+        return null;
+    }
+    if (!reponse.ok) {
+        throw new Error(`Erreur ${reponse.status} lors du chargement de la commande`);
+    }
+    const donnees = await reponse.json();
+    return donnees.commande;
+}
+
+export async function payerCommande(id, carte) {
+    const reponse = await fetch(`${API_URL}/commandes/${encodeURIComponent(id)}/paiement`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            numeroCarte: carte.numeroCarte,
+            dateExpiration: carte.dateExpiration,
+            code: carte.code
+        })
+    });
+
+    const donnees = await reponse.json();
+    if (!reponse.ok) {
+        throw new Error(donnees.message ?? `Erreur ${reponse.status}`);
+    }
+    return donnees.commande;
+}
