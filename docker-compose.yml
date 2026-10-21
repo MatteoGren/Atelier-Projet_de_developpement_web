@@ -52,6 +52,8 @@ services:
   adminer:
     image: adminer
     restart: unless-stopped
+    # écoute en IPv4 : la commande par défaut ([::]:8080) échoue sur docketu, sans IPv6
+    command: ['php', '-S', '0.0.0.0:8080', '-t', '/var/www/html']
     ports:
       - '31002:8080'
     networks:
