@@ -84,3 +84,35 @@ export async function payerCommande(id, carte) {
     }
     return donnees.commande;
 }
+
+// Renvoie null si la commande n'existe pas (404) ou si l'identifiant est invalide (400).
+// Une commande non payée (409) n'a pas encore de billets : on remonte le message de l'API.
+export async function getBilletsCommande(id) {
+    const reponse = await fetch(`${API_URL}/commandes/${encodeURIComponent(id)}/billets`);
+    if (reponse.status === 404 || reponse.status === 400) {
+        return null;
+    }
+    const donnees = await reponse.json();
+    if (!reponse.ok) {
+        throw new Error(donnees.message ?? `Erreur ${reponse.status}`);
+    }
+    return donnees.billets.map((item) => avecToken(item.billet, item.links));
+}
+
+// Renvoie null si le token ne correspond à aucun billet payé.
+export async function getBillet(token) {
+    const reponse = await fetch(`${API_URL}/billets/${encodeURIComponent(token)}`);
+    if (reponse.status === 404) {
+        return null;
+    }
+    if (!reponse.ok) {
+        throw new Error(`Erreur ${reponse.status} lors du chargement du billet`);
+    }
+    const donnees = await reponse.json();
+    return avecToken(donnees.billet, donnees.links);
+}
+
+// Le token n'est donné que dans le lien HATEOAS du billet.
+function avecToken(billet, links) {
+    return { ...billet, token: links.self.href.split('/').pop() };
+}

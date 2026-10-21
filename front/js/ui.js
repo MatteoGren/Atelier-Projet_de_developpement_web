@@ -79,3 +79,17 @@ export function displayConfirmation(commande) {
         montantFormate: prixEuros(commande.montantTotal)
     });
 }
+
+export function displayBillets(billets) {
+    const templateBillets = Handlebars.compile(document.querySelector('#tpl-billets').innerHTML);
+
+    const donnees = billets.map((billet) => ({
+        ...billet,
+        dateFormatee: dateLisible(billet.date),
+        prixFormate: prixEuros(billet.prix),
+        categorieFormatee: billet.categorie === 'reduit' ? 'Tarif réduit' : 'Tarif normal',
+        lienPersonnel: `billets.html?token=${encodeURIComponent(billet.token)}`
+    }));
+
+    document.querySelector('#liste-billets').innerHTML = templateBillets({ billets: donnees });
+}

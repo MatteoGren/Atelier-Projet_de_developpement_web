@@ -39,13 +39,14 @@ INSERT INTO commande (id, utilisateur_id, statut, montant_total, created_at, pai
 ('55555555-0000-0000-0000-000000000003', '11111111-0000-0000-0000-000000000001', 'en_attente', 25.00, '2026-10-19 09:00', NULL),
 ('55555555-0000-0000-0000-000000000004', '11111111-0000-0000-0000-000000000001', 'en_attente', 25.00, '2026-10-20 18:00', NULL);   -- soirée complète : paiement refusé
 
+-- Tokens fixes (60 « a » + n° du billet) pour tester GET /billets/{token} en démo.
 INSERT INTO billet (commande_id, soiree_id, ref, token, tarif_reduit, prix) VALUES
-('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0001', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0002', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0003', md5(random()::text) || md5(random()::text), TRUE,  15.00),
-('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0004', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0005', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0006', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0007', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000003', '22222222-0000-0000-0000-000000000002', 'NRV-0008', md5(random()::text) || md5(random()::text), FALSE, 25.00),
-('55555555-0000-0000-0000-000000000004', '22222222-0000-0000-0000-000000000007', 'NRV-0009', md5(random()::text) || md5(random()::text), FALSE, 25.00);
+('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0001', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0001', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0002', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0002', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000001', '22222222-0000-0000-0000-000000000001', 'NRV-0003', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0003', TRUE,  15.00),
+('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0004', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0004', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0005', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0005', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0006', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0006', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000002', '22222222-0000-0000-0000-000000000007', 'NRV-0007', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0007', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000003', '22222222-0000-0000-0000-000000000002', 'NRV-0008', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0008', FALSE, 25.00),
+('55555555-0000-0000-0000-000000000004', '22222222-0000-0000-0000-000000000007', 'NRV-0009', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0009', FALSE, 25.00);

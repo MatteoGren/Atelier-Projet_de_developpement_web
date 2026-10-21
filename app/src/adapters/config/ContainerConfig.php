@@ -6,18 +6,22 @@ namespace nrv\adapters\config;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use nrv\adapters\persistence\PDOBilletRepository;
 use nrv\adapters\persistence\PDOCommandeRepository;
 use nrv\adapters\persistence\PDOSoireeRepository;
 use nrv\adapters\persistence\PDOSpectacleRepository;
 use nrv\adapters\persistence\UtilisateurRepository;
+use nrv\application\ports\api\ServiceBilletInterface;
 use nrv\application\ports\api\ServiceCommandeInterface;
 use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use nrv\application\ports\api\ServiceUtilisateurInterface;
+use nrv\application\ports\spi\BilletRepositoryInterface;
 use nrv\application\ports\spi\CommandeRepositoryInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
 use nrv\application\ports\spi\UtilisateurRepositoryInterface;
+use nrv\application\usecases\ServiceBillet;
 use nrv\application\usecases\ServiceCommande;
 use nrv\application\usecases\ServiceSoiree;
 use nrv\application\usecases\ServiceSpectacle;
@@ -81,6 +85,18 @@ class ContainerConfig
                 return new ServiceCommande(
                     $c->get(SoireeRepositoryInterface::class),
                     $c->get(CommandeRepositoryInterface::class)
+                );
+            },
+
+            BilletRepositoryInterface::class => function (ContainerInterface $c): BilletRepositoryInterface {
+                return new PDOBilletRepository($c->get(PDO::class));
+            },
+            ServiceBilletInterface::class => function (ContainerInterface $c): ServiceBilletInterface {
+                return new ServiceBillet(
+                    $c->get(BilletRepositoryInterface::class),
+                    $c->get(CommandeRepositoryInterface::class),
+                    $c->get(SoireeRepositoryInterface::class),
+                    $c->get(UtilisateurRepositoryInterface::class)
                 );
             },
 

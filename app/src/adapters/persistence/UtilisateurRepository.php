@@ -34,6 +34,26 @@ class UtilisateurRepository implements UtilisateurRepositoryInterface {
         );
     }
 
+    public function findById(string $id): ?Utilisateur {
+        $stmt = $this->pdo->prepare('SELECT * FROM utilisateur WHERE idUtilisateur = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
+            return null;
+        }
+
+        return new Utilisateur(
+            $row['idutilisateur'],
+            $row['nom'],
+            $row['prenom'],
+            $row['email'],
+            $row['telephone'] ?? '', // le téléphone est facultatif en base
+            $row['mdp'],
+            $row['role']
+        );
+    }
+
 
     public function save(Utilisateur $utilisateur): void {
         $stmt = $this->pdo->prepare(

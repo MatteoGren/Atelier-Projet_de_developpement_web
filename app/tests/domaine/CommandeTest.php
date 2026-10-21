@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use nrv\domain\entities\Billet;
 use nrv\domain\entities\Commande;
 use nrv\domain\exceptions\CommandeNonPayableException;
+use nrv\domain\exceptions\CommandeNonPayeeException;
 use PHPUnit\Framework\TestCase;
 
 class CommandeTest extends TestCase
@@ -50,5 +51,22 @@ class CommandeTest extends TestCase
     {
         $this->expectException(CommandeNonPayableException::class);
         $this->creerCommande(Commande::STATUT_ANNULEE)->verifierPayable();
+    }
+
+    public function testCommandePayeeDonneAccesAuxBillets(): void
+    {
+        $commande = $this->creerCommande();
+        $commande->payer(new DateTimeImmutable());
+
+        $this->assertTrue($commande->estPayee());
+        $commande->verifierPayee();
+    }
+
+    public function testCommandeEnAttenteSansBillets(): void
+    {
+        $this->assertFalse($this->creerCommande()->estPayee());
+
+        $this->expectException(CommandeNonPayeeException::class);
+        $this->creerCommande()->verifierPayee();
     }
 }

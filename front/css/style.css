@@ -461,6 +461,108 @@
   word-break: break-all;
 }
 
+.billets-entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.billets-entete .btn-principal {
+  width: auto;
+  padding: 0.7rem 1.5rem;
+}
+
+.billets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 1rem;
+}
+@media (min-width: 1000px) {
+  .billets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.billet {
+  background-color: #fff;
+  border-radius: 6px;
+  border-left: 6px solid #c0262d;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.billet h3 {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+}
+.billet .billet-lien {
+  font-size: 0.85rem;
+}
+
+.billet-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed #999;
+  padding-bottom: 0.5rem;
+}
+.billet-entete p {
+  margin: 0;
+}
+
+.billet-festival {
+  font-weight: 700;
+  color: #c0262d;
+}
+
+.billet-ref {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+}
+
+.billet-infos {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  margin: 0 0 1rem;
+}
+.billet-infos dt {
+  font-weight: 600;
+}
+.billet-infos dd {
+  margin: 0;
+}
+
+@media print {
+  .entete,
+  .pieddepage,
+  nav,
+  .billets-entete,
+  .message,
+  .billet-lien {
+    display: none;
+  }
+  .page-billets {
+    background-color: #fff;
+    color: #000;
+  }
+  .page-billets main {
+    padding: 0;
+  }
+  .billets {
+    display: block;
+  }
+  .billet {
+    margin-bottom: 1rem;
+    border: 2px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .billet-festival {
+    color: #000;
+  }
+}
 * {
   box-sizing: border-box;
 }

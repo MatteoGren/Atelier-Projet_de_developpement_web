@@ -31,6 +31,7 @@ class Billet {
     public function getToken(): string { return $this->token; }
     public function isTarifReduit(): bool { return $this->tarifReduit; }
     public function getPrix(): float { return $this->prixBillet; }
+    public function getCategorie(): string { return $this->tarifReduit ? 'reduit' : 'normal'; }
 
 
 }

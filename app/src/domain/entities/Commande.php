@@ -4,6 +4,7 @@ namespace nrv\domain\entities;
 
 use DateTimeImmutable;
 use nrv\domain\exceptions\CommandeNonPayableException;
+use nrv\domain\exceptions\CommandeNonPayeeException;
 
 class Commande {
 
@@ -77,5 +78,20 @@ class Commande {
 
         $this->statut = self::STATUT_VALIDEE;
         $this->datePaiement = $datePaiement;
+    }
+
+    public function estPayee(): bool
+    {
+        return $this->statut === self::STATUT_VALIDEE;
+    }
+
+    /**
+     * @throws CommandeNonPayeeException
+     */
+    public function verifierPayee(): void
+    {
+        if (!$this->estPayee()) {
+            throw new CommandeNonPayeeException($this->idCommande);
+        }
     }
 }
