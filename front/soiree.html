@@ -23,54 +23,64 @@
         <div id="detail-soiree"></div>
 
         <script id="tpl-soiree" type="text/x-handlebars-template">
-            <article class="soiree">
-                <header>
+            <article>
+                <div class="soiree-infos">
                     <h2>{{nom}}</h2>
-                    <p>{{thematique}}</p>
-                </header>
-                <div>
-                    <h3>Informations</h2>
-                    <p>Date : {{dateFormatee}}</p>
-                    <p>Heure : {{horaire}} </p>
-                    <p>Lieu : {{lieu}}</p>
+                    <p>Thématique de la soirée : {{thematique}}</p>
+                    <p>{{dateFormatee}} • Début : {{horaire}} • Lieu : {{lieu}}</p>
+                    <p>Tarifs : normal {{prixNormalFormate}} • réduit {{prixReduitFormate}}</p>
                 </div>
-                <section>
-                    <h3>Tarifs et billets</h3>
-                    <ul class="achat">
-                        <li>
-                            <label for="nb-normal">Normal : {{prixNormalFormate}}</label>
-                            <input type="number" id="nb-normal" min="0" max="10" value="1">
-                        </li>
-                        <li>
-                            <label for="nb-reduit">Réduit : {{prixReduitFormate}}
-                                <p>(étudiants, demandeurs d'emploi, personnes en situation de handicap)</p>
-                            </label>
-                            <input type="number" id="nb-reduit" min="0" max="10" value="0">
-                        </li>
-                    </ul>
-                    <button type="button" id="btn-ajouter">Ajouter au panier</button>
-                    <p class="message" id="msg-panier" role="status"></p>
-                </section>
-                <section>
-                    <h3>Spectacles de la soirée</h3>
-                    <div id="liste-detail-spectacles">
-                        {{#each spectacles}}
-                        <article>
-                            <h4>{{titre}}</h4>
-                            <p class="artiste">{{artistes}} ({{style}})</p>
-                            <p class="description">{{description}}</p>
-                            {{#if video}}
-                            <div class="video">
-                                {{#if urlVideoIntegree}}
-                                <iframe src="{{urlVideoIntegree}}" title="Vidéo : {{titre}}" loading="lazy" allowfullscreen></iframe>
-                                {{/if}}
-                                <p><a href="{{video}}" target="_blank" rel="noopener">Voir la vidéo</a></p>
+                <div class="soiree-page"> 
+                    <section class="spectacles">
+                        <h3>Spectacles de la soirée</h3>
+                        <div id="liste-detail-spectacles">
+                            {{#each spectacles}}
+                            <article>
+                                <div>
+                                    {{#if video}}
+                                    <div class="video">
+                                        {{#if urlVideoIntegree}}
+                                        <iframe src="{{urlVideoIntegree}}" title="Vidéo : {{titre}}" loading="lazy" allowfullscreen></iframe>
+                                        {{/if}}
+                                        <!-- <p><a href="{{video}}" target="_blank" rel="noopener">Voir la vidéo</a></p> -->
+                                    </div>
+                                    {{/if}}
+                                </div>
+
+                                <div>
+                                    <h4>{{titre}}</h4>
+                                    <p class="artiste">{{artistes}} ({{style}})</p>
+                                    <p class="description">{{description}}</p>
+                                </div>                                
+                            </article>
+                            {{/each}}
+                        </div>
+                    </section>
+                
+                    <aside class="billetterie">
+                        <h3>Tarifs et billets</h3>
+                        <div class="tarif">
+                            <label for="nb-normal">Nombre de billets • Normal ({{prixNormalFormate}})</label>
+                            <div class="quantite">
+                                <button type="button">-</button>
+                                <input type="number" id="nb-normal" min="0" max="10" value="0">
+                                <button type="button">+</button>
                             </div>
-                            {{/if}}
-                        </article>
-                        {{/each}}
-                    </div>
-                </section>
+                        </div>
+                        <div class="tarif">
+                            <label for="nb-normal">Nombre de billets • Réduit ({{prixReduitFormate}})</label>
+                            <div class="quantite">
+                                <button type="button">-</button>
+                                <input type="number" id="nb-reduit" min="0" max="10" value="0">
+                                <button type="button">+</button>
+                            </div>
+                            <p>Tarif réduit : Étudiants, moins de 18 ans, demandeurs d'emploi (justificatif à l'entrée)</p>
+                        </div>
+                        <!-- <p class="sous-total">Sous-total : {{sousTotal}}</p> -->
+                        <button type="button" id="btn-ajouter" class="btn-principal">Ajouter au panier</button>
+                        <p class="message" id="msg-panier" role="status"></p>
+                    </aside>
+                </div>
             </article>
         </script>
 
