@@ -53,19 +53,19 @@
         
                             <div class="tarif-panier">
                                 <label>Normal</label>
-                                <div class="quantite">
-                                    <button type="button">-</button>
+                                <div class="quantite" data-soiree-id="{{soireeId}}" data-type="nbNormal">
+                                    <button type="button" class="moins">-</button>
                                     <input type="number" min="0" value="{{nbNormal}}" aria-label="Nombre de billets normaux">
-                                    <button type="button">+</button>
+                                    <button type="button" class="plus">+</button>
                                 </div>
                             </div>
         
                             <div class="tarif-panier">
                                 <label>Réduit</label>
-                                <div class="quantite">
-                                    <button type="button">-</button>
+                                <div class="quantite" data-soiree-id="{{soireeId}}" data-type="nbReduit">
+                                    <button type="button" class="moins">-</button>
                                     <input type="number" min="0" value="{{nbReduit}}">
-                                    <button type="button">+</button>
+                                    <button type="button" class="plus">+</button>
                                 </div>
                             </div>
         
@@ -90,7 +90,7 @@
         
                     <button type="button" id="btn-valider" class="btn-principal">Valider</button>
         
-                    <p class="note-paiement">Connexion / inscription obligatoire avant le paiement.</p>
+                    <p class="note-paiement">Connexion / inscription obligatoire pour poursuivre.</p>
                 </aside>
         
             </div>

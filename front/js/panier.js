@@ -1,5 +1,4 @@
-import { displayPanier } from './ui.js';
-import { API_URL } from './config.js'; 
+import { displayPanier } from './ui.js'; 
 import { validerPanier } from './api.js';
 
 const CLE = 'nrv_panier';
@@ -94,6 +93,35 @@ export function retirerSoiree(soireeId) {
     ecrirePanier(nouveauPanier);
 }
 
+function modifierQuantite(soireeId, type, nouvelleQuantite) {
+    const quantite = Number(nouvelleQuantite);
+
+    if (!Number.isInteger(quantite) || quantite < 0) {
+        return false;
+    }
+
+    if (type !== 'nbNormal' && type !== 'nbReduit') {
+        return false;
+    }
+
+    const panier = lirePanier();
+    const ligne = panier.find(
+        element => String(element.soireeId) === String(soireeId)
+    );
+
+    if (!ligne) { return false; }
+
+    ligne[type] = quantite;
+
+    if (ligne.nbNormal === 0 && ligne.nbReduit === 0) {
+        retirerSoiree(soireeId);
+    } else {
+        ecrirePanier(panier);
+    }
+
+    return true;
+}
+
 // -------------------- Calcul du panier
 
 export function panierPourAffichage() {
@@ -125,6 +153,8 @@ export function panierPourAffichage() {
     return {
         lignes: lignes,
         vide: lignes.length === 0,
+        nbSoirees: lignes.length,
+        nbBillets: nombreBillets(),
         total: formatPrix(totalCentimes)
     };
 }
@@ -155,6 +185,62 @@ if (contenuPanier) {
 
         if (evenement.target.closest('#btn-vider-panier')) {
             viderPanier();
+            afficherPanier();
+        }
+
+        // -------------------- Gestion de la quantité
+
+        const btnPlus = evenement.target.closest('.plus');
+        const btnMoins = evenement.target.closest('.moins');
+
+        if (!btnPlus && !btnMoins) {
+            return;
+        }
+
+        const divQuantite = evenement.target.closest('.quantite');
+        if (!divQuantite) return;
+
+        const input = divQuantite.querySelector('input');
+        const soireeId = divQuantite.dataset.soireeId;
+        const type = divQuantite.dataset.type;
+
+        if (btnPlus) {
+            const nouvelleQuantite = Number(input.value) + 1;
+
+            if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
+                afficherPanier();
+            }
+        }
+
+        if (btnMoins) {
+            const nouvelleQuantite = Math.max(0, Number(input.value) - 1); // ne pas descendre en dessous de 0
+
+            if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
+                afficherPanier();
+            }
+        }
+
+
+    });
+    
+    contenuPanier.addEventListener('change', (evenement) => {
+        const input = evenement.target;
+
+        if (!input.matches('.quantite input')) { return; }
+
+        const bloc = input.closest('.quantite');
+
+        const soireeId = bloc.dataset.soireeId;
+        const type = bloc.dataset.type;
+
+        const nouvelleQuantite = Number(input.value);
+
+        if (!Number.isInteger(nouvelleQuantite) || nouvelleQuantite < 0) {
+            input.value = 0;
+            return;
+        }
+
+        if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
             afficherPanier();
         }
     });
