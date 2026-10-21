@@ -172,17 +172,24 @@ function afficherPanier() {
 const btnValider = document.getElementById('btn-valider');
 
 if (btnValider) {
-    btnValider.addEventListener('click', async (evenement) => {
+    btnValider.addEventListener('click', async () => {
         const message = document.getElementById('msg-validation');
-        evenement.disabled = true;
+        btnValider.disabled = true;
+        if (message) message.textContent = '';
 
         try {
             const resultat = await validerPanier(lirePanier());
             viderPanier();
-            // window.location.href = `paiement.html?commande=${encodeURIComponent(resultat.commande.id)}`;
         } catch (erreur) {
-            message.textContent = erreur.message;
-            bouton.disabled = false;
+            if (erreur.status === 401 || (erreur.message && erreur.message.includes('Connexion requise'))) {
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            if (message) {
+                message.textContent = erreur.message || 'Une erreur est survenue lors de la commande.';
+            }
+            btnValider.disabled = false;
         }
     });
 }

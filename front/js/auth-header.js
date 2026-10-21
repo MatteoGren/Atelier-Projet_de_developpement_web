@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             evenement.preventDefault();
             localStorage.removeItem('user');
             localStorage.removeItem('token');
+            localStorage.removeItem('idUtilisateur');
             window.location.reload();
         });
     }

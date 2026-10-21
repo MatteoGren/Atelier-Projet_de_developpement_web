@@ -208,6 +208,9 @@
             // Sauvegarde des données utilisateur reçues du serveur
             if (data.user) {
                 localStorage.setItem('user', JSON.stringify(data.user));
+                if (data.user.id) {
+                    localStorage.setItem('idUtilisateur', data.user.id);
+                }
             }
             if (data.token) {
                 localStorage.setItem('token', data.token);

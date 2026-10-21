@@ -35,21 +35,54 @@ export async function getSoiree(id) {
 
 
 export async function validerPanier(panier) {
+    // 1. Récupération de l'utilisateur stocké lors du login
+    let idUtilisateur = null;
+    const userRaw = localStorage.getItem('user');
+
+    if (userRaw) {
+        try {
+            const user = JSON.parse(userRaw);
+            idUtilisateur = user.id ?? null;
+        } catch {
+            idUtilisateur = null;
+        }
+    }
+
+    // 2. Si pas d'identifiant en localStorage, arrêt immédiat
+    if (!idUtilisateur) {
+        const erreur = new Error('Connexion requise');
+        erreur.status = 401;
+        throw erreur;
+    }
+
+    // 3. Envoi avec le header X-User-Id
     const reponse = await fetch(`${API_URL}/commandes`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idUtilisateur}`
+        },
         body: JSON.stringify({
             lignes: panier.map((ligne) => ({
-                idSoiree: ligne.soireeId,
-                nbNormal: ligne.nbNormal,
-                nbReduit: ligne.nbReduit
+                idSoiree: String(ligne.soireeId),
+                nbNormal: Number(ligne.nbNormal),
+                nbReduit: Number(ligne.nbReduit)
             }))
         })
     });
 
+    if (reponse.status === 401) {
+        const erreur = new Error('Connexion requise');
+        erreur.status = 401;
+        throw erreur;
+    }
+
     const donnees = await reponse.json();
     if (!reponse.ok) {
-        throw new Error(donnees.message ?? `Erreur ${reponse.status}`);
+        const erreur = new Error(donnees.message ?? `Erreur ${reponse.status}`);
+        erreur.status = reponse.status;
+        throw erreur;
     }
-    return donnees;  
+
+    return donnees;
 }

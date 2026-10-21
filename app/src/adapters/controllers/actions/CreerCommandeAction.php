@@ -46,8 +46,15 @@ class CreerCommandeAction
 
         $idUtilisateur = $request->getAttribute('idUtilisateur');
 
-        if (!is_string($idUtilisateur) || $idUtilisateur === '') {
-            $idUtilisateur = '11111111-0000-0000-0000-000000000001'; // fix temporaire (id deja en BDD) - sera modifié après quand on fera l'auth
+        if (!$idUtilisateur) {
+            $authHeader = $request->getHeaderLine('Authorization');
+            if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
+                $idUtilisateur = trim($matches[1]);
+            }
+        }
+
+        if (!is_string($idUtilisateur) || trim($idUtilisateur) === '') {
+            throw new HttpUnauthorizedException($request, 'Connexion requise pour valider le panier.');
         }
 
         $dto = new CreerCommandeDTO($idUtilisateur, $lignes);
