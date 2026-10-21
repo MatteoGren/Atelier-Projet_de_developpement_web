@@ -78,21 +78,29 @@
         .hidden {
             display: none;
         }
-        .alert-error {
-            background-color: #fee2e2;
-            color: #b91c1c;
+        .alert {
             padding: 10px;
             border-radius: 6px;
             margin-bottom: 15px;
             font-size: 14px;
             display: none;
         }
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        .alert-success {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
     </style>
 </head>
 <body>
 
 <div class="auth-card">
-    <div id="error-box" class="alert-error"></div>
+    <div id="alert-box" class="alert"></div>
 
     <div class="tabs">
         <button id="btn-connexion" class="tab-btn active" onclick="switchTab('connexion')">Connexion</button>
@@ -139,21 +147,22 @@
 </div>
 
 <script>
-    const API_URL = 'http://localhost:31001';
-    const errorBox = document.getElementById('error-box');
+    const API_BASE_URL = 'http://localhost:31001';
+    const alertBox = document.getElementById('alert-box');
 
-    function showError(message) {
-        errorBox.textContent = message;
-        errorBox.style.display = 'block';
+    function notify(message, type = 'error') {
+        alertBox.textContent = message;
+        alertBox.className = `alert ${type === 'error' ? 'alert-error' : 'alert-success'}`;
+        alertBox.style.display = 'block';
     }
 
-    function hideError() {
-        errorBox.textContent = '';
-        errorBox.style.display = 'none';
+    function clearNotification() {
+        alertBox.textContent = '';
+        alertBox.style.display = 'none';
     }
 
     function switchTab(tab) {
-        hideError();
+        clearNotification();
         const formConnexion = document.getElementById('form-connexion');
         const formInscription = document.getElementById('form-inscription');
         const btnConnexion = document.getElementById('btn-connexion');
@@ -172,10 +181,10 @@
         }
     }
 
-    // Gestion de la Connexion
+    // Traitement Connexion
     document.getElementById('form-connexion').addEventListener('submit', async (e) => {
         e.preventDefault();
-        hideError();
+        clearNotification();
 
         const payload = {
             email: document.getElementById('c-email').value,
@@ -183,31 +192,32 @@
         };
 
         try {
-            const res = await fetch(`${API_URL}/connexion`, {
+            const res = await fetch(`${API_BASE_URL}/connexion`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => ({}));
+
             if (!res.ok) {
-                showError(data.message || 'Erreur lors de la connexion.');
+                notify(data.error || data.message || 'Erreur lors de la connexion.', 'error');
                 return;
             }
 
             if (data.token) {
-                localStorage.setItem('jwt_token', data.token);
+                localStorage.setItem('token', data.token);
             }
-            window.location.href = '/index.html';
+            window.location.href = '/';
         } catch (err) {
-            showError('Impossible de joindre le serveur.');
+            notify('Serveur API inaccessible sur le port 31001.', 'error');
         }
     });
 
-    // Gestion de l'Inscription
+    // Traitement Inscription
     document.getElementById('form-inscription').addEventListener('submit', async (e) => {
         e.preventDefault();
-        hideError();
+        clearNotification();
 
         const payload = {
             nom: document.getElementById('r-nom').value,
@@ -218,22 +228,24 @@
         };
 
         try {
-            const res = await fetch(`${API_URL}/register`, {
+            const res = await fetch(`${API_BASE_URL}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => ({}));
+
             if (!res.ok) {
-                showError(data.message || "Erreur lors de l'inscription.");
+                // Affiche l'erreur exacte renvoyée par le ServiceUtilisateur
+                notify(data.error || data.message || "Erreur lors de l'inscription.", 'error');
                 return;
             }
 
             switchTab('connexion');
-            alert('Compte créé avec succès ! Vous pouvez maintenant vous connecter.');
+            notify('Compte créé avec succès ! Connectez-vous.', 'success');
         } catch (err) {
-            showError('Impossible de joindre le serveur.');
+            notify('Serveur API inaccessible sur le port 31000.', 'error');
         }
     });
 </script>

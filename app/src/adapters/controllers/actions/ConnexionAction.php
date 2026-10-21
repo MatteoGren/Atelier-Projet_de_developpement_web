@@ -25,7 +25,7 @@ final class ConnexionAction
         $motDePasse = (string) ($data['motDePasse'] ?? '');
 
         try {
-            $utilisateur = $this->serviceUtilisateur->connecter($email, $motDePasse);  // Appel à la méthode connecter du service utilisateur
+            $utilisateur = $this->serviceUtilisateur->connecter($email, $motDePasse);
 
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
@@ -33,17 +33,21 @@ final class ConnexionAction
 
             session_regenerate_id(true);
 
-            // Stockage des informations de l'utilisateur dans la session
             $_SESSION['user'] = [
                 'id' => $utilisateur->getIdUtilisateur(),
                 'email' => $utilisateur->getEmail(),
                 'role' => $utilisateur->getRole()
             ];
 
-            // renvoyer vers la page d'accueil après une connexion réussie
+            $payload = json_encode([
+                'success' => true,
+                'user' => $_SESSION['user']
+            ]);
+            $response->getBody()->write($payload);
+
             return $response
-                ->withHeader('Location', '/connexion')
-                ->withStatus(302);
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
 
         } catch (Exception $e) {
             $payload = json_encode(['error' => $e->getMessage()]);
