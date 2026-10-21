@@ -1,0 +1,189 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Page Panier
+
+.panier-liste {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: $espace * 2;
+    margin-top: $espace * 2;
+
+    @include mix.a-partir-de($desktop) {
+        grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+
+    >* {
+        min-width: 0;
+    }
+}
+
+// ---------------------------------- Lignes du panier
+
+.panier-lignes {
+    display: grid;
+    gap: $espace;
+
+    .ligne-panier {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: $espace * 2;
+
+        background-color: #fff;
+        border-radius: 6px;
+        padding: $espace;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+        @include mix.a-partir-de($tablette) {
+            grid-template-columns: minmax(0, 1fr) 11.7rem;
+            gap: $espace * 2;
+        }
+    }
+
+    #btn-vider-panier {
+        text-align: end;
+    }
+}
+
+// ---------------------------------- Informations de la soirée
+
+.infos-soiree {
+    min-width: 0;
+
+    h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        color: $couleur-texte;
+    }
+
+    p {
+        margin: 0 0 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .date {
+        color: $couleur-principale;
+    }
+
+    .lieu {
+        color: #555;
+    }
+
+    .prix-unitaires {
+        margin-top: $espace;
+    }
+
+    .btn-retirer {
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: $couleur-texte;
+        font-size: 0.75rem;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            color: $couleur-principale;
+        }
+    }
+}
+
+// ---------------------------------- Tarifs et quantités
+
+.tarifs-panier {
+    min-width: 0;
+
+    .tarif-panier {
+        margin-bottom: $espace;
+
+        label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+    }
+
+    .sous-total {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+}
+
+// Contrôles de quantité
+
+.quantite {
+    display: grid;
+    grid-template-columns: 2.6rem minmax(0, 1fr) 2.6rem;
+
+    button,
+    input {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 2.5rem;
+        border: 1px solid #ccc;
+        border-radius: 0;
+        background-color: #fff;
+        color: $couleur-texte;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    button {
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            background-color: #f2f2f2;
+        }
+    }
+
+    input[type='number'] {
+        appearance: textfield;
+        border-right: 0;
+        border-left: 0;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
+
+// ---------------------------------- Récapitulatif à droite
+
+.recapitulatif-panier {
+    background-color: #fff;
+    border-radius: 6px;
+    padding: $espace;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    h3 {
+        margin: 0 0 $espace;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    p {
+        margin: 0 0 $espace;
+        font-size: 0.8rem;
+    }
+
+    .total {
+        margin-top: $espace;
+        font-weight: 700;
+    }
+
+    .note-paiement {
+        margin: $espace 0 0;
+        font-size: 0.8rem;
+        font-style: italic;
+        color: #555;
+    }
+}

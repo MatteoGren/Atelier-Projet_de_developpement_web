@@ -1,13 +1,8 @@
+@use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
-
-// ---------------------------------- Variables
-$couleur-fond: #f4f4f4;
-$couleur-texte: #1e1e1e;
-$couleur-principale: #c0262d;
-$espace: 1rem;
-
-$tablette: 600px;
-$desktop: 1000px;
+@use '_index.scss';
+@use '_soiree.scss';
+@use '_panier.scss';
 
 // ---------------------------------- Styles généraux
 * {
@@ -74,218 +69,18 @@ main {
     padding: $espace;
 }
 
-// ---------------------------------- Page Programme (index)
-
-.liste-spectacles {
-    display: grid;
-    gap: $espace;
-    @include mix.colonnes(1);
-
-    @include mix.a-partir-de($tablette) {
-        @include mix.colonnes(2);
-    }
-
-    @include mix.a-partir-de($desktop) {
-        @include mix.colonnes(3);
-    }
-}
-
-.carte-spectacle {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
+.btn-principal {
+    width: 100%;
+    padding: 0.9rem;
+    border: 0;
     border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    background-color: $couleur-texte;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
 
-    img {
-        width: 100%;
-        aspect-ratio: 16 / 10;
-        object-fit: cover;
-        // display: block;
-    }
-
-    .infos {
-        padding: $espace;
-
-        h3 {
-            margin: 0 0 0.5rem;
-            a::after {
-                content: '';
-                position: absolute;
-                inset: 0;  // Le lien recouvre toute la carte
-            }
-        }
-
-        p {
-            margin: 0;
-        }
-    }
-}
-
-// ---------------------------------- Page Soirée
-
-article.soiree {
-    header h2 {
-        margin: 0;
-        color: $couleur-principale;
-    }
-
-    h2, h3 {
-        margin: $espace * 2 0 $espace;
-    }
-
-    .achat {
-        list-style: none;
-        margin: 0 0 $espace;
-        padding: 0;
-        display: grid;
-        gap: $espace;
-
-        @include mix.colonnes(1);
-        
-        @include mix.a-partir-de($tablette) {
-            @include mix.colonnes(2);
-        }
-
-        li {
-            display: flex;
-            justify-content: end; 
-            align-items: center;
-            padding: $espace;
-            background-color: #fff;
-            border-radius: 6px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-        }
-
-        label {
-            flex-grow: 1;
-            font-weight: 600;
-        }
-
-        p {
-            margin: 0.25rem 0 0 0;
-            font-weight: 400;
-            font-size: 0.85rem;
-            color: #555;
-        }
-
-        input[type='number'] {
-            width: 4.5rem;
-            min-height: 2.75rem;
-            font-size: 1rem;
-            padding: 0.4rem;
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 4px;
-        }
-    }
-
-    #btn-ajouter {
-        color: $couleur-principale;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-
-        font-weight: 600;
-        border-radius: 6px;
-        padding: $espace / 2 $espace;
-    } 
-}
-
-#liste-detail-spectacles {
-    display: grid;
-    gap: $espace;
-    @include mix.colonnes(1);
-
-    @include mix.a-partir-de($tablette) {
-        @include mix.colonnes(2);
-    }
-
-    article {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        background-color: #fff;
-        border-radius: 6px;
-        padding: $espace;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-
-        h4 {
-            color: $couleur-principale;
-            margin: 0;
-        }
-
-        p.artiste {
-            font-weight: 600;
-            margin: 0;
-        }
-    
-        p.description {
-            font-style: italic;
-            margin-top: 0;
-        }
-
-        .video iframe {
-            width: 100%;
-            max-width: 100%;
-            aspect-ratio: 16 / 9;
-            border: 0;
-            display: block;
-
-            p {
-                padding-top: $espace;
-            }
-        }
-    }
-}
-
-// ---------------------------------- Page Panier
-
-#contenu-panier {
-    display: flex;
-    flex-direction: column;
-    gap: $espace;
-
-    .ligne-panier {
-        background-color: #fff;
-        border-radius: 6px;
-        padding: $espace;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-
-        h3 {
-            margin: 0 0 0.5rem;
-            color: $couleur-principale;
-        }
-
-        p {
-            margin: 0 0 0.5rem;
-        }
-
-        .date {
-            color: #555;
-        }
-
-        .sous-total {
-            font-weight: 600;
-        }
-    }
-
-    .total {
-        margin: 0;
-        text-align: right;
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-
-    .btn-retirer,
-    #btn-vider-panier {
-        align-self: flex-start;
-        color: $couleur-principale;
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        border-radius: 6px;
-        padding: 0.5rem $espace;
-        font-weight: 600;
+    &:hover,
+    &:focus {
+        background-color: $couleur-principale;
     }
 }
