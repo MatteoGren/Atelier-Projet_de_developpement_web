@@ -42,9 +42,13 @@ docker compose restart api.nrv
 
 | Service | URL |
 |---------|-----|
-| Front | http://localhost:1012 |
-| API | http://localhost:1010 |
-| Adminer | http://localhost:1011 |
+| Front | http://localhost:31000 |
+| API | http://localhost:31001 |
+| Adminer | http://localhost:31002 (serveur : `nrv.db`) |
+
+La base Postgres n'a pas de port publié : seuls l'API et Adminer y accèdent, via le réseau Docker.
+
+En déploiement sur docketu, remplacer `localhost` par `docketu.iutnc.univ-lorraine.fr`.
 
 ## Routes de l'API
 
