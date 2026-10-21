@@ -165,6 +165,21 @@ export async function getBilletsCommande(id) {
     return donnees.billets.map((item) => avecToken(item.billet, item.links));
 }
 
+// Billets payés de l'utilisateur connecté, toutes commandes confondues.
+export async function getMesBillets() {
+    const reponse = await fetch(`${API_URL}/billets`, {
+        headers: enTeteConnexion()
+    });
+    if (reponse.status === 401) {
+        throw erreurConnexion();
+    }
+    const donnees = await reponse.json();
+    if (!reponse.ok) {
+        throw new Error(donnees.message ?? `Erreur ${reponse.status}`);
+    }
+    return donnees.billets.map((item) => avecToken(item.billet, item.links));
+}
+
 // Renvoie null si le token ne correspond à aucun billet payé.
 export async function getBillet(token) {
     const reponse = await fetch(`${API_URL}/billets/${encodeURIComponent(token)}`);

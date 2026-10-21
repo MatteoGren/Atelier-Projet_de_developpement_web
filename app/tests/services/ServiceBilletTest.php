@@ -5,6 +5,7 @@ declare(strict_types=1);
 use nrv\application\exceptions\BilletIntrouvableException;
 use nrv\application\exceptions\CommandeIntrouvableException;
 use nrv\application\exceptions\IdentifiantInvalideException;
+use nrv\application\exceptions\UtilisateurIntrouvableException;
 use nrv\application\ports\spi\BilletRepositoryInterface;
 use nrv\application\ports\spi\CommandeRepositoryInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
@@ -42,6 +43,9 @@ beforeEach(function () {
 
         public function findById(string $id): ?Utilisateur
         {
+            if ($id === 'inconnu') {
+                return null;
+            }
             return new Utilisateur($id, 'Martin', 'Léa', 'lea@example.com', '', 'hash', 'client');
         }
 
@@ -80,13 +84,27 @@ beforeEach(function () {
         }
     };
 
-    $billets = new class implements BilletRepositoryInterface {
+    $billets = new class ($commandes) implements BilletRepositoryInterface {
         /** @var Billet[] indexés par token */
         public array $existants = [];
+        private CommandeRepositoryInterface $commandes;
+
+        public function __construct(CommandeRepositoryInterface $commandes)
+        {
+            $this->commandes = $commandes;
+        }
 
         public function findByToken(string $token): ?Billet
         {
             return $this->existants[$token] ?? null;
+        }
+
+        public function findPayesByUtilisateur(string $idUtilisateur): array
+        {
+            return array_values(array_filter($this->existants, function (Billet $billet) use ($idUtilisateur) {
+                $commande = $this->commandes->findById($billet->getIdCommande());
+                return $commande->getIdUtilisateur() === $idUtilisateur && $commande->estPayee();
+            }));
         }
     };
 
@@ -140,3 +158,18 @@ dataset('tokens refusés', [
 it('ne révèle pas un billet inaccessible', function (string $token) {
     expect(fn () => $this->service->afficherBillet($token))->toThrow(BilletIntrouvableException::class);
 })->with('tokens refusés');
+
+it('renvoie tous les billets payés de l\'utilisateur, toutes commandes confondues', function () {
+    $billets = $this->service->afficherBilletsUtilisateur(UTILISATEUR_TEST);
+
+    expect(array_map(fn ($billet) => $billet->ref, $billets))->toBe(['NRV-0001', 'NRV-0002']);
+    expect($billets[0]->acheteur)->toBe('Léa Martin');
+});
+
+it('renvoie une liste vide pour un utilisateur sans billet payé', function () {
+    expect($this->service->afficherBilletsUtilisateur('11111111-0000-0000-0000-000000000009'))->toBe([]);
+});
+
+it('refuse les billets d\'un utilisateur inconnu', function () {
+    expect(fn () => $this->service->afficherBilletsUtilisateur('inconnu'))->toThrow(UtilisateurIntrouvableException::class);
+});

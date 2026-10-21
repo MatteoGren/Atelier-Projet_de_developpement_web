@@ -25,6 +25,13 @@ interface ServiceBilletInterface
     public function afficherBilletsCommande(string $idCommande, string $idUtilisateur): array;
 
     /**
+     * @return BilletDTO[] billets payés de l'utilisateur, toutes commandes confondues
+     * @throws UtilisateurIntrouvableException
+     * @throws SoireeIntrouvableException
+     */
+    public function afficherBilletsUtilisateur(string $idUtilisateur): array;
+
+    /**
      * @throws BilletIntrouvableException
      * @throws UtilisateurIntrouvableException
      * @throws SoireeIntrouvableException

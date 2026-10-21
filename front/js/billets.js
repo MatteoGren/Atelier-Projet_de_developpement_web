@@ -1,4 +1,4 @@
-import { getBillet, getBilletsCommande } from './api.js';
+import { getBillet, getBilletsCommande, getMesBillets } from './api.js';
 import { displayBillets } from './ui.js';
 
 const message = document.getElementById('message');
@@ -6,7 +6,7 @@ const parametres = new URLSearchParams(window.location.search);
 const idCommande = parametres.get('commande');
 const token = parametres.get('token');
 
-// Deux accès : tous les billets d'une commande, ou un seul billet par son lien personnel.
+// Trois accès : les billets d'une commande, un seul billet par son lien personnel, ou tous les billets de l'utilisateur.
 async function chargerBillets() {
     if (idCommande) {
         const billets = await getBilletsCommande(idCommande);
@@ -16,7 +16,8 @@ async function chargerBillets() {
         const billet = await getBillet(token);
         return billet === null ? 'Ce billet n\'existe pas.' : [billet];
     }
-    return 'Aucun billet à afficher.';
+    const billets = await getMesBillets();
+    return billets.length === 0 ? 'Vous n\'avez encore aucun billet.' : billets;
 }
 
 async function afficherBillets() {
@@ -30,7 +31,7 @@ async function afficherBillets() {
         document.querySelector('#btn-imprimer').hidden = false;
         message.textContent = '';
     } catch (erreur) {
-        // Seuls les billets d'une commande demandent d'être connecté ; le lien personnel reste public.
+        // Seul le lien personnel est public ; les deux autres accès demandent d'être connecté.
         if (erreur.status === 401) {
             window.location.href = 'auth.html';
             return;

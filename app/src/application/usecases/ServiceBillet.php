@@ -49,18 +49,17 @@ class ServiceBillet implements ServiceBilletInterface
         }
         $commande->verifierPayee();
 
-        $acheteur = $this->trouverAcheteur($commande);
-        $soirees = [];
-        $billets = [];
+        return $this->versDTOs($commande->getBillets(), $this->trouverAcheteur($commande));
+    }
 
-        foreach ($commande->getBillets() as $billet) {
-            // Une commande contient souvent plusieurs billets pour la même soirée : on ne la charge qu'une fois.
-            $idSoiree = $billet->getIdSoiree();
-            $soirees[$idSoiree] = $soirees[$idSoiree] ?? $this->trouverSoiree($idSoiree);
-            $billets[] = BilletDTO::fromEntities($billet, $soirees[$idSoiree], $acheteur);
+    public function afficherBilletsUtilisateur(string $idUtilisateur): array
+    {
+        $acheteur = $this->utilisateurRepository->findById($idUtilisateur);
+        if ($acheteur === null) {
+            throw new UtilisateurIntrouvableException($idUtilisateur);
         }
 
-        return $billets;
+        return $this->versDTOs($this->billetRepository->findPayesByUtilisateur($idUtilisateur), $acheteur);
     }
 
     public function afficherBillet(string $token): BilletDTO
@@ -82,6 +81,25 @@ class ServiceBillet implements ServiceBilletInterface
         }
 
         return BilletDTO::fromEntities($billet, $this->trouverSoiree($billet->getIdSoiree()), $this->trouverAcheteur($commande));
+    }
+
+    /**
+     * @param Billet[] $billets
+     * @return BilletDTO[]
+     */
+    private function versDTOs(array $billets, Utilisateur $acheteur): array
+    {
+        $soirees = [];
+        $dtos = [];
+
+        foreach ($billets as $billet) {
+            // Plusieurs billets pour la même soirée : on ne la charge qu'une fois.
+            $idSoiree = $billet->getIdSoiree();
+            $soirees[$idSoiree] = $soirees[$idSoiree] ?? $this->trouverSoiree($idSoiree);
+            $dtos[] = BilletDTO::fromEntities($billet, $soirees[$idSoiree], $acheteur);
+        }
+
+        return $dtos;
     }
 
     private function trouverAcheteur(Commande $commande): Utilisateur
