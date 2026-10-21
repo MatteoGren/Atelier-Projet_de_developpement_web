@@ -216,9 +216,15 @@
 }
 .infos-soiree h3 {
   margin: 0 0 0.5rem;
+}
+.infos-soiree h3 a {
   font-size: 1rem;
   font-weight: 600;
   color: #1e1e1e;
+  text-decoration: none;
+}
+.infos-soiree h3 a:hover {
+  text-decoration: underline;
 }
 .infos-soiree p {
   margin: 0 0 0.5rem;

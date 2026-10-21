@@ -37,12 +37,12 @@
                     <article class="ligne-panier">
         
                         <div class="infos-soiree">
-                            <h3>{{nom}}</h3>
+                            <h3><a href="/soiree.html?id={{soireeId}}">{{nom}}</a></h3>
                             <p class="date">{{date}}</p>
                             <p class="lieu">{{lieu}}</p>
         
                             <p class="prix-unitaires">
-                                Prix unitaire : normal {{prixNormal}} ·
+                                Prix unitaire : normal {{prixNormal}} •
                                 réduit {{prixReduit}}
                             </p>
         
@@ -83,7 +83,7 @@
                 <aside class="recapitulatif-panier">
                     <h3>Montant total</h3>
         
-                    <p>{{nbBillets}} billets · {{nbSoirees}} soirées</p>
+                    <p>{{nbBillets}} billets • {{nbSoirees}} soirées</p>
                     <!-- <p>Sous-total : {{sousTotalGeneral}}</p> -->
         
                     <p class="total">Total : {{total}}</p>
