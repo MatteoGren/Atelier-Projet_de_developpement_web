@@ -157,6 +157,12 @@ if (contenuPanier) {
             viderPanier();
             afficherPanier();
         }
+
+        // Délégation : le bouton est recréé à chaque affichage du panier.
+        const boutonValider = evenement.target.closest('#btn-valider');
+        if (boutonValider) {
+            validerEtPayer(boutonValider);
+        }
     });
 
     afficherPanier();
@@ -169,27 +175,23 @@ function afficherPanier() {
 
 // -------------------- Validation du panier (uniquement dans panier.html)
 
-const btnValider = document.getElementById('btn-valider');
+async function validerEtPayer(bouton) {
+    const message = document.getElementById('msg-validation');
+    bouton.disabled = true;
+    if (message) message.textContent = '';
 
-if (btnValider) {
-    btnValider.addEventListener('click', async () => {
-        const message = document.getElementById('msg-validation');
-        btnValider.disabled = true;
-        if (message) message.textContent = '';
-
-        try {
-            const resultat = await validerPanier(lirePanier());
-            viderPanier();
-        } catch (erreur) {
-            if (erreur.status === 401 || (erreur.message && erreur.message.includes('Connexion requise'))) {
-                window.location.href = 'auth.html';
-                return;
-            }
-
-            if (message) {
-                message.textContent = erreur.message || 'Une erreur est survenue lors de la commande.';
-            }
-            btnValider.disabled = false;
+    try {
+        const resultat = await validerPanier(lirePanier());
+        viderPanier();
+        window.location.href = `paiement.html?commande=${encodeURIComponent(resultat.commande.id)}`;
+    } catch (erreur) {
+        if (erreur.status === 401) {
+            window.location.href = 'auth.html';
+            return;
         }
-    });
+        if (message) {
+            message.textContent = erreur.message || 'Une erreur est survenue lors de la commande.';
+        }
+        bouton.disabled = false;
+    }
 }

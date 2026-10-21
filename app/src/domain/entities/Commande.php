@@ -3,6 +3,8 @@
 namespace nrv\domain\entities;
 
 use DateTimeImmutable;
+use nrv\domain\exceptions\CommandeNonPayableException;
+use nrv\domain\exceptions\CommandeNonPayeeException;
 
 class Commande {
 
@@ -32,7 +34,7 @@ class Commande {
     public function getStatut(): string { return $this->statut; }
     public function getMontantTotal(): float { return $this->montantTotal; }
     public function getDateCommande(): DateTimeImmutable { return $this->dateCommande; }
-    public function getDatePaiement(): DateTimeImmutable { return $this->datePaiement; }
+    public function getDatePaiement(): ?DateTimeImmutable { return $this->datePaiement; }
 
     public function ajouterBillet(Billet $billet): void
     {
@@ -43,5 +45,53 @@ class Commande {
     public function getBillets(): array
     {
         return $this->billets;
+    }
+
+    /**
+     * @return array<string, int> nombre de billets par identifiant de soirée
+     */
+    public function billetsParSoiree(): array
+    {
+        $nbBillets = [];
+        foreach ($this->billets as $billet) {
+            $nbBillets[$billet->getIdSoiree()] = ($nbBillets[$billet->getIdSoiree()] ?? 0) + 1;
+        }
+        return $nbBillets;
+    }
+
+    /**
+     * @throws CommandeNonPayableException
+     */
+    public function verifierPayable(): void
+    {
+        if ($this->statut !== self::STATUT_EN_ATTENTE) {
+            throw new CommandeNonPayableException($this->idCommande);
+        }
+    }
+
+    /**
+     * @throws CommandeNonPayableException
+     */
+    public function payer(DateTimeImmutable $datePaiement): void
+    {
+        $this->verifierPayable();
+
+        $this->statut = self::STATUT_VALIDEE;
+        $this->datePaiement = $datePaiement;
+    }
+
+    public function estPayee(): bool
+    {
+        return $this->statut === self::STATUT_VALIDEE;
+    }
+
+    /**
+     * @throws CommandeNonPayeeException
+     */
+    public function verifierPayee(): void
+    {
+        if (!$this->estPayee()) {
+            throw new CommandeNonPayeeException($this->idCommande);
+        }
     }
 }

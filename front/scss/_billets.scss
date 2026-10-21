@@ -1,0 +1,122 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Page Billets
+
+.billets-entete {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: $espace;
+
+    .btn-principal {
+        width: auto;
+        padding: 0.7rem 1.5rem;
+    }
+}
+
+.billets {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: $espace * 2;
+    margin-top: $espace;
+
+    @include mix.a-partir-de($desktop) {
+        @include mix.colonnes(2);
+    }
+}
+
+// ---------------------------------- Un billet
+
+.billet {
+    background-color: #fff;
+    border-radius: 6px;
+    border-left: 6px solid $couleur-principale;
+    padding: $espace;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    h3 {
+        margin: $espace 0;
+        font-size: 1.4rem;
+    }
+
+    .billet-lien {
+        font-size: 0.85rem;
+    }
+}
+
+.billet-entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 0.5rem;
+
+    p {
+        margin: 0;
+    }
+}
+
+.billet-festival {
+    font-weight: 700;
+    color: $couleur-principale;
+}
+
+.billet-ref {
+    font-family: "Courier New", monospace;
+    font-weight: 700;
+}
+
+.billet-infos {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.4rem $espace;
+    margin: 0 0 $espace;
+
+    dt {
+        font-weight: 600;
+    }
+
+    dd {
+        margin: 0;
+    }
+}
+
+// ---------------------------------- Impression : seuls les billets, en noir et blanc
+
+@media print {
+    .entete,
+    .pieddepage,
+    nav,
+    .billets-entete,
+    .message,
+    .billet-lien {
+        display: none;
+    }
+
+    // .page-billets : plus précis que les règles générales de style.scss, compilées après ce fichier
+    .page-billets {
+        background-color: #fff;
+        color: #000;
+
+        main {
+            padding: 0;
+        }
+    }
+
+    .billets {
+        display: block;
+    }
+
+    .billet {
+        margin-bottom: $espace;
+        border: 2px solid #000;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    .billet-festival {
+        color: #000;
+    }
+}

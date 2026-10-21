@@ -14,6 +14,10 @@ use nrv\adapters\controllers\actions\FiltrerAction;
 use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\actions\CreerCommandeAction;
+use nrv\adapters\controllers\actions\GetCommandeAction;
+use nrv\adapters\controllers\actions\PayerCommandeAction;
+use nrv\adapters\controllers\actions\GetBilletsCommandeAction;
+use nrv\adapters\controllers\actions\GetBilletAction;
 use nrv\adapters\controllers\middlewares\Cors;
 
 // nrv.env est monté en /var/nrv.env par docker compose
@@ -45,6 +49,10 @@ $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles'
 $app->get('/spectacles/filtre', FiltrerAction::class)->setName('FiltrerSpectacles');
 $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
 $app->post('/commandes', CreerCommandeAction::class);
+$app->get('/commandes/{id}[/]', GetCommandeAction::class)->setName('GetCommande');
+$app->post('/commandes/{id}/paiement[/]', PayerCommandeAction::class)->setName('PayerCommande');
+$app->get('/commandes/{id}/billets[/]', GetBilletsCommandeAction::class)->setName('GetBilletsCommande');
+$app->get('/billets/{token}[/]', GetBilletAction::class)->setName('GetBillet');
 
 
 

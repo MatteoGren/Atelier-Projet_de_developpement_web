@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace nrv\adapters\controllers\actions;
 
+use nrv\adapters\controllers\UtilisateurConnecte;
 use nrv\application\dtos\CreerCommandeDTO;
 use nrv\application\dtos\LigneCommandeDTO;
 use nrv\application\exceptions\CommandeInvalideException;
@@ -14,7 +15,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpException;
-use Slim\Exception\HttpUnauthorizedException;
 
 class CreerCommandeAction
 {
@@ -44,18 +44,7 @@ class CreerCommandeAction
             $lignes[] = new LigneCommandeDTO($ligne['idSoiree'], $ligne['nbNormal'], $ligne['nbReduit']);
         }
 
-        $idUtilisateur = $request->getAttribute('idUtilisateur');
-
-        if (!$idUtilisateur) {
-            $authHeader = $request->getHeaderLine('Authorization');
-            if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
-                $idUtilisateur = trim($matches[1]);
-            }
-        }
-
-        if (!is_string($idUtilisateur) || trim($idUtilisateur) === '') {
-            throw new HttpUnauthorizedException($request, 'Connexion requise pour valider le panier.');
-        }
+        $idUtilisateur = UtilisateurConnecte::lire($request, 'Connexion requise pour valider le panier.');
 
         $dto = new CreerCommandeDTO($idUtilisateur, $lignes);
 

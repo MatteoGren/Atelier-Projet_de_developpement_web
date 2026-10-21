@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace nrv\domain\entities;
 
 use DateTimeImmutable;
+use nrv\domain\exceptions\PlacesInsuffisantesException;
 
 class Soiree
 {
@@ -19,6 +20,7 @@ class Soiree
     private DateTimeImmutable $date;
     private string $lieu;
     private int $capacite;
+    private int $placesVendues;
 
     public function __construct(
         string $id,
@@ -26,7 +28,8 @@ class Soiree
         string $thematique,
         DateTimeImmutable $date,
         string $lieu,
-        int $capacite
+        int $capacite,
+        int $placesVendues = 0
     ) {
         $this->id = $id;
         $this->nom = $nom;
@@ -34,6 +37,7 @@ class Soiree
         $this->date = $date;
         $this->lieu = $lieu;
         $this->capacite = $capacite;
+        $this->placesVendues = $placesVendues;
     }
 
     public function getId(): string
@@ -64,6 +68,26 @@ class Soiree
     public function getCapacite(): int
     {
         return $this->capacite;
+    }
+
+    public function getPlacesVendues(): int
+    {
+        return $this->placesVendues;
+    }
+
+    public function placesDisponibles(): int
+    {
+        return $this->capacite - $this->placesVendues;
+    }
+
+    /**
+     * @throws PlacesInsuffisantesException
+     */
+    public function verifierPlaces(int $nbBillets): void
+    {
+        if ($nbBillets > $this->placesDisponibles()) {
+            throw new PlacesInsuffisantesException($this->nom);
+        }
     }
 
     /**

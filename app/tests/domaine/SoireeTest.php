@@ -6,6 +6,7 @@ namespace nrv\tests\domaine;
 
 use DateTimeImmutable;
 use nrv\domain\entities\Soiree;
+use nrv\domain\exceptions\PlacesInsuffisantesException;
 use PHPUnit\Framework\TestCase;
 
 class SoireeTest extends TestCase
@@ -41,5 +42,20 @@ class SoireeTest extends TestCase
 
         $this->assertSame('2027-06-04', $soiree->getDate()->format('Y-m-d'));
         $this->assertSame('20:00', $soiree->getDate()->format('H:i'));
+    }
+
+    public function testPlacesDisponiblesSansVente(): void
+    {
+        $this->assertSame(800, $this->creerSoiree()->placesDisponibles());
+    }
+
+    public function testPlacesDisponiblesApresVentes(): void
+    {
+        $soiree = new Soiree('soiree-7', 'Session Intimiste', 'Blues rock', new DateTimeImmutable('2027-06-15 21:00'), 'Café Le Terminus', 4, 3);
+
+        $this->assertSame(1, $soiree->placesDisponibles());
+        $soiree->verifierPlaces(1);
+        $this->expectException(PlacesInsuffisantesException::class);
+        $soiree->verifierPlaces(2);
     }
 }

@@ -373,6 +373,196 @@
   color: #555;
 }
 
+.paiement-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 1000px) {
+  .paiement-grille {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+  }
+}
+
+.carte-paiement {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.carte-paiement fieldset {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: 0;
+}
+.carte-paiement legend {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.carte-paiement label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.carte-paiement input {
+  width: 100%;
+  min-height: 2.5rem;
+  margin-bottom: 1rem;
+  padding: 0 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.carte-paiement input:focus {
+  outline: 2px solid #c0262d;
+  border-color: transparent;
+}
+.carte-paiement .erreur {
+  color: #c0262d;
+}
+.carte-paiement .note-paiement {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #555;
+}
+
+.paiement-ligne {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 1rem;
+}
+@media (min-width: 600px) {
+  .paiement-ligne {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.confirmation-paiement {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 6px;
+  border-top: 4px solid #c0262d;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+.confirmation-paiement h2 {
+  margin-top: 0;
+}
+.confirmation-paiement .reference {
+  font-size: 0.85rem;
+  color: #555;
+  word-break: break-all;
+}
+
+.billets-entete {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.billets-entete .btn-principal {
+  width: auto;
+  padding: 0.7rem 1.5rem;
+}
+
+.billets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 1rem;
+}
+@media (min-width: 1000px) {
+  .billets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.billet {
+  background-color: #fff;
+  border-radius: 6px;
+  border-left: 6px solid #c0262d;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.billet h3 {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+}
+.billet .billet-lien {
+  font-size: 0.85rem;
+}
+
+.billet-entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed #999;
+  padding-bottom: 0.5rem;
+}
+.billet-entete p {
+  margin: 0;
+}
+
+.billet-festival {
+  font-weight: 700;
+  color: #c0262d;
+}
+
+.billet-ref {
+  font-family: "Courier New", monospace;
+  font-weight: 700;
+}
+
+.billet-infos {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.4rem 1rem;
+  margin: 0 0 1rem;
+}
+.billet-infos dt {
+  font-weight: 600;
+}
+.billet-infos dd {
+  margin: 0;
+}
+
+@media print {
+  .entete,
+  .pieddepage,
+  nav,
+  .billets-entete,
+  .message,
+  .billet-lien {
+    display: none;
+  }
+  .page-billets {
+    background-color: #fff;
+    color: #000;
+  }
+  .page-billets main {
+    padding: 0;
+  }
+  .billets {
+    display: block;
+  }
+  .billet {
+    margin-bottom: 1rem;
+    border: 2px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+  .billet-festival {
+    color: #000;
+  }
+}
 * {
   box-sizing: border-box;
 }
