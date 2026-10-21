@@ -22,3 +22,24 @@ export async function getSoiree(id) {
     const donnees = await reponse.json();
     return donnees.soiree;
 }
+
+
+export async function validerPanier(panier) {
+    const reponse = await fetch(`${API_URL}/commandes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            lignes: panier.map((ligne) => ({
+                idSoiree: ligne.soireeId,
+                nbNormal: ligne.nbNormal,
+                nbReduit: ligne.nbReduit
+            }))
+        })
+    });
+
+    const donnees = await reponse.json();
+    if (!reponse.ok) {
+        throw new Error(donnees.message ?? `Erreur ${reponse.status}`);
+    }
+    return donnees;  
+}

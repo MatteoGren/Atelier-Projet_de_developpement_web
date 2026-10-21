@@ -58,7 +58,20 @@ En déploiement sur docketu, remplacer `localhost` par `docketu.iutnc.univ-lorra
 | API | http://docketu.iutnc.univ-lorraine.fr:31001 |
 | Adminer | http://docketu.iutnc.univ-lorraine.fr:31002 (serveur : `nrv.db`) |
 
-Le VPN de l'université (`vpn.lothaire.net`) est nécessaire. Les ports 31000-31002 ne peuvent être utilisés que par un seul compte à la fois : avant de déployer sur un autre compte, arrêter le déploiement existant (`docker compose down`).
+### Connexion au VPN de l'université
+
+docketu n'est joignable que depuis le réseau de l'université : hors de l'IUT, il faut se connecter au VPN avant toute connexion SSH ou ouverture des URL ci-dessus.
+
+1. Installer **Cisco Secure Client** (anciennement Cisco AnyConnect). Il se télécharge en ouvrant `https://vpn.lothaire.net` dans un navigateur et en se connectant avec ses identifiants universitaires. Sous Linux, `openconnect` fonctionne aussi : `sudo openconnect vpn.lothaire.net`.
+2. Lancer Cisco Secure Client, saisir l'adresse `vpn.lothaire.net`, puis cliquer sur « Connecter ».
+3. S'identifier avec son compte de l'Université de Lorraine (le même identifiant et mot de passe que pour l'ENT).
+4. Une fois connecté, se connecter à docketu en SSH avec ce même identifiant : `ssh identifiant@docketu.iutnc.univ-lorraine.fr`.
+
+Penser à se déconnecter du VPN une fois le travail terminé.
+
+### Déploiement
+
+Les ports 31000-31002 ne peuvent être utilisés que par un seul compte à la fois : avant de déployer sur un autre compte, arrêter le déploiement existant (`docker compose down`).
 
 Premier déploiement :
 
