@@ -1,0 +1,161 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Page Soirée
+
+.soiree-infos {
+    h2 {
+        margin: 0 0 $espace;
+        color: $couleur-principale;
+    }
+
+    p {
+        margin: 0 0 0.5rem;
+    }
+}
+
+
+.soiree-page {
+    display: grid;
+    align-items: start;
+    gap: $espace * 2;
+    margin-top: $espace * 2;
+
+    @include mix.a-partir-de($desktop) {
+        grid-template-columns: 1fr 22rem;
+    }
+
+    >* {
+        min-width: 0; // évite qu'une vidéo fasse déborder la grille
+    }
+
+    h3 {
+        margin: 0 0 $espace;
+    }
+}
+
+// ----- Liste des spectacles
+
+#liste-detail-spectacles {
+    display: grid;
+    gap: $espace;
+    @include mix.colonnes(1);
+
+    // @include mix.a-partir-de($tablette) {
+    //     @include mix.colonnes(2);
+    // }
+
+    article {
+        min-width: 0;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: $espace * 2;
+        background-color: #fff;
+        border-radius: 6px;
+        padding: $espace;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+        @include mix.a-partir-de($tablette) {
+            flex-direction: row;
+        }
+
+        & > div:first-of-type {
+           flex: 2;
+        }
+
+        & > div:last-of-type {
+            flex: 3;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            margin: 0 0 $espace 0;
+            color: $couleur-principale;
+        }
+
+        .artiste {
+            margin: 0 0 $espace 0;
+            font-weight: 600;
+        }
+
+        .description {
+            margin-top: 0;
+            font-style: italic;
+        }
+
+        .video {
+            iframe {
+                display: block;
+                width: 100%;
+                max-width: 100%;
+                aspect-ratio: 16 / 9;
+                border: 0;
+            }
+
+            p {
+                padding-top: $espace;
+                margin: 0;
+            }
+        }
+    }
+}
+
+// ----- Billetterie
+
+.billetterie {
+    padding: $espace * 1.25;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    
+    .sous-total {
+        margin: 0 0 $espace;
+        font-weight: bold;
+    }
+}
+
+.tarif {
+    margin-bottom: $espace;
+
+    label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 0.8rem;
+        font-style: italic;
+        color: #555;
+    }
+}
+
+.quantite {
+    display: grid;
+    grid-template-columns: 3rem 1fr 3rem;
+
+    button,
+    input {
+        min-height: 3rem;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    button {
+        cursor: pointer;
+        color: $couleur-principale;
+    }
+
+    // Les boutons - et + remplacent les flèches natives
+    input[type='number'] {
+        appearance: textfield;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// ---------------------------------- Page Programme (index)
+
+.liste-spectacles {
+    display: grid;
+    gap: $espace;
+    @include mix.colonnes(1);
+
+    @include mix.a-partir-de($tablette) {
+        @include mix.colonnes(2);
+    }
+
+    @include mix.a-partir-de($desktop) {
+        @include mix.colonnes(3);
+    }
+}
+
+.carte-spectacle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+    img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+        // display: block;
+    }
+
+    .infos {
+        padding: $espace;
+
+        h3 {
+            margin: 0 0 0.5rem;
+
+            a::after {
+                content: '';
+                position: absolute;
+                inset: 0; // Le lien recouvre toute la carte
+            }
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+}

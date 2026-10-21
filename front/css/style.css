@@ -1,3 +1,330 @@
+.liste-spectacles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 600px) {
+  .liste-spectacles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1000px) {
+  .liste-spectacles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.carte-spectacle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.carte-spectacle img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.carte-spectacle .infos {
+  padding: 1rem;
+}
+.carte-spectacle .infos h3 {
+  margin: 0 0 0.5rem;
+}
+.carte-spectacle .infos h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.carte-spectacle .infos p {
+  margin: 0;
+}
+
+.soiree-infos h2 {
+  margin: 0 0 1rem;
+  color: #c0262d;
+}
+.soiree-infos p {
+  margin: 0 0 0.5rem;
+}
+
+.soiree-page {
+  display: grid;
+  align-items: start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 1000px) {
+  .soiree-page {
+    grid-template-columns: 1fr 22rem;
+  }
+}
+.soiree-page > * {
+  min-width: 0;
+}
+.soiree-page h3 {
+  margin: 0 0 1rem;
+}
+
+#liste-detail-spectacles {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+#liste-detail-spectacles article {
+  min-width: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2rem;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+@media (min-width: 600px) {
+  #liste-detail-spectacles article {
+    flex-direction: row;
+  }
+}
+#liste-detail-spectacles article > div:first-of-type {
+  flex: 2;
+}
+#liste-detail-spectacles article > div:last-of-type {
+  flex: 3;
+}
+#liste-detail-spectacles article h4 {
+  font-size: 1.4rem;
+  margin: 0 0 1rem 0;
+  color: #c0262d;
+}
+#liste-detail-spectacles article .artiste {
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+#liste-detail-spectacles article .description {
+  margin-top: 0;
+  font-style: italic;
+}
+#liste-detail-spectacles article .video iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16/9;
+  border: 0;
+}
+#liste-detail-spectacles article .video p {
+  padding-top: 1rem;
+  margin: 0;
+}
+
+.billetterie {
+  padding: 1.25rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.billetterie .sous-total {
+  margin: 0 0 1rem;
+  font-weight: bold;
+}
+
+.tarif {
+  margin-bottom: 1rem;
+}
+.tarif label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+.tarif p {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #555;
+}
+
+.quantite {
+  display: grid;
+  grid-template-columns: 3rem 1fr 3rem;
+}
+.quantite button,
+.quantite input {
+  min-height: 3rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+.quantite button {
+  cursor: pointer;
+  color: #c0262d;
+}
+.quantite input[type=number] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+.quantite input[type=number]::-webkit-inner-spin-button, .quantite input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.panier-liste {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 1000px) {
+  .panier-liste {
+    grid-template-columns: minmax(0, 1fr) 20rem;
+  }
+}
+.panier-liste > * {
+  min-width: 0;
+}
+
+.panier-lignes {
+  display: grid;
+  gap: 1rem;
+}
+.panier-lignes .ligne-panier {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+@media (min-width: 600px) {
+  .panier-lignes .ligne-panier {
+    grid-template-columns: minmax(0, 1fr) 11.7rem;
+    gap: 2rem;
+  }
+}
+.panier-lignes #btn-vider-panier {
+  text-align: end;
+}
+
+.infos-soiree {
+  min-width: 0;
+}
+.infos-soiree h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e1e1e;
+}
+.infos-soiree p {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+}
+.infos-soiree .date {
+  color: #c0262d;
+}
+.infos-soiree .lieu {
+  color: #555;
+}
+.infos-soiree .prix-unitaires {
+  margin-top: 1rem;
+}
+.infos-soiree .btn-retirer {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1e1e1e;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.infos-soiree .btn-retirer:hover, .infos-soiree .btn-retirer:focus {
+  color: #c0262d;
+}
+
+.tarifs-panier {
+  min-width: 0;
+}
+.tarifs-panier .tarif-panier {
+  margin-bottom: 1rem;
+}
+.tarifs-panier .tarif-panier label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.tarifs-panier .sous-total {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.quantite {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr) 2.6rem;
+}
+.quantite button,
+.quantite input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background-color: #fff;
+  color: #1e1e1e;
+  font-size: 0.85rem;
+  text-align: center;
+}
+.quantite button {
+  cursor: pointer;
+}
+.quantite button:hover, .quantite button:focus {
+  background-color: #f2f2f2;
+}
+.quantite input[type=number] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+  border-right: 0;
+  border-left: 0;
+}
+.quantite input[type=number]::-webkit-inner-spin-button, .quantite input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.recapitulatif-panier {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.recapitulatif-panier h3 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.recapitulatif-panier p {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+}
+.recapitulatif-panier .total {
+  margin-top: 1rem;
+  font-weight: 700;
+}
+.recapitulatif-panier .note-paiement {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #555;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -59,188 +386,16 @@ main {
   padding: 1rem;
 }
 
-.liste-spectacles {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(1, 1fr);
-}
-@media (min-width: 600px) {
-  .liste-spectacles {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 1000px) {
-  .liste-spectacles {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.carte-spectacle {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-}
-.carte-spectacle img {
+.btn-principal {
   width: 100%;
-  aspect-ratio: 16/10;
-  -o-object-fit: cover;
-     object-fit: cover;
-}
-.carte-spectacle .infos {
-  padding: 1rem;
-}
-.carte-spectacle .infos h3 {
-  margin: 0 0 0.5rem;
-}
-.carte-spectacle .infos h3 a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-.carte-spectacle .infos p {
-  margin: 0;
-}
-
-article.soiree header h2 {
-  margin: 0;
-  color: #c0262d;
-}
-article.soiree h2, article.soiree h3 {
-  margin: 2rem 0 1rem;
-}
-article.soiree .achat {
-  list-style: none;
-  margin: 0 0 1rem;
-  padding: 0;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(1, 1fr);
-}
-@media (min-width: 600px) {
-  article.soiree .achat {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-article.soiree .achat li {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-}
-article.soiree .achat label {
-  flex-grow: 1;
-  font-weight: 600;
-}
-article.soiree .achat p {
-  margin: 0.25rem 0 0 0;
-  font-weight: 400;
-  font-size: 0.85rem;
-  color: #555;
-}
-article.soiree .achat input[type=number] {
-  width: 4.5rem;
-  min-height: 2.75rem;
-  font-size: 1rem;
-  padding: 0.4rem;
-  text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-}
-article.soiree #btn-ajouter {
-  color: #c0262d;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-}
-
-#liste-detail-spectacles {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(1, 1fr);
-}
-@media (min-width: 600px) {
-  #liste-detail-spectacles {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-#liste-detail-spectacles article {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-}
-#liste-detail-spectacles article h4 {
-  color: #c0262d;
-  margin: 0;
-}
-#liste-detail-spectacles article p.artiste {
-  font-weight: 600;
-  margin: 0;
-}
-#liste-detail-spectacles article p.description {
-  font-style: italic;
-  margin-top: 0;
-}
-#liste-detail-spectacles article .video iframe {
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 16/9;
+  padding: 0.9rem;
   border: 0;
-  display: block;
-}
-#liste-detail-spectacles article .video iframe p {
-  padding-top: 1rem;
-}
-
-#contenu-panier {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-#contenu-panier .ligne-panier {
-  background-color: #fff;
   border-radius: 6px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
 }
-#contenu-panier .ligne-panier h3 {
-  margin: 0 0 0.5rem;
-  color: #c0262d;
-}
-#contenu-panier .ligne-panier p {
-  margin: 0 0 0.5rem;
-}
-#contenu-panier .ligne-panier .date {
-  color: #555;
-}
-#contenu-panier .ligne-panier .sous-total {
-  font-weight: 600;
-}
-#contenu-panier .total {
-  margin: 0;
-  text-align: right;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-#contenu-panier .btn-retirer,
-#contenu-panier #btn-vider-panier {
-  align-self: flex-start;
-  color: #c0262d;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
+.btn-principal:hover, .btn-principal:focus {
+  background-color: #c0262d;
 }/*# sourceMappingURL=style.css.map */

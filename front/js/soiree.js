@@ -29,7 +29,7 @@ async function chargerSoiree() {
     try {
         const soiree = await getSoiree(id);
         if (soiree === null) {
-            message.textContent = 'Cette soirée n’existe pas.';
+            message.textContent = 'Cette soirée n\'existe pas.';
             return;
         }
         afficherSoiree(soiree);

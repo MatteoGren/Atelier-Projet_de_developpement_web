@@ -20,7 +20,7 @@ async function chargerSpectacles() {
         }
 
         displaySpectacles(spectacles);
-        message.textContent = `${spectacles.length} spectacles au programme`;
+        message.textContent = `${spectacles.length} spectacles prévus`;
     } catch (erreur) {
         message.textContent = 'Impossible de charger les spectacles. Réessayez plus tard.';
         console.error(erreur);
