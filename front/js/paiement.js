@@ -7,6 +7,12 @@ const idCommande = new URLSearchParams(window.location.search).get('commande');
 function afficherFormulaire(commande) {
     displayPaiement(commande);
 
+    // 16 chiffres au plus, regroupés par 4 : « 1234 5678 9012 3456 ».
+    document.querySelector('#numero-carte').addEventListener('input', (evenement) => {
+        const chiffres = evenement.target.value.replace(/\D/g, '').slice(0, 16);
+        evenement.target.value = chiffres.replace(/(\d{4})(?=\d)/g, '$1 ');
+    });
+
     document.querySelector('#form-paiement').addEventListener('submit', async (evenement) => {
         evenement.preventDefault();
         const formulaire = evenement.currentTarget;

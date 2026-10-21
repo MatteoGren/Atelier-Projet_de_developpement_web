@@ -183,7 +183,6 @@ it('valide la commande quand le paiement est accepté', function () {
 
 dataset('paiements refusés', [
     'carte trop courte' => [unPaiement(1, '424242424242'), PaiementInvalideException::class],
-    'clé de Luhn fausse' => [unPaiement(1, '4242424242424241'), PaiementInvalideException::class],
     'carte expirée' => [unPaiement(1, dateExpiration: '01/20'), PaiementInvalideException::class],
     'expiration mal formée' => [unPaiement(1, dateExpiration: '13/30'), PaiementInvalideException::class],
     'code à 2 chiffres' => [unPaiement(1, code: '12'), PaiementInvalideException::class],

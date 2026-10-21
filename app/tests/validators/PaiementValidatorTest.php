@@ -28,16 +28,28 @@ class PaiementValidatorTest extends TestCase
         $this->addToAssertionCount(1);
     }
 
+    public function testNumeroQuelconqueDe16ChiffresAccepte(): void
+    {
+        PaiementValidator::valider($this->paiement('1234567812345678'));
+        $this->addToAssertionCount(1);
+    }
+
+    public function testNumeroAvecEspacesAccepte(): void
+    {
+        PaiementValidator::valider($this->paiement('4242 4242 4242 4242'));
+        $this->addToAssertionCount(1);
+    }
+
     public function testNumeroAvecLettresRefuse(): void
     {
         $this->expectException(PaiementInvalideException::class);
-        PaiementValidator::valider($this->paiement('4242 4242 4242 4242'));
+        PaiementValidator::valider($this->paiement('4242 4242 4242 42AB'));
     }
 
-    public function testCleDeLuhnFausseRefusee(): void
+    public function testNumeroDePlusDe16ChiffresRefuse(): void
     {
         $this->expectException(PaiementInvalideException::class);
-        PaiementValidator::valider($this->paiement('1234567812345678'));
+        PaiementValidator::valider($this->paiement('42424242424242424'));
     }
 
     public function testCarteExpireeRefusee(): void

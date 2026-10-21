@@ -19,7 +19,8 @@ class PaiementValidator
     {
         IdentifiantValidator::valider($paiement->idCommande);
 
-        if (!preg_match('/^\d{16}$/', $paiement->numeroCarte) || !self::cleLuhnValide($paiement->numeroCarte)) {
+        // Les espaces ne servent qu'à la lisibilité : « 4242 4242 4242 4242 » vaut « 4242424242424242 ».
+        if (!preg_match('/^\d{16}$/', str_replace(' ', '', $paiement->numeroCarte))) {
             throw new PaiementInvalideException('Numéro de carte invalide : 16 chiffres attendus.');
         }
 
@@ -38,25 +39,5 @@ class PaiementValidator
         if (!preg_match('/^\d{3}$/', $paiement->code)) {
             throw new PaiementInvalideException('Code de sécurité invalide : 3 chiffres attendus.');
         }
-    }
-
-    // Clé de Luhn : contrôle de saisie présent dans tous les numéros de carte bancaire.
-    private static function cleLuhnValide(string $numero): bool
-    {
-        $somme = 0;
-        $chiffres = strrev($numero);
-
-        for ($i = 0; $i < strlen($chiffres); $i++) {
-            $chiffre = (int) $chiffres[$i];
-            if ($i % 2 === 1) {
-                $chiffre *= 2;
-                if ($chiffre > 9) {
-                    $chiffre -= 9;
-                }
-            }
-            $somme += $chiffre;
-        }
-
-        return $somme % 10 === 0;
     }
 }

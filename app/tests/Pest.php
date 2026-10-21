@@ -30,7 +30,7 @@ function uneCommande(int $numero): string
     return sprintf('55555555-0000-0000-0000-%012d', $numero);
 }
 
-// Carte de test valide par défaut (clé de Luhn correcte, expiration lointaine)
+// Carte de test valide par défaut (expiration lointaine)
 function unPaiement(int $commande, string $numeroCarte = '4242424242424242', string $dateExpiration = '12/99', string $code = '123'): PaiementDTO
 {
     return new PaiementDTO(uneCommande($commande), UTILISATEUR_TEST, $numeroCarte, $dateExpiration, $code);
