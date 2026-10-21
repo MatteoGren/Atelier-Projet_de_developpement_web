@@ -205,10 +205,16 @@
                 return;
             }
 
+            // Sauvegarde des données utilisateur reçues du serveur
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+            }
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
-            window.location.href = '/';
+
+            // Redirection vers index.html
+            window.location.href = 'index.html';
         } catch (err) {
             notify('Serveur API inaccessible sur le port 31001.', 'error');
         }

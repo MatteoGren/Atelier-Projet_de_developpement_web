@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/panier.js"></script>
+    <script type="module" src="js/auth-header.js"></script>
 </head>
 
 <body>
@@ -20,6 +21,12 @@
         <nav class="Navigation">
             <a href="index.html">Programme</a>
             <a href="panier.html">Panier</a>
+            
+            <a href="auth.html" id="lien-connexion">Connexion</a>
+            <span id="zone-utilisateur" style="display: none;">
+                <span id="nom-utilisateur" style="color: #c85a17;"></span>
+                <a href="#" id="btn-deconnexion" style="text-decoration: underline; color: #000; margin-left: 8px;">> Déconnexion</a>
+            </span>
         </nav>
         <section id="contenu-panier"></section>
 

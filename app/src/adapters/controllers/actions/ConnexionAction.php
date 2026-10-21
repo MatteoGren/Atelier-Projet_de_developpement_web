@@ -34,9 +34,11 @@ final class ConnexionAction
             session_regenerate_id(true);
 
             $_SESSION['user'] = [
-                'id' => $utilisateur->getIdUtilisateur(),
-                'email' => $utilisateur->getEmail(),
-                'role' => $utilisateur->getRole()
+                'id'     => $utilisateur->getIdUtilisateur(),
+                'email'  => $utilisateur->getEmail(),
+                'role'   => $utilisateur->getRole(),
+                'nom'    => $utilisateur->getNom(),    // Adapte selon les méthodes de ton entité
+                'prenom' => $utilisateur->getPrenom(),
             ];
 
             $payload = json_encode([
