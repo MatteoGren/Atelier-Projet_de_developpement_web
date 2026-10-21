@@ -1,3 +1,18 @@
+// Nav commune à toutes les pages : écrite ici une seule fois dans <nav id="nav">.
+const nav = document.getElementById('nav');
+if (nav) {
+    nav.innerHTML = `
+        <a href="index.html">Programme</a>
+        <a href="panier.html">Panier</a>
+        <a href="billets.html">Billets</a>
+
+        <a href="auth.html" id="lien-connexion">> Connexion</a>
+        <span id="zone-utilisateur" style="display: none;">
+            <span id="nom-utilisateur" style="color: #c85a17;"></span>
+            <a href="#" id="btn-deconnexion" style="text-decoration: underline; color: #000; margin-left: 8px;">> Déconnexion</a>
+        </span>`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const lienConnexion = document.getElementById('lien-connexion');
     const zoneUtilisateur = document.getElementById('zone-utilisateur');
