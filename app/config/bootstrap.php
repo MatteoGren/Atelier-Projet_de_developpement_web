@@ -10,7 +10,7 @@ use nrv\adapters\controllers\actions\RegisterAction;
 use nrv\adapters\controllers\actions\ConnexionAction;
 
 use nrv\adapters\config\ContainerConfig;
-use nrv\adapters\controllers\actions\FiltrerParDateAction;
+use nrv\adapters\controllers\actions\FiltrerAction;
 use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\middlewares\Cors;
@@ -41,7 +41,7 @@ $errorHandler->registerErrorRenderer(
 $app->add(Cors::class);
 
 $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
-$app->get('/spectacles/filtre', FiltrerParDateAction::class)->setName('FiltrerSpectacles');
+$app->get('/spectacles/filtre', FiltrerAction::class)->setName('FiltrerSpectacles');
 $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
 
 

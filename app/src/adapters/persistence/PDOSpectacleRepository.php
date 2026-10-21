@@ -67,6 +67,49 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
         return $spectacles; //renvoie un tableau de Spectacle
     }
 
+    public function filtrerParStyle(String $style): array{
+        $stmt = $this->pdo->prepare(
+            'SELECT id, soiree_id, titre, artistes, description, chemin_images, chemin_video, horaire, style
+             FROM spectacle
+             WHERE style LIKE :style');     //selectionne ls valeurs des specatcle dont soiree à la bonne date
+
+        $stmt->execute(['style' => '%'.$style.'%']);
+
+        $spectacles = [];   
+
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {        //on crée le tableau de spectacle
+            $spectacles[] =  $this->versEntite($row);
+        }
+
+        return $spectacles; //renvoie un tableau de Spectacle
+    }
+
+
+    public function filtrer(DateTime $date, String $style): array{
+        $stmt = $this->pdo->prepare(
+            'SELECT id, soiree_id, titre, artistes, description, chemin_images, chemin_video, horaire, style
+             FROM spectacle
+             WHERE style LIKE :style
+             AND soiree_id = (SELECT id
+                                  FROM soiree
+                                  WHERE CAST(date as VARCHAR) LIKE :dateSoiree)                
+                                ');     //selectionne ls valeurs des specatcle dont soiree à la bonne date
+
+        $stmt->execute([
+            'dateSoiree' => $date->format('Y-m-d') .'%',
+            'style' => '%'.$style.'%'
+        ]);
+
+        $spectacles = [];   
+
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {        //on crée le tableau de spectacle
+            $spectacles[] =  $this->versEntite($row);
+        }
+
+        return $spectacles; //renvoie un tableau de Spectacle
+
+    }
+
 
 
 

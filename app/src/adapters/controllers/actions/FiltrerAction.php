@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 
-final class FiltrerParDateAction {
+final class FiltrerAction {
 
     public function __construct(
         private readonly ServiceSpectacleInterface $service
@@ -18,17 +18,19 @@ final class FiltrerParDateAction {
     public function __invoke(ServerRequestInterface $request,ResponseInterface $response,array $args
         ): ResponseInterface {
             $requestdate = $request->getQueryParams()['date'] ?? null;
-            //$rquestStyleMusique = $request->getQueryParams()['style'] ?? null;
+            $requestStyleMusique = $request->getQueryParams()['style'] ?? null;
             try{
-                $dtos = null;
-                if($requestdate != null){
+                $dtos = [];
+                if($requestdate != null && $requestStyleMusique != null){
+                    $date = new DateTime($requestdate);
+                    $dtos = $this->service->filtrer($date, $requestStyleMusique);
+                }elseif($requestdate != null){
                     $date = new DateTime($requestdate);
                     $dtos = $this->service->filtrerParDate($date);
+                }elseif($requestStyleMusique != null){
+                    $dtos = $this->service->filtrerParStyle($requestStyleMusique);
                 }
-                /*if($rquestStyleMusique != null){
-                    $date = new DateTime();
-                    $dtos = $this->service->filtrerParStyle($date);
-                }*/
+                
                 
 
                 return $this->json($response, $dtos, 200);

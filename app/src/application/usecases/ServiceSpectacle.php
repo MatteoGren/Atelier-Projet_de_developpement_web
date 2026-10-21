@@ -35,4 +35,19 @@ class ServiceSpectacle implements ServiceSpectacleInterface
             $this->spectacleRepository->filtrerParDate($date)
         );
     }
+
+    public function filtrerParStyle(String $style): array
+    {
+        return array_map(
+            function ($spectacle) {return SpectacleListeDTO::fromEntity($spectacle);},
+            $this->spectacleRepository->filtrerParStyle($style)
+        );
+    }
+
+    public function filtrer(DateTime $date, String $style): array {
+        return array_map(
+            function ($spectacle) {return SpectacleListeDTO::fromEntity($spectacle);},
+            $this->spectacleRepository->filtrer($date,$style)
+        );
+    }
 }
