@@ -6,15 +6,19 @@ namespace nrv\adapters\config;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use nrv\adapters\persistence\PDOCommandeRepository;
 use nrv\adapters\persistence\PDOSoireeRepository;
 use nrv\adapters\persistence\PDOSpectacleRepository;
 use nrv\adapters\persistence\UtilisateurRepository;
+use nrv\application\ports\api\ServiceCommandeInterface;
 use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use nrv\application\ports\api\ServiceUtilisateurInterface;
+use nrv\application\ports\spi\CommandeRepositoryInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
 use nrv\application\ports\spi\UtilisateurRepositoryInterface;
+use nrv\application\usecases\ServiceCommande;
 use nrv\application\usecases\ServiceSoiree;
 use nrv\application\usecases\ServiceSpectacle;
 use nrv\application\usecases\ServiceUtilisateur;
@@ -68,6 +72,16 @@ class ContainerConfig
             },
             ServiceUtilisateurInterface::class => function (ContainerInterface $c): ServiceUtilisateurInterface {
                 return new ServiceUtilisateur($c->get(UtilisateurRepositoryInterface::class));
+            },
+
+            CommandeRepositoryInterface::class => function (ContainerInterface $c): CommandeRepositoryInterface {
+                return new PDOCommandeRepository($c->get(PDO::class));
+            },
+            ServiceCommandeInterface::class => function (ContainerInterface $c): ServiceCommandeInterface {
+                return new ServiceCommande(
+                    $c->get(SoireeRepositoryInterface::class),
+                    $c->get(CommandeRepositoryInterface::class)
+                );
             },
 
         ]);
