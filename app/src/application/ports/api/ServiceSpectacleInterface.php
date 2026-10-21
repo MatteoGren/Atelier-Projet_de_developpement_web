@@ -16,7 +16,7 @@ interface ServiceSpectacleInterface
 
     public function filtrerParDate(DateTime $date): array;
 
-    public function filtrerParStyle(String $style): array;
+    public function filtrerParStyle(string $style): array;
 
-    public function filtrer(DateTime $date, String $style): array;
+    public function filtrer(DateTime $date, string $style): array;
 }

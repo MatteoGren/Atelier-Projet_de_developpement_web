@@ -51,3 +51,64 @@
         }
     }
 }
+
+// ---------------------------------- Filtres (date, style)
+
+.filtres {
+    display: grid;
+    gap: $espace;
+    margin-bottom: $espace * 1.5;
+    @include mix.colonnes(1);
+
+    @include mix.a-partir-de($tablette) {
+        column-gap: $espace * 1.5;
+        @include mix.colonnes(2);
+    }
+
+    h3 {
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+
+    .champ {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    select {
+        min-height: 2.75rem;
+        padding: 0 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background-color: #fff;
+        color: $couleur-texte;
+        font-size: 1rem;
+
+        &:focus {
+            outline: 2px solid $couleur-principale;
+            outline-offset: 1px;
+        }
+    }
+}
+
+.btn-secondaire {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1px solid $couleur-texte;
+    border-radius: 6px;
+    background-color: #fff;
+    color: $couleur-texte;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        border-color: $couleur-principale;
+        color: $couleur-principale;
+    }
+}

@@ -5,47 +5,68 @@ declare(strict_types=1);
 namespace nrv\adapters\controllers\actions;
 
 use DateTime;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use nrv\application\ports\api\ServiceSpectacleInterface;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
 
-final class FiltrerAction {
+class FiltrerAction
+{
+    private ServiceSpectacleInterface $service;
 
-    public function __construct(
-        private readonly ServiceSpectacleInterface $service
-    ) {}
-
-    public function __invoke(ServerRequestInterface $request,ResponseInterface $response,array $args
-        ): ResponseInterface {
-            $requestdate = $request->getQueryParams()['date'] ?? null;
-            $requestStyleMusique = $request->getQueryParams()['style'] ?? null;
-            try{
-                $dtos = [];
-                if($requestdate != null && $requestStyleMusique != null){
-                    $date = new DateTime($requestdate);
-                    $dtos = $this->service->filtrer($date, $requestStyleMusique);
-                }elseif($requestdate != null){
-                    $date = new DateTime($requestdate);
-                    $dtos = $this->service->filtrerParDate($date);
-                }elseif($requestStyleMusique != null){
-                    $dtos = $this->service->filtrerParStyle($requestStyleMusique);
-                }
-                
-                
-
-                return $this->json($response, $dtos, 200);
-            }catch (\Throwable $e) {
-                return $this->json($response, ['error' => 'Erreur interne du serveur'], 500);
-            }
+    public function __construct(ServiceSpectacleInterface $service)
+    {
+        $this->service = $service;
     }
 
-
-    private function json(ResponseInterface $response, mixed $data, int $status): ResponseInterface
+    public function __invoke(Request $request, Response $response): Response
     {
-        $response->getBody()->write((string) json_encode($data, JSON_THROW_ON_ERROR));
+        $parametres = $request->getQueryParams();
+        $requestDate = trim((string) ($parametres['date'] ?? ''));
+        $requestStyleMusique = trim((string) ($parametres['style'] ?? ''));
 
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($status);
+        // Paramètre vide = filtre non utilisé (« Toutes les dates », « Tous les styles »).
+        $date = $requestDate === '' ? null : $this->lireDate($request, $requestDate);
+
+        if ($date !== null && $requestStyleMusique !== '') {
+            $dtos = $this->service->filtrer($date, $requestStyleMusique);
+        } elseif ($date !== null) {
+            $dtos = $this->service->filtrerParDate($date);
+        } elseif ($requestStyleMusique !== '') {
+            $dtos = $this->service->filtrerParStyle($requestStyleMusique);
+        } else {
+            $dtos = $this->service->listerSpectacles();
+        }
+
+        $donnees = [
+            'type' => 'collection',
+            'count' => count($dtos),
+            'spectacles' => array_map(fn ($dto) => [
+                'spectacle' => $dto->toArray(),
+                'links' => [
+                    'soiree' => ['href' => '/soirees/' . $dto->soireeId],
+                ],
+            ], $dtos),
+            'links' => [
+                'self' => ['href' => '/spectacles/filtre?' . http_build_query(array_filter([
+                    'date' => $requestDate,
+                    'style' => $requestStyleMusique,
+                ]))],
+                'spectacles' => ['href' => '/spectacles'],
+            ],
+        ];
+
+        $response->getBody()->write(json_encode($donnees, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(200);
+    }
+
+    // Date attendue au format AAAA-MM-JJ, sinon erreur 400 (rendue en JSON par Slim).
+    private function lireDate(Request $request, string $texte): DateTime
+    {
+        $date = DateTime::createFromFormat('!Y-m-d', $texte);
+        if ($date === false || $date->format('Y-m-d') !== $texte) {
+            throw new HttpBadRequestException($request, 'Date invalide : format attendu AAAA-MM-JJ.');
+        }
+        return $date;
     }
 }

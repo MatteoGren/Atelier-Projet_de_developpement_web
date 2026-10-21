@@ -1,7 +1,17 @@
 import { API_URL } from './config.js';
 
 export async function getSpectacles() {
-    const reponse = await fetch(`${API_URL}/spectacles`);
+    return chargerListe(`${API_URL}/spectacles`);
+}
+
+// Filtre vide ('') = non utilisé : l'API renvoie alors tous les spectacles.
+export async function getSpectaclesFiltres(date, style) {
+    const parametres = new URLSearchParams({ date, style });
+    return chargerListe(`${API_URL}/spectacles/filtre?${parametres}`);
+}
+
+async function chargerListe(url) {
+    const reponse = await fetch(url);
     if (!reponse.ok) {
         throw new Error(`Erreur ${reponse.status} lors du chargement des spectacles`);
     }

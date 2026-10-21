@@ -22,6 +22,25 @@
         </nav>
         <section>
             <h2 id="titre-spectacles">Accueil / programme</h2>
+
+            <form id="filtres" class="filtres" aria-labelledby="titre-filtres">
+                <h3 id="titre-filtres">Filtrer les spectacles</h3>
+                <div class="champ">
+                    <label for="filtre-date">Date</label>
+                    <select id="filtre-date" name="date">
+                        <option value="">Toutes les dates</option>
+                    </select>
+                </div>
+                <div class="champ">
+                    <label for="filtre-style">Style de musique</label>
+                    <select id="filtre-style" name="style">
+                        <option value="">Tous les styles</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-principal">Appliquer les filtres</button>
+                <button type="reset" class="btn-secondaire">Réinitialiser</button>
+            </form>
+
             <p id="message" class="message" role="status">Chargement des spectacles...</p>
             <div id="liste-spectacles" class="liste-spectacles"></div>
 

@@ -23,8 +23,8 @@ interface SpectacleRepositoryInterface
     public function filtrerParDate(DateTime $date): array;
 
     //fonction pour trier par le style de musique
-    public function filtrerParStyle(String $style): array;
+    public function filtrerParStyle(string $style): array;
 
     //fonction qui englobe les deux filtres
-    public function filtrer(DateTime $date, String $style): array;
+    public function filtrer(DateTime $date, string $style): array;
 }

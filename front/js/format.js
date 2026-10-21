@@ -5,10 +5,21 @@ const formatDate = new Intl.DateTimeFormat('fr-FR', {
     year: 'numeric'
 });
 
+const formatDateCourte = new Intl.DateTimeFormat('fr-FR', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+});
+
 const formatPrix = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' });
 
 export function dateLisible(date) {
     return formatDate.format(new Date(`${date}T00:00`));
+}
+
+export function dateCourte(date) {
+    return formatDateCourte.format(new Date(`${date}T00:00`));
 }
 
 export function prixEuros(prix) {
