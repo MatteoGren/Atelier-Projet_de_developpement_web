@@ -147,7 +147,7 @@
 </div>
 
 <script>
-    const API_BASE_URL = 'http://localhost:31001';
+    const API_BASE_URL = `http://${location.hostname}:31001`;
     const alertBox = document.getElementById('alert-box');
 
     function notify(message, type = 'error') {
@@ -254,7 +254,7 @@
             switchTab('connexion');
             notify('Compte créé avec succès ! Connectez-vous.', 'success');
         } catch (err) {
-            notify('Serveur API inaccessible sur le port 31000.', 'error');
+            notify('Serveur API inaccessible sur le port 31001.', 'error');
         }
     });
 </script>
