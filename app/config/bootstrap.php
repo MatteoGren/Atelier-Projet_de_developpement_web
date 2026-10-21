@@ -36,11 +36,8 @@ $errorHandler->registerErrorRenderer(
 $app->add(Cors::class);
 
 
-
-//$routes = require __DIR__ . '/routes.php';
-//$routes($app);
-
-
+$routes = require __DIR__ . '/api.php';
+$routes($app);
 
 $app->options(
     '/{routes:.+}',

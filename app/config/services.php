@@ -26,8 +26,8 @@ use Psr\Container\ContainerInterface;
          PDO::class => function (ContainerInterface $c): PDO {
                 $dsn = sprintf(
                     'pgsql:host=%s;port=%s;dbname=%s',
-                    $c->get('host') ?? 'nrv.db',
-                    $c->get('port') ?? '5432',
+                    $c->get('host'),
+                    $c->get('port'),
                     $c->get('database')
                 );
                 return new PDO($dsn, $c->get('username'), $c->get('password'), [
@@ -84,7 +84,4 @@ use Psr\Container\ContainerInterface;
             }
             
 
-    ]
-
-
-?>
+    ];

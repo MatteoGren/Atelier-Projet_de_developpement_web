@@ -14,9 +14,9 @@ class ContainerConfig
     {
         $builder = new ContainerBuilder();
 
-        $builder->addDefinitions([__DIR__ . '/settings.php']);
-        $builder->addDefinitions([__DIR__ . '/services.php']);
-        $builder->addDefinitions([__DIR__ . '/api.php']);
+        // Fichiers de définitions rangés dans app/config ; les routes (api.php) sont chargées par bootstrap.php.
+        $builder->addDefinitions(__DIR__ . '/../../../config/settings.php');
+        $builder->addDefinitions(__DIR__ . '/../../../config/services.php');
 
         return $builder->build();
     }
