@@ -66,19 +66,6 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
         return $soiree;
     }
 
-    public function addBillet(Soiree $soiree): void{
-        try {
-            $stmt = $this->pdo->prepare('UPDATE Soiree SET places_vendues = :placesVendues WHERE id = :id');
-
-            $stmt->execute([
-                    ':placesVendues' => $soiree->getPlacesVendues(),
-                    ':id' => $soiree->getId()
-                    ]);
-        }catch (\PDOException $e) {
-            throw new \RuntimeException("Erreur lors de l'ajout du nombre de billet acheté : " . $e->getMessage());
-        }
-    }
-
     public function chargerRecette(Soiree $soiree): int{
          $stmt = $this->pdo->prepare(
             'SELECT SUM(prix)

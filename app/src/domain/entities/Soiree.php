@@ -78,11 +78,6 @@ class Soiree
         return $this->placesVendues;
     }
 
-    public function setPlacesVendues(int $nbBillet): int
-    {
-        return $this->placesVendues += $nbBillet;
-    }
-
     public function getRecette(): float{
         return $this->recette;
     }

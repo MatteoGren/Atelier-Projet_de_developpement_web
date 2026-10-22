@@ -14,6 +14,4 @@ interface SoireeRepositoryInterface
     public function findById(string $id): ?Soiree;
 
     public function findAll(): array;
-
-    public function addBillet(Soiree $soiree): void;
 }
