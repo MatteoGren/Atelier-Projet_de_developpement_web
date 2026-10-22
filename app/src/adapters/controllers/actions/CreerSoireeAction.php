@@ -5,22 +5,35 @@ declare(strict_types=1);
 namespace nrv\adapters\controllers\actions;
 
 use InvalidArgumentException;
+use nrv\adapters\controllers\UtilisateurConnecte;
 use nrv\application\dtos\CreerSoireeDTO;
 use nrv\application\ports\api\ServiceSoireeInterface;
+use nrv\application\ports\spi\UtilisateurRepositoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class CreerSoireeAction
 {
     private ServiceSoireeInterface $serviceSoiree;
+    private UtilisateurRepositoryInterface $utilisateurRepository;
 
-    public function __construct(ServiceSoireeInterface $serviceSoiree)
+    public function __construct(
+        ServiceSoireeInterface $serviceSoiree,
+        UtilisateurRepositoryInterface $utilisateurRepository
+    )
     {
         $this->serviceSoiree = $serviceSoiree;
+        $this->utilisateurRepository = $utilisateurRepository;
     }
 
     public function __invoke(Request $request, Response $response): Response
     {
+        UtilisateurConnecte::exigerRole(
+            $request,
+            $this->utilisateurRepository,
+            ['organisateur', 'administrateur']
+        );
+
         // 1. Récupération sécurisée du body (gère form-data et payload JSON)
         $body = (array) $request->getParsedBody();
         if (empty($body)) {

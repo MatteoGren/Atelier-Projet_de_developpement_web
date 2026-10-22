@@ -1,5 +1,23 @@
 import { creerSpectacle, creerSoiree, getSpectacles } from './api.js';
 
+function verifierAccesBackoffice() {
+    let utilisateur = null;
+
+    try {
+        utilisateur = JSON.parse(localStorage.getItem('user') || 'null');
+    } catch {
+        utilisateur = null;
+    }
+
+    const rolesAutorises = ['organisateur', 'administrateur'];
+    if (!utilisateur || !rolesAutorises.includes(utilisateur.role)) {
+        window.location.replace('auth.html');
+        return false;
+    }
+
+    return true;
+}
+
 window.toggleForm = function (type) {
     const soireeBox = document.getElementById('form-soiree-box');
     const spectacleBox = document.getElementById('form-spectacle-box');
@@ -16,9 +34,11 @@ window.toggleForm = function (type) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ------------------------------------
+    if (!verifierAccesBackoffice()) return;
+
+
+
     // Formulaire Spectacle
-    // ------------------------------------
     const formSpectacle = document.getElementById('form-spectacle');
 
     if (formSpectacle) {
@@ -53,16 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ------------------------------------
     // Formulaire Soirée
-    // ------------------------------------
     const formSoiree = document.getElementById('form-soiree');
 
     if (formSoiree) {
         formSoiree.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // 1. Récupération des IDs des spectacles sélectionnés
+            //Récupération des IDs des spectacles sélectionnés
             const checkboxesCochees = document.querySelectorAll('input[name="spectacles[]"]:checked');
             const spectaclesSelectionnes = Array.from(checkboxesCochees).map(cb => cb.value);
 
@@ -80,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 2. Préparation des données complètes à envoyer au serveur
+            //Préparation des données complètes à envoyer au serveur
             const donneesSoiree = {
                 nom: document.getElementById('nom-soiree').value.trim(),
                 thematique: document.getElementById('thematique').value,
@@ -103,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const compteur = document.getElementById('compteur-spectacles');
                 if (compteur) compteur.textContent = '(0/3)';
 
-                // Recharger les spectacles disponibles (ceux associés vont disparaître de la liste)
+                // Recharger les spectacles disponibles
                 await chargerSpectaclesDisponibles();
 
                 window.toggleForm('soiree');
@@ -125,7 +143,7 @@ async function chargerSpectaclesDisponibles() {
         const spectacles = (await getSpectacles()).filter((spectacle) => !spectacle.idSoiree);
 
         if (!Array.isArray(spectacles) || spectacles.length === 0) {
-            conteneur.innerHTML = '<p style="color: #666; font-size: 0.85rem; margin: 0;">Aucun spectacle libre. Créez d’abord un spectacle, puis associez-le à une soirée.</p>';
+            conteneur.innerHTML = '<p>Aucun spectacle libre. Créez d’abord un spectacle, puis associez-le à une soirée.</p>';
             return;
         }
 
@@ -157,7 +175,7 @@ async function chargerSpectaclesDisponibles() {
 
     } catch (erreur) {
         console.error('Erreur chargement spectacles :', erreur);
-        conteneur.innerHTML = '<p style="color: #c0262d; font-size: 0.85rem; margin: 0;">Impossible de charger les spectacles.</p>';
+        conteneur.innerHTML = '<p>Impossible de charger les spectacles.</p>';
     }
 }
 

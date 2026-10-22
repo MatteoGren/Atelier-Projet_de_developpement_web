@@ -1,11 +1,20 @@
 // Nav commune à toutes les pages : écrite ici une seule fois dans <nav id="nav">.
 const nav = document.getElementById('nav');
+const utilisateurAutorise = (() => {
+    try {
+        const utilisateur = JSON.parse(localStorage.getItem('user') || 'null');
+        return ['organisateur', 'administrateur'].includes(utilisateur?.role);
+    } catch {
+        return false;
+    }
+})();
+
 if (nav) {
     nav.innerHTML = `
         <a href="index.html">Programme</a>
         <a href="billets.html">Mes billets</a>
         <a href="panier.html">Panier</a>
-        <a href="Backoffice.html">Backoffice</a>
+        ${utilisateurAutorise ? '<a href="Backoffice.html">Backoffice</a>' : ''}
 
         <a href="auth.html" id="lien-connexion">Connexion</a>
         <span id="zone-utilisateur" style="display: none;">
@@ -30,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lienConnexion) lienConnexion.style.display = 'none';
             if (zoneUtilisateur) zoneUtilisateur.style.display = 'inline';
 
-            // Formatage : "nom prenom" en minuscules
+            
             const displayName = (user.nom && user.prenom)
                 ? `${user.prenom} ${user.nom}`
                 : (user.email || '');
@@ -60,8 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
 const entete = document.querySelector('.entete');
 const btnMenu = document.getElementById('btn-menu');
 
-btnMenu.addEventListener('click', () => {
-    const menuOuvert = entete.classList.toggle('menu-ouvert');
+if (entete && btnMenu) {
+    btnMenu.addEventListener('click', () => {
+        const menuOuvert = entete.classList.toggle('menu-ouvert');
 
-    btnMenu.textContent = menuOuvert ? 'X' : 'Menu';
-});
+        btnMenu.textContent = menuOuvert ? 'X' : 'Menu';
+    });
+}
