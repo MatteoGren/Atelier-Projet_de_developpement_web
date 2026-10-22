@@ -6,7 +6,7 @@ namespace nrv\application\dtos;
 
 use nrv\domain\entities\Spectacle;
 
-// Vue « liste » d'un spectacle : uniquement ce que la liste affiche.
+// Vue « liste » d'un spectacle : ce que la liste affiche, plus le style pour le filtre.
 final class SpectacleListeDTO
 {
     public readonly string $id;
@@ -15,6 +15,7 @@ final class SpectacleListeDTO
     public readonly string $date;
     public readonly string $horaire;
     public readonly ?string $image;
+    public readonly string $style;
 
     public function __construct(
         string $id,
@@ -22,7 +23,8 @@ final class SpectacleListeDTO
         string $titre,
         string $date,
         string $horaire,
-        ?string $image
+        ?string $image,
+        string $style
     ) {
         $this->id = $id;
         $this->soireeId = $soireeId;
@@ -30,6 +32,7 @@ final class SpectacleListeDTO
         $this->date = $date;
         $this->horaire = $horaire;
         $this->image = $image;
+        $this->style = $style;
     }
 
     public static function fromEntity(Spectacle $spectacle): self
@@ -40,7 +43,8 @@ final class SpectacleListeDTO
             $spectacle->getTitre(),
             $spectacle->getHoraire()->format('Y-m-d'),
             $spectacle->getHoraire()->format('H:i'),
-            $spectacle->getImagePrincipale()
+            $spectacle->getImagePrincipale(),
+            $spectacle->getStyle()
         );
     }
 
@@ -52,6 +56,7 @@ final class SpectacleListeDTO
             'date' => $this->date,
             'horaire' => $this->horaire,
             'image' => $this->image,
+            'style' => $this->style,
         ];
     }
 }

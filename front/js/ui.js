@@ -1,4 +1,4 @@
-import { dateLisible, prixEuros, urlVideoIntegree } from './format.js';
+import { dateCourte, dateLisible, prixEuros, urlVideoIntegree } from './format.js';
 
 export const IMAGE_PAR_DEFAUT = 'img/placeholder.svg';
 
@@ -16,6 +16,24 @@ export function displaySpectacles(spectacles) {
     });
 
     document.querySelector('#liste-spectacles').innerHTML = templateSpectacles({ spectacles: donnees });
+}
+
+// Options des listes déroulantes, tirées du programme complet (dates et styles sans doublon).
+export function displayFiltres(spectacles) {
+    const dates = [...new Set(spectacles.map((spectacle) => spectacle.date))].sort();
+    const styles = [...new Set(spectacles.map((spectacle) => spectacle.style))].sort((a, b) => a.localeCompare(b, 'fr'));
+
+    ajouterOptions('#filtre-date', dates, dateCourte);
+    ajouterOptions('#filtre-style', styles, majuscule);
+}
+
+function ajouterOptions(selecteur, valeurs, libelle) {
+    const liste = document.querySelector(selecteur);
+    valeurs.forEach((valeur) => liste.add(new Option(libelle(valeur), valeur)));
+}
+
+export function majuscule(texte) {
+    return texte.charAt(0).toUpperCase() + texte.slice(1);
 }
 
 export function displaySoiree(soiree) {
@@ -42,4 +60,36 @@ export function displayPanier(panier) {
     const templatePanier = Handlebars.compile(document.querySelector('#tpl-panier').innerHTML);
 
     document.querySelector('#contenu-panier').innerHTML = templatePanier(panier);
+}
+
+export function displayPaiement(commande) {
+    const templatePaiement = Handlebars.compile(document.querySelector('#tpl-paiement').innerHTML);
+
+    document.querySelector('#contenu-paiement').innerHTML = templatePaiement({
+        ...commande,
+        montantFormate: prixEuros(commande.montantTotal)
+    });
+}
+
+export function displayConfirmation(commande) {
+    const templateConfirmation = Handlebars.compile(document.querySelector('#tpl-confirmation').innerHTML);
+
+    document.querySelector('#contenu-paiement').innerHTML = templateConfirmation({
+        ...commande,
+        montantFormate: prixEuros(commande.montantTotal)
+    });
+}
+
+export function displayBillets(billets) {
+    const templateBillets = Handlebars.compile(document.querySelector('#tpl-billets').innerHTML);
+
+    const donnees = billets.map((billet) => ({
+        ...billet,
+        dateFormatee: dateLisible(billet.date),
+        prixFormate: prixEuros(billet.prix),
+        categorieFormatee: billet.categorie === 'reduit' ? 'Tarif réduit' : 'Tarif normal',
+        lienPersonnel: `billets.html?token=${encodeURIComponent(billet.token)}`
+    }));
+
+    document.querySelector('#liste-billets').innerHTML = templateBillets({ billets: donnees });
 }

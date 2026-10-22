@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/panier.js"></script>
+    <script type="module" src="js/auth-header.js"></script>
 </head>
 
 <body>
@@ -17,10 +18,7 @@
     </header>
 
     <main>
-        <nav class="Navigation">
-            <a href="index.html">Programme</a>
-            <a href="panier.html">Panier</a>
-        </nav>
+        <nav class="Navigation" id="nav"></nav>
         <section id="contenu-panier"></section>
 
         <script id="tpl-panier" type="text/x-handlebars-template">
@@ -89,6 +87,7 @@
                     <p class="total">Total : {{total}}</p>
         
                     <button type="button" id="btn-valider" class="btn-principal">Valider</button>
+                    <p id="msg-validation" class="message" role="alert"></p>
         
                     <p class="note-paiement">Connexion / inscription obligatoire pour poursuivre.</p>
                 </aside>

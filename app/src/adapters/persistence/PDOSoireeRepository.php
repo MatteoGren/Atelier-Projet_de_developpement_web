@@ -21,7 +21,7 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
     public function findById(string $id): ?Soiree
     {
         $stmt = $this->pdo->prepare(
-            'SELECT id, nom, thematique, date, lieu, capacite
+            'SELECT id, nom, thematique, date, lieu, capacite, places_vendues
              FROM soiree
              WHERE id = :id'
         );
@@ -38,7 +38,8 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
             $ligne['thematique'],
             new DateTimeImmutable($ligne['date']),
             $ligne['lieu'],
-            (int) $ligne['capacite']
+            (int) $ligne['capacite'],
+            (int) $ligne['places_vendues']
         );
     }
 }

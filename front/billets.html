@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NRV.net - Mes billets</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
+    <script type="module" src="js/billets.js"></script>
+    <script type="module" src="js/auth-header.js"></script>
+</head>
+
+<body class="page-billets">
+    <header class="entete">
+        <h1>Nancy Rock Vibration</h1>
+        <p>Vos billets</p>
+    </header>
+
+    <main>
+        <nav class="Navigation" id="nav"></nav>
+
+        <div class="billets-entete">
+            <h2>Mes billets</h2>
+            <button id="btn-imprimer" type="button" class="btn-principal" hidden>Imprimer</button>
+        </div>
+
+        <p id="message" class="message" role="status">Chargement des billets...</p>
+        <section id="liste-billets" class="billets"></section>
+
+        <script id="tpl-billets" type="text/x-handlebars-template">
+            {{#each billets}}
+                <article class="billet">
+                    <header class="billet-entete">
+                        <p class="billet-festival">NRV.net</p>
+                        <p class="billet-ref">{{ref}}</p>
+                    </header>
+
+                    <h3>{{soiree}}</h3>
+                    <dl class="billet-infos">
+                        <dt>Date</dt>
+                        <dd>{{dateFormatee}}</dd>
+                        <dt>Horaire</dt>
+                        <dd>{{horaire}}</dd>
+                        <dt>Lieu</dt>
+                        <dd>{{lieu}}</dd>
+                        <dt>Acheteur</dt>
+                        <dd>{{acheteur}}</dd>
+                        <dt>Catégorie</dt>
+                        <dd>{{categorieFormatee}} - {{prixFormate}}</dd>
+                    </dl>
+
+                    <a class="billet-lien" href="{{lienPersonnel}}">Lien personnel du billet</a>
+                </article>
+            {{/each}}
+        </script>
+    </main>
+
+    <footer class="pieddepage">
+        <p>NRV.net - Billetterie du festival</p>
+    </footer>
+</body>
+
+</html>

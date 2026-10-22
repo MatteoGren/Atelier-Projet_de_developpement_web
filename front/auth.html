@@ -78,18 +78,37 @@
         .hidden {
             display: none;
         }
+        .alert {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+        .alert-error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+        .alert-success {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
     </style>
 </head>
 <body>
 
 <div class="auth-card">
+    <div id="alert-box" class="alert"></div>
+
     <div class="tabs">
         <button id="btn-connexion" class="tab-btn active" onclick="switchTab('connexion')">Connexion</button>
         <button id="btn-inscription" class="tab-btn" onclick="switchTab('inscription')">Inscription</button>
     </div>
 
     <!-- Formulaire de Connexion -->
-    <form id="form-connexion" action="/connexion" method="POST">
+    <form id="form-connexion">
         <div class="form-group">
             <label for="c-email">Email</label>
             <input type="email" id="c-email" name="email" required placeholder="nom@exemple.com">
@@ -102,7 +121,7 @@
     </form>
 
     <!-- Formulaire d'Inscription -->
-    <form id="form-inscription" action="/register" method="POST" class="hidden">
+    <form id="form-inscription" class="hidden">
         <div class="form-group">
             <label for="r-nom">Nom</label>
             <input type="text" id="r-nom" name="nom" required>
@@ -128,7 +147,22 @@
 </div>
 
 <script>
+    const API_BASE_URL = `http://${location.hostname}:31001`;
+    const alertBox = document.getElementById('alert-box');
+
+    function notify(message, type = 'error') {
+        alertBox.textContent = message;
+        alertBox.className = `alert ${type === 'error' ? 'alert-error' : 'alert-success'}`;
+        alertBox.style.display = 'block';
+    }
+
+    function clearNotification() {
+        alertBox.textContent = '';
+        alertBox.style.display = 'none';
+    }
+
     function switchTab(tab) {
+        clearNotification();
         const formConnexion = document.getElementById('form-connexion');
         const formInscription = document.getElementById('form-inscription');
         const btnConnexion = document.getElementById('btn-connexion');
@@ -146,6 +180,83 @@
             btnInscription.classList.add('active');
         }
     }
+
+    // Traitement Connexion
+    document.getElementById('form-connexion').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearNotification();
+
+        const payload = {
+            email: document.getElementById('c-email').value,
+            motDePasse: document.getElementById('c-motDePasse').value
+        };
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/connexion`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                notify(data.error || data.message || 'Erreur lors de la connexion.', 'error');
+                return;
+            }
+
+            // Sauvegarde des données utilisateur reçues du serveur
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+                if (data.user.id) {
+                    localStorage.setItem('idUtilisateur', data.user.id);
+                }
+            }
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
+
+            // Redirection vers index.html
+            window.location.href = 'index.html';
+        } catch (err) {
+            notify('Serveur API inaccessible sur le port 31001.', 'error');
+        }
+    });
+
+    // Traitement Inscription
+    document.getElementById('form-inscription').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearNotification();
+
+        const payload = {
+            nom: document.getElementById('r-nom').value,
+            prenom: document.getElementById('r-prenom').value,
+            email: document.getElementById('r-email').value,
+            telephone: document.getElementById('r-telephone').value,
+            motDePasse: document.getElementById('r-motDePasse').value
+        };
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                // Affiche l'erreur exacte renvoyée par le ServiceUtilisateur
+                notify(data.error || data.message || "Erreur lors de l'inscription.", 'error');
+                return;
+            }
+
+            switchTab('connexion');
+            notify('Compte créé avec succès ! Connectez-vous.', 'success');
+        } catch (err) {
+            notify('Serveur API inaccessible sur le port 31001.', 'error');
+        }
+    });
 </script>
 
 </body>

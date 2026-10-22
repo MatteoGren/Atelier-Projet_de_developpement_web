@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NRV.net - Paiement</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
+    <script type="module" src="js/paiement.js"></script>
+    <script type="module" src="js/auth-header.js"></script>
+</head>
+
+<body>
+    <header class="entete">
+        <h1>Nancy Rock Vibration</h1>
+        <p>Paiement de votre commande</p>
+    </header>
+
+    <main>
+        <nav class="Navigation" id="nav"></nav>
+
+        <p id="message" class="message" role="status">Chargement de la commande...</p>
+        <section id="contenu-paiement" class="paiement"></section>
+
+        <script id="tpl-paiement" type="text/x-handlebars-template">
+            <h2>Paiement</h2>
+
+            <div class="paiement-grille">
+                <form id="form-paiement" class="carte-paiement" novalidate>
+                    <fieldset>
+                        <legend>Carte bancaire</legend>
+
+                        <label for="numero-carte">Numéro de carte</label>
+                        <input id="numero-carte" name="numeroCarte" type="text" inputmode="numeric" autocomplete="cc-number"
+                               placeholder="1234 5678 9012 3456" maxlength="19" required>
+
+                        <div class="paiement-ligne">
+                            <div>
+                                <label for="date-expiration">Expiration (MM/AA)</label>
+                                <input id="date-expiration" name="dateExpiration" type="text" inputmode="numeric" autocomplete="cc-exp"
+                                       placeholder="MM/AA" maxlength="5" required>
+                            </div>
+                            <div>
+                                <label for="code">Code (3 chiffres)</label>
+                                <input id="code" name="code" type="text" inputmode="numeric" autocomplete="cc-csc"
+                                       placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <p id="msg-paiement" class="message erreur" role="alert"></p>
+                    <button type="submit" class="btn-principal">Payer {{montantFormate}}</button>
+                    <p class="note-paiement">Paiement simulé : aucune donnée de carte n'est enregistrée.</p>
+                </form>
+
+                <aside class="recapitulatif-panier">
+                    <h3>Votre commande</h3>
+                    <p>{{nbBillets}} billet(s)</p>
+                    <p class="total">Total : {{montantFormate}}</p>
+                </aside>
+            </div>
+        </script>
+
+        <script id="tpl-confirmation" type="text/x-handlebars-template">
+            <div class="confirmation-paiement">
+                <h2>Paiement accepté</h2>
+                <p>Votre commande de {{nbBillets}} billet(s) pour un total de {{montantFormate}} est validée.</p>
+                <p class="reference">Numéro de commande : {{id}}</p>
+                <p><a href="billets.html?commande={{id}}">Voir et imprimer mes billets</a></p>
+                <a href="index.html">Retour au programme</a>
+            </div>
+        </script>
+    </main>
+
+    <footer class="pieddepage">
+        <p>NRV.net - Billetterie du festival</p>
+    </footer>
+</body>
+
+</html>
