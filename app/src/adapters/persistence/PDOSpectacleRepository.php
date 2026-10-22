@@ -140,5 +140,30 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
     }
 
 
+    public function associerSoireeAuxSpectacles(string $soireeId, array $spectacleIds): void
+    {
+        if (empty($spectacleIds)) {
+            return;
+        }
+
+        // Crée autant de marqueurs ? que d'identifiants reçus
+        $placeholders = implode(',', array_fill(0, count($spectacleIds), '?'));
+
+        $sql = "UPDATE spectacle
+                SET soiree_id = ?
+                WHERE soiree_id IS NULL AND id IN ($placeholders)";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array_merge([$soireeId], $spectacleIds));
+
+        if ($stmt->rowCount() !== count($spectacleIds)) {
+            throw new \InvalidArgumentException(
+                'Un ou plusieurs spectacles sont introuvables ou déjà associés à une soirée.'
+            );
+        }
+    }
+
+
 
 }

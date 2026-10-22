@@ -30,4 +30,9 @@ class FakeSoireeRepository implements SoireeRepositoryInterface
         }
         return null;
     }
+
+    public function save(Soiree $soiree): void
+    {
+        $this->soirees[] = $soiree;
+    }
 }

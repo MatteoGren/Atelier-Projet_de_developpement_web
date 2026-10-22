@@ -9,7 +9,7 @@ use DateTimeImmutable;
 class Spectacle
 {
     private string $id;
-    private string $soireeId;
+    private ?string $soireeId;
     private string $titre;
     private string $artistes;
     private ?string $description;
@@ -24,7 +24,7 @@ class Spectacle
      */
     public function __construct(
         string $id,
-        string $soireeId,
+        ?string $soireeId,
         string $titre,
         string $artistes,
         ?string $description,
@@ -49,7 +49,7 @@ class Spectacle
         return $this->id;
     }
 
-    public function getSoireeId(): string
+    public function getSoireeId(): ?string
     {
         return $this->soireeId;
     }

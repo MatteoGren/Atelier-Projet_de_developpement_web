@@ -52,7 +52,11 @@ async function chargerListe(url) {
     }
     const donnees = await reponse.json();
     // On garde le lien HATEOAS vers la soirée de chaque spectacle.
-    return donnees.spectacles.map((item) => ({ ...item.spectacle, lienSoiree: item.links.soiree.href }));
+    return donnees.spectacles.map((item) => {
+        const lienSoiree = item.links.soiree?.href ?? null;
+        const idSoiree = item.spectacle.soiree_id ?? null;
+        return { ...item.spectacle, idSoiree, lienSoiree };
+    });
 }
 
 // Renvoie null si la soirée n'existe pas (404) ou si l'identifiant est invalide (400).

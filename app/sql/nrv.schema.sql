@@ -31,7 +31,7 @@ CREATE TABLE soiree (
 -- Spectacles
 CREATE TABLE spectacle (
     id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    soiree_id      UUID NOT NULL REFERENCES soiree(id) ON DELETE CASCADE,
+    soiree_id      UUID REFERENCES soiree(id) ON DELETE CASCADE,
     style          VARCHAR(50) NOT NULL,          
     titre          VARCHAR(150) NOT NULL,
     artistes       VARCHAR(255) NOT NULL,           -- ex : 'Blue Meurthe, Mama Delta'

@@ -55,4 +55,33 @@ class FakeSpectacleRepository implements SpectacleRepositoryInterface
     {
         return (new self($this->filtrerParDate($date)))->filtrerParStyle($style);
     }
+
+    public function save(Spectacle $spectacle): string
+    {
+        $this->spectacles[] = $spectacle;
+        return $spectacle->getId();
+    }
+
+    public function associerSoireeAuxSpectacles(string $soireeId, array $spectacleIds): void
+    {
+        $ids = array_flip($spectacleIds);
+
+        foreach ($this->spectacles as $index => $spectacle) {
+            if (!isset($ids[$spectacle->getId()])) {
+                continue;
+            }
+
+            $this->spectacles[$index] = new Spectacle(
+                $spectacle->getId(),
+                $soireeId,
+                $spectacle->getTitre(),
+                $spectacle->getArtistes(),
+                $spectacle->getDescription(),
+                $spectacle->getImages(),
+                $spectacle->getVideo(),
+                $spectacle->getHoraire(),
+                $spectacle->getStyle()
+            );
+        }
+    }
 }

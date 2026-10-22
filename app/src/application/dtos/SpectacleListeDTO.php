@@ -10,7 +10,7 @@ use nrv\domain\entities\Spectacle;
 final class SpectacleListeDTO
 {
     public readonly string $id;
-    public readonly string $soireeId;
+    public readonly ?string $soireeId;
     public readonly string $titre;
     public readonly string $date;
     public readonly string $horaire;
@@ -19,7 +19,7 @@ final class SpectacleListeDTO
 
     public function __construct(
         string $id,
-        string $soireeId,
+        ?string $soireeId,
         string $titre,
         string $date,
         string $horaire,

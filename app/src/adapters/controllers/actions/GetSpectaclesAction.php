@@ -25,9 +25,13 @@ class GetSpectaclesAction
             'type' => 'collection',
             'count' => count($spectacles),
             'spectacles' => array_map(fn ($dto) => [
-                'spectacle' => $dto->toArray(),
+                'spectacle' => array_merge($dto->toArray(), [
+                    'soiree_id' => $dto->soireeId,
+                ]),
                 'links' => [
-                    'soiree' => ['href' => '/soirees/' . $dto->soireeId],
+                    'soiree' => $dto->soireeId === null
+                        ? null
+                        : ['href' => '/soirees/' . $dto->soireeId],
                 ],
             ], $spectacles),
             'links' => [

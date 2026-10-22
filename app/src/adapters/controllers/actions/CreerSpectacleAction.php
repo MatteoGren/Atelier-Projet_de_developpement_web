@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace nrv\adapters\controllers\actions;
 
-use DateTimeImmutable;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -30,7 +29,7 @@ class CreerSpectacleAction
             'description'  => $body['description'] ?? null,
             'images'       => !empty($body['images']) ? array_map('trim', explode(';', (string)$body['images'])) : [],
             'chemin_video' => $body['chemin_video'] ?? null,
-            'horaire'      => new DateTimeImmutable($body['horaire'] ?? 'now'),
+            'horaire'      => (string) ($body['horaire'] ?? ''),
             'style'        => trim($body['style'] ?? '')
         ];
 

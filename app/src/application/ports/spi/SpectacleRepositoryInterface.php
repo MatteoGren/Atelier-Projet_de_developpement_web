@@ -31,4 +31,6 @@ interface SpectacleRepositoryInterface
     //fonction pour sauvegarder un spectacle dans la base de données
     public function save(Spectacle $spectacle): string;
 
+    public function associerSoireeAuxSpectacles(string $soireeId, array $spectacleIds): void;
+
 }
