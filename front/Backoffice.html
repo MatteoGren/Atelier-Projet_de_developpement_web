@@ -6,23 +6,21 @@
     <title>Nancy Rock Vibration - Backoffice</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/auth-header.js"></script>
+    <script type="module" src="js/backoffice.js"></script>
     <style>
         main.main-large {
             max-width: 1600px;
             width: 95%;
         }
 
-        /* 1. Cache les formulaires par défaut */
         .carte-paiement.form-toggle {
             display: none !important;
         }
 
-        /* 2. Les affiche quand on clique sur le bouton */
         .carte-paiement.form-toggle.visible {
             display: block !important;
         }
 
-        /* 3. Affiche les formulaires côte à côte */
         .backoffice-grille {
             display: grid;
             grid-template-columns: 1fr;
@@ -37,7 +35,6 @@
             }
         }
 
-        /* 4. Bouton actif en rouge */
         .btn-secondaire.active {
             background-color: #c0262d;
             color: #fff;
@@ -133,46 +130,42 @@
             <div id="form-spectacle-box" class="carte-paiement form-toggle">
                 <legend>Ajouter un spectacle</legend>
                 <form id="form-spectacle">
+                    <!-- Soirée rattachée -->
+                    <label for="spectacle-soiree">Soirée ID ou nom</label>
+                    <input type="text" id="spectacle-soiree" name="soiree_id" placeholder="ID de la soirée" required>
+
                     <label for="titre-spectacle">Titre du spectacle</label>
-                    <input type="text" id="titre-spectacle" placeholder="[Titre du spectacle]" required>
+                    <input type="text" id="titre-spectacle" name="titre" placeholder="[Titre du spectacle]" required>
 
                     <label for="artiste-spectacle">Artiste(s)</label>
-                    <input type="text" id="artiste-spectacle" placeholder="[Artiste]" required>
-                    <p style="margin: -0.5rem 0 1rem;"><a href="#">Ajouter un artiste +</a></p>
+                    <input type="text" id="artiste-spectacle" name="artistes" placeholder="Artiste 1, Artiste 2" required>
 
                     <label for="desc-spectacle">Description</label>
-                    <textarea id="desc-spectacle" placeholder="[Description du spectacle] [Texte de présentation]..."></textarea>
+                    <textarea id="desc-spectacle" name="description" placeholder="[Description du spectacle]..."></textarea>
 
                     <div class="paiement-ligne">
-                        <div class="filtres">
-                            <div class="champ">
-                                <label for="style-spectacle">Style musical</label>
-                                <input type="text" id="style-spectacle" name="style_musical" placeholder="ex : Rock, Jazz, Métal..." required>
-                            </div>
+                        <div class="champ">
+                            <label for="style-spectacle">Style musical</label>
+                            <input type="text" id="style-spectacle" name="style" placeholder="ex : Rock, Jazz, Métal..." required>
                         </div>
                         <div>
-                            <label for="horaire-spectacle">Horaire prévisionnel</label>
-                            <input type="time" id="horaire-spectacle">
+                            <label for="horaire-spectacle">Date et horaire</label>
+                            <input type="datetime-local" id="horaire-spectacle" name="horaire" required>
                         </div>
                     </div>
 
                     <label for="img-spectacle">Image(s)</label>
-                    <input type="text" id="img-spectacle" name="images" placeholder="[Image]">
+                    <input type="text" id="img-spectacle" name="images" placeholder="image1.jpg;image2.jpg">
 
-                    <!-- Input fichier caché -->
                     <input type="file" id="selecteur-fichier" accept="image/*" style="display: none;" onchange="document.getElementById('img-spectacle').value = this.files[0]?.name || ''">
-
-                    <!-- Le clic sur ce label ouvre l'explorateur de fichiers -->
                     <p style="margin: -0.5rem 0 0.5rem;">
-                        <label for="selecteur-fichier" style="color: #c0262d; text-decoration: underline; cursor: pointer; font-weight: normal;">
+                        <label for="selecteur-fichier" style="color: #c0262d; text-decoration: underline; cursor: pointer;">
                             Ajouter une image +
                         </label>
                     </p>
-                    <p class="note-paiement" style="margin-bottom: 1rem;">Nom de fichier ou légende.</p>
 
                     <label for="video-spectacle">URL de vidéo</label>
-                    <input type="text" id="video-spectacle" placeholder="[URL de la vidéo]">
-                    <p class="note-paiement">Facultatif. Sans URL, le bouton « Vidéo » est désactivé.</p>
+                    <input type="text" id="video-spectacle" name="chemin_video" placeholder="https://youtube.com/...">
 
                     <div class="paiement-ligne" style="margin-top: 1.5rem;">
                         <button type="submit" class="btn-principal">Enregistrer</button>
@@ -204,6 +197,5 @@
             }
         }
     </script>
-    <script src="js/app.js"></script>
 </body>
 </html>
