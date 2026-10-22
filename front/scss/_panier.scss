@@ -53,9 +53,17 @@
 
     h3 {
         margin: 0 0 0.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        color: $couleur-texte;
+    
+        a {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $couleur-texte;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     p {

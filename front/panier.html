@@ -35,12 +35,12 @@
                     <article class="ligne-panier">
         
                         <div class="infos-soiree">
-                            <h3>{{nom}}</h3>
+                            <h3><a href="/soiree.html?id={{soireeId}}">{{nom}}</a></h3>
                             <p class="date">{{date}}</p>
                             <p class="lieu">{{lieu}}</p>
         
                             <p class="prix-unitaires">
-                                Prix unitaire : normal {{prixNormal}} ·
+                                Prix unitaire : normal {{prixNormal}} •
                                 réduit {{prixReduit}}
                             </p>
         
@@ -51,19 +51,19 @@
         
                             <div class="tarif-panier">
                                 <label>Normal</label>
-                                <div class="quantite">
-                                    <button type="button">-</button>
+                                <div class="quantite" data-soiree-id="{{soireeId}}" data-type="nbNormal">
+                                    <button type="button" class="moins">-</button>
                                     <input type="number" min="0" value="{{nbNormal}}" aria-label="Nombre de billets normaux">
-                                    <button type="button">+</button>
+                                    <button type="button" class="plus">+</button>
                                 </div>
                             </div>
         
                             <div class="tarif-panier">
                                 <label>Réduit</label>
-                                <div class="quantite">
-                                    <button type="button">-</button>
+                                <div class="quantite" data-soiree-id="{{soireeId}}" data-type="nbReduit">
+                                    <button type="button" class="moins">-</button>
                                     <input type="number" min="0" value="{{nbReduit}}">
-                                    <button type="button">+</button>
+                                    <button type="button" class="plus">+</button>
                                 </div>
                             </div>
         
@@ -81,7 +81,7 @@
                 <aside class="recapitulatif-panier">
                     <h3>Montant total</h3>
         
-                    <p>{{nbBillets}} billets · {{nbSoirees}} soirées</p>
+                    <p>{{nbBillets}} billets • {{nbSoirees}} soirées</p>
                     <!-- <p>Sous-total : {{sousTotalGeneral}}</p> -->
         
                     <p class="total">Total : {{total}}</p>
@@ -89,7 +89,7 @@
                     <button type="button" id="btn-valider" class="btn-principal">Valider</button>
                     <p id="msg-validation" class="message" role="alert"></p>
         
-                    <p class="note-paiement">Connexion / inscription obligatoire avant le paiement.</p>
+                    <p class="note-paiement">Connexion / inscription obligatoire pour poursuivre.</p>
                 </aside>
         
             </div>
