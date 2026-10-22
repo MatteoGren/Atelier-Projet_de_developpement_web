@@ -35,7 +35,12 @@
                     <article class="ligne-panier">
         
                         <div class="infos-soiree">
-                            <h3><a href="/soiree.html?id={{soireeId}}">{{nom}}</a></h3>
+                            <h3>
+                                <a href="/soiree.html?id={{soireeId}}">{{nom}}</a> 
+                                {{#if passValide}}
+                                <span>Pass 3 jours</span>
+                                {{/if}}
+                            </h3>
                             <p class="date">{{date}}</p>
                             <p class="lieu">{{lieu}}</p>
         
@@ -66,9 +71,9 @@
                                     <button type="button" class="plus">+</button>
                                 </div>
                             </div>
-        
-                            <p class="sous-total">
-                                Sous-total : {{sousTotal}}
+
+                            <p class="sous-total {{#if passValide}}remise{{/if}}">
+                                Sous-total : <span>{{sousTotalInitial}}</span> <span>{{sousTotal}}</span>
                             </p>
                         </div>
         
@@ -78,20 +83,31 @@
                     <a id="btn-vider-panier">Vider le panier </a>
                 </section>
         
-                <aside class="recapitulatif-panier">
-                    <h3>Montant total</h3>
-        
-                    <p>{{nbBillets}} billets • {{nbSoirees}} soirées</p>
-                    <!-- <p>Sous-total : {{sousTotalGeneral}}</p> -->
-        
-                    <p class="total">Total : {{total}}</p>
-        
-                    <button type="button" id="btn-valider" class="btn-principal">Valider</button>
-                    <p id="msg-validation" class="message" role="alert"></p>
-        
-                    <p class="note-paiement">Connexion / inscription obligatoire pour poursuivre.</p>
-                </aside>
-        
+                <aside > 
+
+                    <div class="presentation-pass">
+                        <h3>Pass 3 jours</h3>
+                    
+                        <p>Pour l'achat de billets pour 3 soirées distinctes, une remise de 3 % est appliquée.</p>
+                    </div>
+
+                    <div class="recapitulatif-panier">
+                        <h3>Montant total</h3>
+                        
+                        <p>{{nbBillets}} billets • {{nbSoirees}} soirées</p>
+                        
+                        <p class="total {{#if contientPass}}remise{{/if}}">
+                            Sous-total : <span>{{totalAvantRemise}}</span> <span>{{total}}</span>
+                        </p>
+                        <!-- <p class="total">Total : {{total}}</p> -->
+                        
+                        <button type="button" id="btn-valider" class="btn-principal">Valider</button>
+                        <p id="msg-validation" class="message" role="alert"></p>
+                        
+                        <p class="note-paiement">Connexion / inscription obligatoire pour poursuivre.</p>
+                    </div> 
+                </aside>   
+   
             </div>
             {{/if}}
         </script>
