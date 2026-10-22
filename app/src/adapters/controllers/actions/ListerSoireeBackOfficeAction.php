@@ -24,7 +24,7 @@ class ListerSoireeBackOfficeAction{
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $id = $args['id'];
+    
 
         // Exceptions applicatives traduites en erreurs HTTP Slim (400 / 404, rendues en JSON).
         try {

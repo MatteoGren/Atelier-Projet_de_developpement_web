@@ -81,13 +81,19 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
 
     public function chargerRecette(Soiree $soiree): int{
          $stmt = $this->pdo->prepare(
-            'SELECT COUNT(*)
+            'SELECT SUM(prix)
              FROM billet
-             WHERE soiree_id = :id'
+             WHERE soiree_id = :id
+             AND commande_id IN (SELECT id
+                                FROM commande
+                                WHERE statut = :statut)'
         );
 
-        $stmt->execute(['id'=> $soiree->getId()]);
-
-        return (int)$stmt;
+        $stmt->execute([
+            'id'=> $soiree->getId(),
+            'statut'=> 'validee'
+            ]);
+        
+        return (int)$stmt->fetchColumn();
     }
 }
