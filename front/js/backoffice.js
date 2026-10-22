@@ -31,10 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: formData.get('description')?.trim() || null,
                 style: formData.get('style')?.trim(),
                 horaire: formData.get('horaire'),
-                
+
                 images: formData.get('images')?.trim() || '',
                 chemin_video: formData.get('chemin_video')?.trim() || null,
-                soiree_id: formData.get('soiree_id')?.trim() || null
             };
 
             const submitBtn = formSpectacle.querySelector('button[type="submit"]');
