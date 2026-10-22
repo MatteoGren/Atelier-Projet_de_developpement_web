@@ -98,7 +98,7 @@ class ServiceSoiree implements ServiceSoireeInterface
 
         return array_map(function ($soiree){
             return new SoireeBackOfficeDTO(
-                $soiree->getId(),
+                $soiree->getNom(),
                 $soiree->getPlacesVendues(),
                 $soiree->getCapacite(),
                 $soiree->getRecette()
