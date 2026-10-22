@@ -10,6 +10,20 @@ export async function getSpectaclesFiltres(date, style) {
     return chargerListe(`${API_URL}/spectacles/filtre?${parametres}`);
 }
 
+// Renvoie { success, id } ; lève une erreur avec le message de l'API en cas d'échec.
+export async function creerSpectacle(payload) {
+    const reponse = await fetch(`${API_URL}/spectacles`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+    const donnees = await reponse.json().catch(() => ({}));
+    if (!reponse.ok) {
+        throw new Error(donnees.error ?? donnees.message ?? `Erreur ${reponse.status}`);
+    }
+    return donnees;
+}
+
 async function chargerListe(url) {
     const reponse = await fetch(url);
     if (!reponse.ok) {

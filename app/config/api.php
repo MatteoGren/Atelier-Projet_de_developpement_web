@@ -11,6 +11,7 @@ use nrv\adapters\controllers\actions\FiltrerAction;
 use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\actions\CreerCommandeAction;
+use nrv\adapters\controllers\actions\CreerSpectacleAction;
 
 
 use nrv\adapters\controllers\actions\RegisterAction;
@@ -24,6 +25,7 @@ use nrv\adapters\controllers\actions\PayerCommandeAction;
 return static function (App $app): void {
         
     $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
+    $app->post('/spectacles[/]', CreerSpectacleAction::class)->setName('CreerSpectacle');
     $app->get('/spectacles/filtre', FiltrerAction::class)->setName('FiltrerSpectacles');
     $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
     $app->post('/commandes', CreerCommandeAction::class);
