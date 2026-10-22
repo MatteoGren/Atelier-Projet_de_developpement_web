@@ -19,4 +19,5 @@ interface ServiceSoireeInterface
 
     public function creerSoiree(CreerSoireeDTO $dto): string;
 
+    public function listerSoireeBackOffice(): array;
 }

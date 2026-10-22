@@ -33,6 +33,15 @@ beforeEach(function () {
             }
             return new Soiree($id, 'Ouverture Électrique', 'Rock', new DateTimeImmutable('2027-06-04 20:00'), 'Place Stanislas', 100);
         }
+
+        public function findAll(): array
+        {
+            return [];
+        }
+
+        public function save(Soiree $soiree): void
+        {
+        }
     };
 
     $utilisateurs = new class implements UtilisateurRepositoryInterface {

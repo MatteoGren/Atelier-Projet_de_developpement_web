@@ -15,4 +15,5 @@ interface SoireeRepositoryInterface
 
     public function save(Soiree $soiree): void;
 
+    public function findAll(): array;
 }

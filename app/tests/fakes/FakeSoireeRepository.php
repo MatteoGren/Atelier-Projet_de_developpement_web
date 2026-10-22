@@ -35,4 +35,9 @@ class FakeSoireeRepository implements SoireeRepositoryInterface
     {
         $this->soirees[] = $soiree;
     }
+
+    public function findAll(): array
+    {
+        return $this->soirees;
+    }
 }

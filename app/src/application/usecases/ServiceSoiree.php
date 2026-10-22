@@ -7,6 +7,7 @@ namespace nrv\application\usecases;
 use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
+use nrv\application\dtos\SoireeBackOfficeDTO;
 use nrv\application\dtos\SoireeDetailDTO;
 use nrv\application\dtos\CreerSoireeDTO;
 use nrv\application\exceptions\SoireeIntrouvableException;
@@ -92,5 +93,17 @@ class ServiceSoiree implements ServiceSoireeInterface
         return $id;
     }
 
+    public function listerSoireeBackOffice(): array{
+        $soirees = $this->soireeRepository->findAll();
 
+        return array_map(function ($soiree){
+            return new SoireeBackOfficeDTO(
+                $soiree->getId(),
+                $soiree->getPlacesVendues(),
+                $soiree->getCapacite(),
+                $soiree->getRecette()
+            );
+        }, $soirees);
+
+    }
 }

@@ -45,6 +45,8 @@ class ServiceCommande implements ServiceCommandeInterface
             if ($soiree === null) {
                 throw new SoireeIntrouvableException($ligne->idSoiree);
             }
+            // Refus dès la commande s'il ne reste pas assez de places (revérifié au paiement).
+            $soiree->verifierPlaces($ligne->nbNormal + $ligne->nbReduit);
             for ($i = 0; $i < $ligne->nbNormal; $i++) {
                 $commande->ajouterBillet($this->nouveauBillet($commande, $soiree, false));
             }
@@ -80,6 +82,8 @@ class ServiceCommande implements ServiceCommandeInterface
             }
             $soiree->verifierPlaces($nbBillets);
         }
+
+        // enregistrerPaiement augmente places_vendues dans la même transaction que la validation.
 
         $commande->payer(new DateTimeImmutable());
         $this->commandeRepository->enregistrerPaiement($commande);

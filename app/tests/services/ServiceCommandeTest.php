@@ -30,6 +30,15 @@ beforeEach(function () {
             $placesVendues = $id === uneSoiree(3) ? 100 : 0;
             return new Soiree($id, 'Soirée test', 'Rock', new DateTimeImmutable('2027-06-04 20:00'), 'Nancy', 100, $placesVendues);
         }
+
+        public function findAll(): array
+        {
+            return [];
+        }
+
+        public function save(Soiree $soiree): void
+        {
+        }
     };
 
     $this->commandes = new class implements CommandeRepositoryInterface {
@@ -151,6 +160,8 @@ dataset('paniers refusés', [
     'identifiant invalide' => [[new LigneCommandeDTO('pas-un-uuid', 1, 0)], IdentifiantInvalideException::class],
     'soirée introuvable' => [[uneLigne(99, 1, 0)], SoireeIntrouvableException::class],
     'soirée introuvable en 2e ligne' => [[uneLigne(1, 1, 0), uneLigne(99, 1, 0)], SoireeIntrouvableException::class],
+    'soirée complète' => [[uneLigne(3, 1, 0)], PlacesInsuffisantesException::class],
+    'plus de billets que de places' => [[uneLigne(1, 60, 41)], PlacesInsuffisantesException::class],
 ]);
 
 it('refuse un panier invalide et ne sauvegarde rien', function (array $lignes, string $exception) {

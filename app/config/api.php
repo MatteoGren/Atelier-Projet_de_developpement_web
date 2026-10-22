@@ -22,6 +22,7 @@ use nrv\adapters\controllers\actions\GetBilletAction;
 use nrv\adapters\controllers\actions\GetBilletsCommandeAction;
 use nrv\adapters\controllers\actions\GetBilletsUtilisateurAction;
 use nrv\adapters\controllers\actions\GetCommandeAction;
+use nrv\adapters\controllers\actions\ListerSoireeBackOfficeAction;
 use nrv\adapters\controllers\actions\PayerCommandeAction;
 
 return static function (App $app): void {
@@ -37,6 +38,7 @@ return static function (App $app): void {
     $app->get('/commandes/{id}/billets[/]', GetBilletsCommandeAction::class)->setName('GetBilletsCommande');
     $app->get('/billets[/]', GetBilletsUtilisateurAction::class)->setName('GetBilletsUtilisateur');
     $app->get('/billets/{token}[/]', GetBilletAction::class)->setName('GetBillet');
+    $app->get('/backOffices[/]', ListerSoireeBackOfficeAction::class)->setName('SoireesJauges');
 
     // Ajout pour des tests perso
     $app->get('/connexion[/]', function (Request $request, Response $response): Response {

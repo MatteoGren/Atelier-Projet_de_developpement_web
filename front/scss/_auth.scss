@@ -1,0 +1,136 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+// Carte connexion / inscription
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    margin: $espace * 2 auto;
+    padding: $espace * 2;
+
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+// Onglets
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: $espace * 2;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: $espace;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+
+    color: $couleur-texte;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &.active {
+        color: $couleur-principale;
+        border-bottom-color: $couleur-principale;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: $couleur-principale;
+    }
+}
+
+// Champs du formulaire
+.auth-card .form-group {
+    margin-bottom: $espace * 1.5;
+}
+
+.auth-card label {
+    display: block;
+    margin-bottom: $espace / 2;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $couleur-texte;
+}
+
+.auth-card input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #fff;
+
+    font: inherit;
+    font-size: 0.95rem;
+
+    &:focus {
+        outline: 2px solid $couleur-principale;
+        outline-offset: 1px;
+        border-color: $couleur-principale;
+    }
+}
+
+// Boutons de validation
+.auth-card button[type="submit"] {
+    width: 100%;
+    margin-top: $espace;
+    padding: 0.9rem;
+
+    border: 0;
+    border-radius: 6px;
+    background-color: $couleur-texte;
+    color: #fff;
+
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+        background-color: $couleur-principale;
+    }
+}
+
+// Alertes
+.auth-card .alert {
+    display: none;
+    margin-bottom: $espace;
+    padding: $espace;
+
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.auth-card .alert-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.auth-card .alert-success {
+    background-color: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+// Formulaire masqué lors du changement d'onglet
+.hidden {
+    display: none !important;
+}
+
+// Adaptation mobile
+@media screen and (max-width: $tablette) {
+    .auth-card {
+        max-width: 100%;
+        margin: $espace auto;
+        padding: $espace * 1.5;
+    }
+}

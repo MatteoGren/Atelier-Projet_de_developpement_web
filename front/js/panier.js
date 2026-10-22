@@ -1,8 +1,8 @@
-import { displayPanier } from './ui.js';
-import { API_URL } from './config.js'; 
+import { displayPanier } from './ui.js'; 
 import { validerPanier } from './api.js';
 
 const CLE = 'nrv_panier';
+const REMISE_PASS = 0.03; 
 
 // -------------------- Prix
 
@@ -94,21 +94,67 @@ export function retirerSoiree(soireeId) {
     ecrirePanier(nouveauPanier);
 }
 
+function modifierQuantite(soireeId, type, nouvelleQuantite) {
+    const quantite = Number(nouvelleQuantite);
+
+    if (!Number.isInteger(quantite) || quantite < 0) {
+        return false;
+    }
+
+    if (type !== 'nbNormal' && type !== 'nbReduit') {
+        return false;
+    }
+
+    const panier = lirePanier();
+    const ligne = panier.find(
+        element => String(element.soireeId) === String(soireeId)
+    );
+
+    if (!ligne) { return false; }
+
+    ligne[type] = quantite;
+
+    if (ligne.nbNormal === 0 && ligne.nbReduit === 0) {
+        retirerSoiree(soireeId);
+    } else {
+        ecrirePanier(panier);
+    }
+
+    return true;
+}
+
 // -------------------- Calcul du panier
 
 export function panierPourAffichage() {
     const panier = lirePanier();
     const lignes = [];
     let totalCentimes = 0;
+    let remiseCentimes = 0;
+
+    const nbPass =  Math.floor(panier.length / 3);
+    const nbSoireesAvecRemise = nbPass * 3;
+    let contientPass = false;
+
+    if (nbPass > 0){
+        contientPass = true;
+    }
 
     for (let i = 0; i < panier.length; i++) {
         const ligne = panier[i];
 
-        const sousTotal =
-            ligne.nbNormal * ligne.prixNormal
-            + ligne.nbReduit * ligne.prixReduit;
+        const sousTotalInitial = ligne.nbNormal * ligne.prixNormal + ligne.nbReduit * ligne.prixReduit;
 
-        totalCentimes += sousTotal;
+        const passValide = i < nbSoireesAvecRemise;
+
+        let remiseLigne = 0;
+        if (passValide) {
+           remiseLigne = Math.round(sousTotalInitial * REMISE_PASS);
+        }
+
+        const sousTotalFinal = sousTotalInitial - remiseLigne;
+
+        remiseCentimes += remiseLigne;
+        totalCentimes += sousTotalFinal;
 
         lignes.push({
             soireeId: ligne.soireeId,
@@ -118,13 +164,21 @@ export function panierPourAffichage() {
             nbReduit: ligne.nbReduit,
             prixNormal: formatPrix(ligne.prixNormal),
             prixReduit: formatPrix(ligne.prixReduit),
-            sousTotal: formatPrix(sousTotal)
+            sousTotalInitial: formatPrix(sousTotalInitial),
+            passValide : passValide,
+            remise: formatPrix(remiseLigne),
+            sousTotal: formatPrix(sousTotalFinal)
         });
     }
 
     return {
         lignes: lignes,
         vide: lignes.length === 0,
+        nbSoirees: lignes.length,
+        nbBillets: nombreBillets(),
+        totalAvantRemise : formatPrix(totalCentimes + remiseCentimes),
+        contientPass : contientPass,
+        remise: formatPrix(remiseCentimes),
         total: formatPrix(totalCentimes)
     };
 }
@@ -162,6 +216,62 @@ if (contenuPanier) {
         const boutonValider = evenement.target.closest('#btn-valider');
         if (boutonValider) {
             validerEtPayer(boutonValider);
+        }
+
+        // -------------------- Gestion de la quantité
+
+        const btnPlus = evenement.target.closest('.plus');
+        const btnMoins = evenement.target.closest('.moins');
+
+        if (!btnPlus && !btnMoins) {
+            return;
+        }
+
+        const divQuantite = evenement.target.closest('.quantite');
+        if (!divQuantite) return;
+
+        const input = divQuantite.querySelector('input');
+        const soireeId = divQuantite.dataset.soireeId;
+        const type = divQuantite.dataset.type;
+
+        if (btnPlus) {
+            const nouvelleQuantite = Number(input.value) + 1;
+
+            if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
+                afficherPanier();
+            }
+        }
+
+        if (btnMoins) {
+            const nouvelleQuantite = Math.max(0, Number(input.value) - 1); // ne pas descendre en dessous de 0
+
+            if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
+                afficherPanier();
+            }
+        }
+
+
+    });
+    
+    contenuPanier.addEventListener('change', (evenement) => {
+        const input = evenement.target;
+
+        if (!input.matches('.quantite input')) { return; }
+
+        const bloc = input.closest('.quantite');
+
+        const soireeId = bloc.dataset.soireeId;
+        const type = bloc.dataset.type;
+
+        const nouvelleQuantite = Number(input.value);
+
+        if (!Number.isInteger(nouvelleQuantite) || nouvelleQuantite < 0) {
+            input.value = 0;
+            return;
+        }
+
+        if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
+            afficherPanier();
         }
     });
 
