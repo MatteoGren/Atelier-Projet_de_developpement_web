@@ -21,6 +21,7 @@ class Soiree
     private string $lieu;
     private int $capacite;
     private int $placesVendues;
+    private float $recette;
 
     public function __construct(
         string $id,
@@ -29,7 +30,8 @@ class Soiree
         DateTimeImmutable $date,
         string $lieu,
         int $capacite,
-        int $placesVendues = 0
+        int $placesVendues = 0,
+        float $recette = 0
     ) {
         $this->id = $id;
         $this->nom = $nom;
@@ -38,6 +40,7 @@ class Soiree
         $this->lieu = $lieu;
         $this->capacite = $capacite;
         $this->placesVendues = $placesVendues;
+        $this->recette = $recette;
     }
 
     public function getId(): string
@@ -73,6 +76,19 @@ class Soiree
     public function getPlacesVendues(): int
     {
         return $this->placesVendues;
+    }
+
+    public function setPlacesVendues(int $nbBillet): int
+    {
+        return $this->placesVendues += $nbBillet;
+    }
+
+    public function getRecette(): float{
+        return $this->recette;
+    }
+
+    public function setRecette(float $recette): float{
+        return $this->recette = $recette;
     }
 
     public function placesDisponibles(): int

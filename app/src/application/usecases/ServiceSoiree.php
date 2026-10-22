@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace nrv\application\usecases;
 
+use nrv\application\dtos\SoireeBackOfficeDTO;
 use nrv\application\dtos\SoireeDetailDTO;
 use nrv\application\exceptions\SoireeIntrouvableException;
 use nrv\application\ports\api\ServiceSoireeInterface;
@@ -36,5 +37,19 @@ class ServiceSoiree implements ServiceSoireeInterface
         $spectacles = $this->spectacleRepository->findBySoireeId($id);
 
         return SoireeDetailDTO::fromEntities($soiree, $spectacles);
+    }
+
+    public function listerSoireeBackOffice(): array{
+        $soirees = $this->soireeRepository->findAll();
+
+        return array_map(function ($soiree){
+            return new SoireeBackOfficeDTO(
+                $soiree->getId(),
+                $soiree->getPlacesVendues(),
+                $soiree->getCapacite(),
+                $soiree->getRecette()
+            );
+        }, $soirees);
+
     }
 }

@@ -79,6 +79,9 @@ class ServiceCommande implements ServiceCommandeInterface
                 throw new SoireeIntrouvableException($idSoiree);
             }
             $soiree->verifierPlaces($nbBillets);
+            
+            $soiree->setPlacesVendues($nbBillets);
+            $this->soireeRepository->addBillet($soiree, $nbBillets);  //ajout du billet apres le paiement et la verification des places
         }
 
         $commande->payer(new DateTimeImmutable());

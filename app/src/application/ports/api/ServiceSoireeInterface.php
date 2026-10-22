@@ -15,4 +15,6 @@ interface ServiceSoireeInterface
      * @throws SoireeIntrouvableException si la soirée n'existe pas
      */
     public function afficherSoiree(string $id): SoireeDetailDTO;
+
+    public function listerSoireeBackOffice(): array;
 }

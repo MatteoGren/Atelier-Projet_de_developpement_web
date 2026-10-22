@@ -18,6 +18,27 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
         $this->pdo = $pdo;
     }
 
+    public function findAll(): array{
+        $stmt = $this->pdo->query('SELECT * FROM soiree');
+        $soirees = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $soiree = new Soiree(
+                $row['id'],
+                $row['nom'],
+                $row['thematique'],
+                new DateTimeImmutable($row['date']),
+                $row['lieu'],
+                (int) $row['capacite'],
+                (int) $row['places_vendues']
+            );
+            $soiree->setRecette($this->chargerRecette($soiree));   //on charge d'abord la recette avant de retourner la soiree
+
+            $soirees[] = $soiree;
+        }
+        return $soirees;
+    }
+
     public function findById(string $id): ?Soiree
     {
         $stmt = $this->pdo->prepare(
@@ -31,8 +52,7 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
         if ($ligne === false) {
             return null;
         }
-
-        return new Soiree(
+        $soiree = new Soiree(
             $ligne['id'],
             $ligne['nom'],
             $ligne['thematique'],
@@ -41,5 +61,33 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
             (int) $ligne['capacite'],
             (int) $ligne['places_vendues']
         );
+        $soiree->setRecette($this->chargerRecette($soiree));   //on charge d'abord la recette avant de retourner la soiree
+
+        return $soiree;
+    }
+
+    public function addBillet(Soiree $soiree): void{
+        try {
+            $stmt = $this->pdo->prepare('UPDATE Soiree SET places_vendues = :placesVendues WHERE id = :id');
+
+            $stmt->execute([
+                    ':placesVendues' => $soiree->getPlacesVendues(),
+                    ':id' => $soiree->getId()
+                    ]);
+        }catch (\PDOException $e) {
+            throw new \RuntimeException("Erreur lors de l'ajout du nombre de billet acheté : " . $e->getMessage());
+        }
+    }
+
+    public function chargerRecette(Soiree $soiree): int{
+         $stmt = $this->pdo->prepare(
+            'SELECT COUNT(*)
+             FROM billet
+             WHERE soiree_id = :id'
+        );
+
+        $stmt->execute(['id'=> $soiree->getId()]);
+
+        return (int)$stmt;
     }
 }
