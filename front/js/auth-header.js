@@ -3,13 +3,13 @@ const nav = document.getElementById('nav');
 if (nav) {
     nav.innerHTML = `
         <a href="index.html">Programme</a>
+        <a href="billets.html">Mes billets</a>
         <a href="panier.html">Panier</a>
-        <a href="billets.html">Billets</a>
 
         <a href="auth.html" id="lien-connexion">> Connexion</a>
         <span id="zone-utilisateur" style="display: none;">
-            <span id="nom-utilisateur" style="color: #c85a17;"></span>
-            <a href="#" id="btn-deconnexion" style="text-decoration: underline; color: #000; margin-left: 8px;">> Déconnexion</a>
+            <a href="#" id="btn-deconnexion"> Déconnexion</a>
+            (<span id="nom-utilisateur"></span>)
         </span>`;
 }
 
@@ -52,4 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.reload();
         });
     }
+});
+
+
+// ------------------- Menu Mobile
+const entete = document.querySelector('.entete');
+const btnMenu = document.getElementById('btn-menu');
+
+btnMenu.addEventListener('click', () => {
+    const menuOuvert = entete.classList.toggle('menu-ouvert');
+
+    btnMenu.textContent = menuOuvert ? 'X' : 'Menu';
 });

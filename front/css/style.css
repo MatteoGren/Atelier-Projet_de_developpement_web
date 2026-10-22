@@ -1,3 +1,56 @@
+.entete {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.entete h1 {
+  margin: 0;
+  color: #c0262d;
+  max-width: 70%;
+}
+.entete a {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+.entete a:not(#btn-deconnexion) {
+  padding-right: 0.5rem;
+}
+.entete a:not(#btn-deconnexion)::after {
+  content: "|";
+  padding-left: 0.5rem;
+}
+
+.entete button {
+  display: none;
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 0;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .entete button {
+    display: inline-block;
+  }
+  .entete nav {
+    display: none;
+    width: 100%;
+  }
+  .entete.menu-ouvert button {
+    color: #c0262d;
+  }
+  .entete.menu-ouvert nav {
+    display: inline;
+  }
+}
 .liste-spectacles {
   display: grid;
   gap: 1rem;
@@ -26,7 +79,8 @@
 .carte-spectacle img {
   width: 100%;
   aspect-ratio: 16/10;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .carte-spectacle .infos {
   padding: 1rem;
@@ -51,7 +105,8 @@
 }
 @media (min-width: 600px) {
   .filtres {
-    column-gap: 1.5rem;
+    -moz-column-gap: 1.5rem;
+         column-gap: 1.5rem;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -215,7 +270,9 @@
   color: #c0262d;
 }
 .quantite input[type=number] {
-  appearance: textfield;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
 }
 .quantite input[type=number]::-webkit-inner-spin-button, .quantite input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -253,7 +310,7 @@
 }
 @media (min-width: 600px) {
   .panier-lignes .ligne-panier {
-    grid-template-columns: minmax(0, 1fr) 11.7rem;
+    grid-template-columns: minmax(0, 1fr) 14rem;
     gap: 2rem;
   }
 }
@@ -275,6 +332,14 @@
 }
 .infos-soiree h3 a:hover {
   text-decoration: underline;
+}
+.infos-soiree h3 span {
+  font-size: 0.7rem;
+  margin-left: 1rem;
+  border-radius: 6px;
+  background-color: #c0262d;
+  color: #fff;
+  padding: 0.5rem;
 }
 .infos-soiree p {
   margin: 0 0 0.5rem;
@@ -319,6 +384,18 @@
   font-size: 0.85rem;
   font-weight: 700;
 }
+.tarifs-panier .sous-total span:last-of-type {
+  display: none;
+}
+.tarifs-panier .sous-total.remise span:first-of-type {
+  text-decoration: line-through;
+  color: #555;
+  font-weight: 500;
+}
+.tarifs-panier .sous-total.remise span:last-of-type {
+  display: inline;
+  color: #c0262d;
+}
 
 .quantite {
   display: grid;
@@ -344,7 +421,9 @@
   background-color: #f2f2f2;
 }
 .quantite input[type=number] {
-  appearance: textfield;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
   border-right: 0;
   border-left: 0;
 }
@@ -353,26 +432,39 @@
   margin: 0;
 }
 
-.recapitulatif-panier {
+.recapitulatif-panier, .presentation-pass {
   background-color: #fff;
   border-radius: 6px;
   padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
 }
-.recapitulatif-panier h3 {
+.recapitulatif-panier h3, .presentation-pass h3 {
   margin: 0 0 1rem;
   font-size: 1.1rem;
   font-weight: 700;
 }
-.recapitulatif-panier p {
+.recapitulatif-panier p, .presentation-pass p {
   margin: 0 0 1rem;
   font-size: 0.8rem;
 }
-.recapitulatif-panier .total {
+.recapitulatif-panier .total, .presentation-pass .total {
   margin-top: 1rem;
   font-weight: 700;
 }
-.recapitulatif-panier .note-paiement {
+.recapitulatif-panier .total span:last-of-type, .presentation-pass .total span:last-of-type {
+  display: none;
+}
+.recapitulatif-panier .total.remise span:first-of-type, .presentation-pass .total.remise span:first-of-type {
+  text-decoration: line-through;
+  color: #555;
+  font-weight: 500;
+}
+.recapitulatif-panier .total.remise span:last-of-type, .presentation-pass .total.remise span:last-of-type {
+  display: inline;
+  color: #c0262d;
+}
+.recapitulatif-panier .note-paiement, .presentation-pass .note-paiement {
   margin: 1rem 0 0;
   font-size: 0.8rem;
   font-style: italic;
@@ -563,7 +655,8 @@
     margin-bottom: 1rem;
     border: 2px solid #000;
     box-shadow: none;
-    break-inside: avoid;
+    -moz-column-break-inside: avoid;
+         break-inside: avoid;
   }
   .billet-festival {
     color: #000;
@@ -583,22 +676,15 @@ body {
   min-height: 100vh;
 }
 
-.entete,
 .pieddepage {
   background-color: #1e1e1e;
   color: #fff;
   padding: 1rem;
   text-align: center;
 }
-.entete h1,
-.entete p,
 .pieddepage h1,
 .pieddepage p {
   margin: 0;
-}
-
-.entete h1 {
-  color: #c0262d;
 }
 
 a {
@@ -607,15 +693,6 @@ a {
 }
 a:hover, a:focus {
   color: #1e1e1e;
-}
-
-nav a {
-  font-weight: bold;
-  text-decoration: none;
-  padding-right: 1rem;
-}
-nav a::before {
-  content: "> ";
 }
 
 .message {
@@ -642,4 +719,4 @@ main {
 }
 .btn-principal:hover, .btn-principal:focus {
   background-color: #c0262d;
-}
+}/*# sourceMappingURL=style.css.map */

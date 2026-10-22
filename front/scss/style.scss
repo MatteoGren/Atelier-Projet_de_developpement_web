@@ -1,5 +1,6 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
+@use '_header.scss';
 @use '_index.scss';
 @use '_soiree.scss';
 @use '_panier.scss';
@@ -21,7 +22,6 @@ body {
     min-height: 100vh;
 }
 
-.entete,
 .pieddepage {
     background-color: $couleur-texte;
     color: #fff;
@@ -34,10 +34,6 @@ body {
     }
 }
 
-.entete h1 {
-    color: $couleur-principale;
-}
-
 a {
     color: $couleur-principale;
     transition: color 0.4s ease;
@@ -47,17 +43,6 @@ a {
         color: $couleur-texte;
     }
 }
-
-nav a {
-    font-weight: bold;
-    text-decoration: none;
-    padding-right: $espace;
-
-    &::before {
-        content: "> ";
-    }
-}
-
 
 .message {
     font-style: italic;

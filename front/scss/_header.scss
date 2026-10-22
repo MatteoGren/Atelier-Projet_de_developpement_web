@@ -1,0 +1,66 @@
+@use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
+
+.entete {
+    background-color: $couleur-texte;
+    padding: $espace;
+    color: #fff;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $espace;
+
+    h1 {
+        margin: 0;
+        color: $couleur-principale;
+        max-width: 70%;
+    }
+
+    a {
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+
+        &:not(#btn-deconnexion) {
+            padding-right: $espace / 2;
+        }
+
+        &:not(#btn-deconnexion)::after {
+            content: "|";
+            padding-left: $espace / 2;
+        }
+    } 
+}
+
+
+.entete button {
+    display: none;
+
+    background-color: $couleur-texte;
+    color: #fff;
+    border: 0;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: $tablette) {
+    .entete button {
+        display: inline-block;
+    }
+
+    .entete nav {
+        display: none;
+        width: 100%;
+    }
+
+    .entete.menu-ouvert button {
+        color: $couleur-principale;
+    }
+
+    .entete.menu-ouvert nav {
+        display: inline;
+    }
+}
