@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Formatage : "nom prenom" en minuscules
             const displayName = (user.nom && user.prenom)
-                ? `${user.nom} ${user.prenom}`.toLowerCase()
+                ? `${user.prenom} ${user.nom}`
                 : (user.email || '');
 
             if (nomUtilisateur) {
