@@ -11,6 +11,7 @@ use nrv\application\exceptions\CommandeInvalideException;
 use nrv\application\exceptions\IdentifiantInvalideException;
 use nrv\application\exceptions\SoireeIntrouvableException;
 use nrv\application\ports\api\ServiceCommandeInterface;
+use nrv\domain\exceptions\PlacesInsuffisantesException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
@@ -52,6 +53,8 @@ class CreerCommandeAction
             $commande = $this->serviceCommande->creerCommande($dto);
         } catch (CommandeInvalideException | IdentifiantInvalideException | SoireeIntrouvableException $e) {
             throw new HttpBadRequestException($request, $e->getMessage());
+        } catch (PlacesInsuffisantesException $e) {
+            throw new HttpException($request, $e->getMessage(), 409, $e);
         }
 
         $donnees = [
