@@ -8,6 +8,20 @@ function afficherSoiree(soiree) {
     displaySoiree(soiree);
     document.title = `NRV.net - ${soiree.nom}`;
 
+    // -------------------- Gestion de la quantité
+    const divQuantite = document.getElementsByClassName('quantite');
+    
+    if (divQuantite) {
+        Array.from(divQuantite).forEach((element) => {
+            const btnMoins = element.querySelector('.moins');
+            const input = element.querySelector('input');
+            const btnPlus = element.querySelector('.plus');
+
+            btnMoins.addEventListener('click', () => { input.value --; });
+            btnPlus.addEventListener('click', () => { input.value ++; });
+        });
+    }
+
     document.querySelector('#btn-ajouter').addEventListener('click', () => {
         const ok = ajouterBillets(
             soiree,
