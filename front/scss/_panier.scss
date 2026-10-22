@@ -36,7 +36,7 @@
         box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
         @include mix.a-partir-de($tablette) {
-            grid-template-columns: minmax(0, 1fr) 11.7rem;
+            grid-template-columns: minmax(0, 1fr) 14rem;
             gap: $espace * 2;
         }
     }
@@ -63,6 +63,15 @@
             &:hover {
                 text-decoration: underline;
             }
+        }
+
+        span {
+            font-size: 0.7rem;
+            margin-left: $espace;
+            border-radius: 6px;
+            background-color: $couleur-principale;
+            color: #fff;
+            padding: $espace / 2;
         }
     }
 
@@ -119,6 +128,23 @@
         margin: 0;
         font-size: 0.85rem;
         font-weight: 700;
+
+        span:last-of-type {
+            display: none;
+        }
+
+        &.remise {
+            span:first-of-type {
+                text-decoration: line-through;
+                color: #555;
+                font-weight: 500;
+            }
+
+            span:last-of-type {
+                display: inline;
+                color: $couleur-principale;
+            }
+        }
     }
 }
 
@@ -166,11 +192,12 @@
 
 // ---------------------------------- Récapitulatif à droite
 
-.recapitulatif-panier {
+.recapitulatif-panier, .presentation-pass {
     background-color: #fff;
     border-radius: 6px;
     padding: $espace;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    margin-bottom: $espace;
 
     h3 {
         margin: 0 0 $espace;
@@ -186,6 +213,23 @@
     .total {
         margin-top: $espace;
         font-weight: 700;
+
+        span:last-of-type {
+            display: none;
+        }
+    
+        &.remise {
+            span:first-of-type {
+                text-decoration: line-through;
+                color: #555;
+                font-weight: 500;
+            }
+    
+            span:last-of-type {
+                display: inline;
+                color: $couleur-principale;
+            }
+        }
     }
 
     .note-paiement {
