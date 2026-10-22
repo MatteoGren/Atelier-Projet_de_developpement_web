@@ -24,6 +24,27 @@ export async function creerSpectacle(payload) {
     return donnees;
 }
 
+
+export async function creerSoiree(payload) {
+    const reponse = await fetch(`${API_URL}/soirees`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...enTeteConnexion() // Inclus si la création nécessite d'être connecté
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const donnees = await reponse.json().catch(() => ({}));
+
+    if (!reponse.ok) {
+        throw new Error(donnees.message ?? donnees.error ?? `Erreur ${reponse.status}`);
+    }
+
+    return donnees;
+}
+
+
 async function chargerListe(url) {
     const reponse = await fetch(url);
     if (!reponse.ok) {

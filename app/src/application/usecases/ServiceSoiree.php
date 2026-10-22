@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace nrv\application\usecases;
 
+use DateTimeImmutable;
+use Exception;
+use InvalidArgumentException;
 use nrv\application\dtos\SoireeDetailDTO;
+use nrv\application\dtos\CreerSoireeDTO;
 use nrv\application\exceptions\SoireeIntrouvableException;
 use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
 use nrv\application\validators\IdentifiantValidator;
+use nrv\domain\entities\Soiree;
+use Ramsey\Uuid\Uuid;
 
 class ServiceSoiree implements ServiceSoireeInterface
 {
@@ -37,4 +43,44 @@ class ServiceSoiree implements ServiceSoireeInterface
 
         return SoireeDetailDTO::fromEntities($soiree, $spectacles);
     }
+
+    public function creerSoiree(CreerSoireeDTO $dto): string
+    {
+        if ($dto->capacite <= 0) {
+            throw new InvalidArgumentException("La capacité doit être strictement positive.");
+        }
+
+        try {
+            $date = new DateTimeImmutable($dto->date);
+        } catch (Exception) {
+            throw new InvalidArgumentException("Format de date invalide.");
+        }
+
+        // Génération d'un UUID (ex: ramsey/uuid ou v4 natif)
+        $id = class_exists(Uuid::class)
+            ? Uuid::uuid4()->toString()
+            : sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+                mt_rand(0, 0xffff),
+                mt_rand(0, 0x0fff) | 0x4000,
+                mt_rand(0, 0x3fff) | 0x8000,
+                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+            );
+
+        $soiree = new Soiree(
+            $id,
+            $dto->nom,
+            $dto->thematique,
+            $date,
+            $dto->lieu,
+            $dto->capacite,
+            0
+        );
+
+        $this->soireeRepository->save($soiree);
+
+        return $id;
+    }
+
+
 }

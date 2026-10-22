@@ -77,13 +77,17 @@
                 <legend>Ajouter une soirée</legend>
                 <form id="form-soiree">
                     <label for="nom-soiree">Nom de la soirée</label>
-                    <input type="text" id="nom-soiree" placeholder="[Nom de la soirée]" required>
+                    <input type="text" id="nom-soiree" placeholder="Ex: Soirée Rock Alternatif" required>
 
                     <div class="filtres" style="margin-bottom: 1rem;">
                         <div class="champ">
                             <label for="thematique">Thématique</label>
-                            <select id="thematique">
-                                <option>[Thématique]</option>
+                            <select id="thematique" required>
+                                <option value="">-- Choisir une thématique --</option>
+                                <option value="Rock">Rock</option>
+                                <option value="Metal">Metal</option>
+                                <option value="Pop-Rock">Pop-Rock</option>
+                                <option value="Electro-Rock">Electro-Rock</option>
                             </select>
                         </div>
                     </div>
@@ -91,33 +95,19 @@
                     <div class="paiement-ligne">
                         <div>
                             <label for="date-soiree">Date</label>
-                            <input type="date" id="date-soiree">
+                            <input type="date" id="date-soiree" required>
                         </div>
                         <div>
                             <label for="horaire-debut">Horaire de début</label>
-                            <input type="time" id="horaire-debut">
+                            <input type="time" id="horaire-debut" value="20:00" required>
                         </div>
                     </div>
 
                     <label for="lieu-soiree">Lieu</label>
-                    <input type="text" id="lieu-soiree" placeholder="[Nom du lieu]">
+                    <input type="text" id="lieu-soiree" placeholder="Ex: L'Autre Canal" required>
 
                     <label for="jauge-soiree">Jauge maximale</label>
-                    <input type="number" id="jauge-soiree" placeholder="[Capacité]">
-
-                    <div class="paiement-ligne">
-                        <div>
-                            <label for="tarif-normal">Tarif normal (€)</label>
-                            <input type="text" id="tarif-normal" placeholder="[Prix] €">
-                        </div>
-                        <div>
-                            <label for="tarif-reduit">Tarif réduit (€)</label>
-                            <input type="text" id="tarif-reduit" placeholder="[Prix] €">
-                        </div>
-                    </div>
-
-                    <label for="cond-tarif">Conditions du tarif réduit</label>
-                    <input type="text" id="cond-tarif" placeholder="[Conditions d'éligibilité]">
+                    <input type="number" id="jauge-soiree" min="1" placeholder="Ex: 500" required>
 
                     <div class="paiement-ligne" style="margin-top: 1rem;">
                         <button type="submit" class="btn-principal">Enregistrer</button>

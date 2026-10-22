@@ -42,4 +42,24 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
             (int) $ligne['places_vendues']
         );
     }
+
+
+    public function save(Soiree $soiree): void
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO soiree (id, nom, thematique, date, lieu, capacite, places_vendues)
+             VALUES (:id, :nom, :thematique, :date, :lieu, :capacite, :places_vendues)'
+        );
+
+        $stmt->execute([
+            'id'             => $soiree->getId(),
+            'nom'            => $soiree->getNom(),
+            'thematique'     => $soiree->getThematique(),
+            'date'           => $soiree->getDate()->format('Y-m-d H:i:s'),
+            'lieu'           => $soiree->getLieu(),
+            'capacite'       => $soiree->getCapacite(),
+            'places_vendues' => $soiree->getPlacesVendues(),
+        ]);
+    }
+
 }

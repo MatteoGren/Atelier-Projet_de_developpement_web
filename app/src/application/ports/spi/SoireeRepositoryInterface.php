@@ -12,4 +12,7 @@ interface SoireeRepositoryInterface
      * @return Soiree|null null si aucune soirée n'a cet identifiant
      */
     public function findById(string $id): ?Soiree;
+
+    public function save(Soiree $soiree): void;
+
 }

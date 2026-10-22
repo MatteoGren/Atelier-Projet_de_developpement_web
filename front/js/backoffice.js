@@ -1,4 +1,4 @@
-import { creerSpectacle } from './api.js';
+import { creerSpectacle, creerSoiree } from './api.js';
 
 window.toggleForm = function (type) {
     const soireeBox = document.getElementById('form-soiree-box');
@@ -8,14 +8,17 @@ window.toggleForm = function (type) {
 
     if (type === 'soiree') {
         const isOpen = soireeBox.classList.toggle('visible');
-        btnSoiree.classList.toggle('active', isOpen);
+        btnSoiree?.classList.toggle('active', isOpen);
     } else if (type === 'spectacle') {
         const isOpen = spectacleBox.classList.toggle('visible');
-        btnSpectacle.classList.toggle('active', isOpen);
+        btnSpectacle?.classList.toggle('active', isOpen);
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ------------------------------------
+    // Formulaire Spectacle
+    // ------------------------------------
     const formSpectacle = document.getElementById('form-spectacle');
 
     if (formSpectacle) {
@@ -23,15 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const formData = new FormData(formSpectacle);
-
-            // On envoie les valeurs brutes attendues par CreerSpectacleAction
             const payload = {
                 titre: formData.get('titre')?.trim(),
                 artistes: formData.get('artistes')?.trim(),
                 description: formData.get('description')?.trim() || null,
                 style: formData.get('style')?.trim(),
                 horaire: formData.get('horaire'),
-
                 images: formData.get('images')?.trim() || '',
                 chemin_video: formData.get('chemin_video')?.trim() || null,
             };
@@ -47,6 +47,49 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error(err);
                 alert(err.message || 'Erreur lors de la création du spectacle.');
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        });
+    }
+
+    // ------------------------------------
+    // Formulaire Soirée
+    // ------------------------------------
+    const formSoiree = document.getElementById('form-soiree');
+
+    if (formSoiree) {
+        formSoiree.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dateVal = document.getElementById('date-soiree').value;
+            const heureVal = document.getElementById('horaire-debut').value || '20:00';
+
+            if (!dateVal) {
+                alert('Veuillez renseigner une date.');
+                return;
+            }
+
+            const donneesSoiree = {
+                nom: document.getElementById('nom-soiree').value.trim(),
+                thematique: document.getElementById('thematique').value,
+                date: `${dateVal} ${heureVal}:00`,
+                lieu: document.getElementById('lieu-soiree').value.trim(),
+                capacite: parseInt(document.getElementById('jauge-soiree').value, 10)
+            };
+
+            const submitBtn = formSoiree.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
+
+            try {
+                const resultat = await creerSoiree(donneesSoiree);
+                alert(`Soirée enregistrée avec succès ! (ID : ${resultat.id || 'OK'})`);
+
+                formSoiree.reset();
+                window.toggleForm('soiree');
+            } catch (err) {
+                console.error(err);
+                alert(`Erreur : ${err.message}`);
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
             }

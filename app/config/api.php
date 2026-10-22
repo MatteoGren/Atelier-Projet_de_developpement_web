@@ -12,6 +12,8 @@ use nrv\adapters\controllers\actions\GetSoireeAction;
 use nrv\adapters\controllers\actions\GetSpectaclesAction;
 use nrv\adapters\controllers\actions\CreerCommandeAction;
 use nrv\adapters\controllers\actions\CreerSpectacleAction;
+use nrv\adapters\controllers\actions\CreerSoireeAction;
+
 
 
 use nrv\adapters\controllers\actions\RegisterAction;
@@ -26,6 +28,7 @@ return static function (App $app): void {
         
     $app->get('/spectacles[/]', GetSpectaclesAction::class)->setName('GetSpectacles');
     $app->post('/spectacles[/]', CreerSpectacleAction::class)->setName('CreerSpectacle');
+    $app->post('/soirees', CreerSoireeAction::class)->setName('CreerSoiree');
     $app->get('/spectacles/filtre', FiltrerAction::class)->setName('FiltrerSpectacles');
     $app->get('/soirees/{id}[/]', GetSoireeAction::class)->setName('GetSoiree');
     $app->post('/commandes', CreerCommandeAction::class);
