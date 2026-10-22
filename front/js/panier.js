@@ -2,7 +2,6 @@ import { displayPanier } from './ui.js';
 import { validerPanier } from './api.js';
 
 const CLE = 'nrv_panier';
-const REMISE_PASS = 0.03; 
 
 // -------------------- Prix
 
@@ -129,32 +128,15 @@ export function panierPourAffichage() {
     const panier = lirePanier();
     const lignes = [];
     let totalCentimes = 0;
-    let remiseCentimes = 0;
-
-    const nbPass =  Math.floor(panier.length / 3);
-    const nbSoireesAvecRemise = nbPass * 3;
-    let contientPass = false;
-
-    if (nbPass > 0){
-        contientPass = true;
-    }
 
     for (let i = 0; i < panier.length; i++) {
         const ligne = panier[i];
 
-        const sousTotalInitial = ligne.nbNormal * ligne.prixNormal + ligne.nbReduit * ligne.prixReduit;
+        const sousTotal =
+            ligne.nbNormal * ligne.prixNormal
+            + ligne.nbReduit * ligne.prixReduit;
 
-        const passValide = i < nbSoireesAvecRemise;
-
-        let remiseLigne = 0;
-        if (passValide) {
-           remiseLigne = Math.round(sousTotalInitial * REMISE_PASS);
-        }
-
-        const sousTotalFinal = sousTotalInitial - remiseLigne;
-
-        remiseCentimes += remiseLigne;
-        totalCentimes += sousTotalFinal;
+        totalCentimes += sousTotal;
 
         lignes.push({
             soireeId: ligne.soireeId,
@@ -164,10 +146,7 @@ export function panierPourAffichage() {
             nbReduit: ligne.nbReduit,
             prixNormal: formatPrix(ligne.prixNormal),
             prixReduit: formatPrix(ligne.prixReduit),
-            sousTotalInitial: formatPrix(sousTotalInitial),
-            passValide : passValide,
-            remise: formatPrix(remiseLigne),
-            sousTotal: formatPrix(sousTotalFinal)
+            sousTotal: formatPrix(sousTotal)
         });
     }
 
@@ -176,9 +155,6 @@ export function panierPourAffichage() {
         vide: lignes.length === 0,
         nbSoirees: lignes.length,
         nbBillets: nombreBillets(),
-        totalAvantRemise : formatPrix(totalCentimes + remiseCentimes),
-        contientPass : contientPass,
-        remise: formatPrix(remiseCentimes),
         total: formatPrix(totalCentimes)
     };
 }
