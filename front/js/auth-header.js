@@ -5,6 +5,7 @@ if (nav) {
         <a href="index.html">Programme</a>
         <a href="panier.html">Panier</a>
         <a href="billets.html">Billets</a>
+        <a href="Backoffice.html">Backoffice</a>
 
         <a href="auth.html" id="lien-connexion">> Connexion</a>
         <span id="zone-utilisateur" style="display: none;">

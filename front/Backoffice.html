@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nancy Rock Vibration - Backoffice</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-header.js"></script>
+    <style>
+        main.main-large {
+            max-width: 1600px;
+            width: 95%;
+        }
+
+        /* 1. Cache les formulaires par défaut */
+        .carte-paiement.form-toggle {
+            display: none !important;
+        }
+
+        /* 2. Les affiche quand on clique sur le bouton */
+        .carte-paiement.form-toggle.visible {
+            display: block !important;
+        }
+
+        /* 3. Affiche les formulaires côte à côte */
+        .backoffice-grille {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            align-items: start;
+        }
+
+        @media (min-width: 900px) {
+            .backoffice-grille {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 4. Bouton actif en rouge */
+        .btn-secondaire.active {
+            background-color: #c0262d;
+            color: #fff;
+            border-color: #c0262d;
+        }
+
+        .carte-paiement textarea {
+            width: 100%;
+            min-height: 5.5rem;
+            margin-bottom: 1rem;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="entete">
+        <h1>Nancy Rock Vibration</h1>
+        <p>Backoffice - Gestion du festival</p>
+    </header>
+
+    <main class="main-large">
+        <nav class="Navigation" id="nav"></nav>
+        <!-- Entête des billets -->
+        <div class="billets-entete" style="justify-content: flex-end;">
+            <div style="display: flex; gap: 1rem;">
+                <button type="button" id="btn-toggle-soiree" class="btn-secondaire" style="width: auto;" onclick="toggleForm('soiree')">Ajouter une soirée</button>
+                <button type="button" id="btn-toggle-spectacle" class="btn-secondaire" style="width: auto;" onclick="toggleForm('spectacle')">Ajouter un spectacle</button>
+            </div>
+        </div>
+
+        <div class="backoffice-grille">
+            
+            <!-- Formulaire Soirée -->
+            <div id="form-soiree-box" class="carte-paiement form-toggle">
+                <legend>Ajouter une soirée</legend>
+                <form id="form-soiree">
+                    <label for="nom-soiree">Nom de la soirée</label>
+                    <input type="text" id="nom-soiree" placeholder="[Nom de la soirée]" required>
+
+                    <div class="filtres" style="margin-bottom: 1rem;">
+                        <div class="champ">
+                            <label for="thematique">Thématique</label>
+                            <select id="thematique">
+                                <option>[Thématique]</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="paiement-ligne">
+                        <div>
+                            <label for="date-soiree">Date</label>
+                            <input type="date" id="date-soiree">
+                        </div>
+                        <div>
+                            <label for="horaire-debut">Horaire de début</label>
+                            <input type="time" id="horaire-debut">
+                        </div>
+                    </div>
+
+                    <label for="lieu-soiree">Lieu</label>
+                    <input type="text" id="lieu-soiree" placeholder="[Nom du lieu]">
+
+                    <label for="jauge-soiree">Jauge maximale</label>
+                    <input type="number" id="jauge-soiree" placeholder="[Capacité]">
+
+                    <div class="paiement-ligne">
+                        <div>
+                            <label for="tarif-normal">Tarif normal (€)</label>
+                            <input type="text" id="tarif-normal" placeholder="[Prix] €">
+                        </div>
+                        <div>
+                            <label for="tarif-reduit">Tarif réduit (€)</label>
+                            <input type="text" id="tarif-reduit" placeholder="[Prix] €">
+                        </div>
+                    </div>
+
+                    <label for="cond-tarif">Conditions du tarif réduit</label>
+                    <input type="text" id="cond-tarif" placeholder="[Conditions d'éligibilité]">
+
+                    <div class="paiement-ligne" style="margin-top: 1rem;">
+                        <button type="submit" class="btn-principal">Enregistrer</button>
+                        <button type="button" class="btn-secondaire" onclick="toggleForm('soiree')">Annuler</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Formulaire Spectacle -->
+            <div id="form-spectacle-box" class="carte-paiement form-toggle">
+                <legend>Ajouter un spectacle</legend>
+                <form id="form-spectacle">
+                    <label for="titre-spectacle">Titre du spectacle</label>
+                    <input type="text" id="titre-spectacle" placeholder="[Titre du spectacle]" required>
+
+                    <label for="artiste-spectacle">Artiste(s)</label>
+                    <input type="text" id="artiste-spectacle" placeholder="[Artiste]" required>
+                    <p style="margin: -0.5rem 0 1rem;"><a href="#">Ajouter un artiste +</a></p>
+
+                    <label for="desc-spectacle">Description</label>
+                    <textarea id="desc-spectacle" placeholder="[Description du spectacle] [Texte de présentation]..."></textarea>
+
+                    <div class="paiement-ligne">
+                        <div class="filtres">
+                            <div class="champ">
+                                <label for="style-spectacle">Style musical</label>
+                                <input type="text" id="style-spectacle" name="style_musical" placeholder="ex : Rock, Jazz, Métal..." required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="horaire-spectacle">Horaire prévisionnel</label>
+                            <input type="time" id="horaire-spectacle">
+                        </div>
+                    </div>
+
+                    <label for="img-spectacle">Image(s)</label>
+                    <input type="text" id="img-spectacle" name="images" placeholder="[Image]">
+
+                    <!-- Input fichier caché -->
+                    <input type="file" id="selecteur-fichier" accept="image/*" style="display: none;" onchange="document.getElementById('img-spectacle').value = this.files[0]?.name || ''">
+
+                    <!-- Le clic sur ce label ouvre l'explorateur de fichiers -->
+                    <p style="margin: -0.5rem 0 0.5rem;">
+                        <label for="selecteur-fichier" style="color: #c0262d; text-decoration: underline; cursor: pointer; font-weight: normal;">
+                            Ajouter une image +
+                        </label>
+                    </p>
+                    <p class="note-paiement" style="margin-bottom: 1rem;">Nom de fichier ou légende.</p>
+
+                    <label for="video-spectacle">URL de vidéo</label>
+                    <input type="text" id="video-spectacle" placeholder="[URL de la vidéo]">
+                    <p class="note-paiement">Facultatif. Sans URL, le bouton « Vidéo » est désactivé.</p>
+
+                    <div class="paiement-ligne" style="margin-top: 1.5rem;">
+                        <button type="submit" class="btn-principal">Enregistrer</button>
+                        <button type="button" class="btn-secondaire" onclick="toggleForm('spectacle')">Annuler</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="pieddepage">
+        <p>&copy; 2026 NRV.net - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        function toggleForm(type) {
+            const soireeBox = document.getElementById('form-soiree-box');
+            const spectacleBox = document.getElementById('form-spectacle-box');
+            const btnSoiree = document.getElementById('btn-toggle-soiree');
+            const btnSpectacle = document.getElementById('btn-toggle-spectacle');
+
+            if (type === 'soiree') {
+                const isOpen = soireeBox.classList.toggle('visible');
+                btnSoiree.classList.toggle('active', isOpen);
+            } else if (type === 'spectacle') {
+                const isOpen = spectacleBox.classList.toggle('visible');
+                btnSpectacle.classList.toggle('active', isOpen);
+            }
+        }
+    </script>
+    <script src="js/app.js"></script>
+</body>
+</html>

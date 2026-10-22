@@ -50,4 +50,26 @@ class ServiceSpectacle implements ServiceSpectacleInterface
             $this->spectacleRepository->filtrer($date,$style)
         );
     }
+
+
+    public function creerSpectacle(array $data): string
+    {
+        // Génération d'un UUID v4 si l'ID n'est pas fourni
+        $id = $data['id'] ?? (function_exists('uuid_create') ? uuid_create() : sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x', mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0x0fff) | 0x4000, mt_rand(0, 0x3fff) | 0x8000, mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)));
+
+        $spectacle = new Spectacle(
+            $id,
+            $data['soiree_id'],
+            $data['titre'],
+            $data['artistes'],
+            $data['description'] ?? null,
+            $data['images'] ?? [],
+            $data['chemin_video'] ?? null,
+            $data['horaire'],
+            $data['style']
+        );
+
+        return $this->spectacleRepository->save($spectacle);
+    }
+
 }

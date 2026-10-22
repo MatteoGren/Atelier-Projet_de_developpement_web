@@ -19,4 +19,8 @@ interface ServiceSpectacleInterface
     public function filtrerParStyle(string $style): array;
 
     public function filtrer(DateTime $date, string $style): array;
+
+    public function creerSpectacle(array $data): string;
+
+
 }

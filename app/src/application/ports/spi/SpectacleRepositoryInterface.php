@@ -27,4 +27,8 @@ interface SpectacleRepositoryInterface
 
     //fonction qui englobe les deux filtres
     public function filtrer(DateTime $date, string $style): array;
+
+    //fonction pour sauvegarder un spectacle dans la base de données
+    public function save(Spectacle $spectacle): string;
+
 }

@@ -112,4 +112,33 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
             $ligne['style']
         );
     }
+
+
+    public function save(Spectacle $spectacle): string
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO spectacle (id, soiree_id, style, titre, artistes, description, chemin_images, chemin_video, horaire)
+             VALUES (:id, :soiree_id, :style, :titre, :artistes, :description, :chemin_images, :chemin_video, :horaire)'
+        );
+
+        // Transformation du tableau d'images en chaîne séparée par des points-virgules
+        $imagesStr = implode(';', $spectacle->getImages());
+
+        $stmt->execute([
+            'id' => $spectacle->getId(),
+            'soiree_id' => $spectacle->getSoireeId(),
+            'style' => $spectacle->getStyle(),
+            'titre' => $spectacle->getTitre(),
+            'artistes' => $spectacle->getArtistes(),
+            'description' => $spectacle->getDescription(),
+            'chemin_images' => $imagesStr !== '' ? $imagesStr : null,
+            'chemin_video' => $spectacle->getVideo(),
+            'horaire' => $spectacle->getHoraire()->format('Y-m-d H:i:s'),
+        ]);
+
+        return $spectacle->getId();
+    }
+
+
+
 }
