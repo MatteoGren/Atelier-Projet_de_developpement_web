@@ -564,6 +564,11 @@
   margin: 0 0 1rem;
   font-size: 0.8rem;
 }
+.recapitulatif-panier #msg-validation, .presentation-pass #msg-validation {
+  color: #b91c1c;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
 .recapitulatif-panier .total, .presentation-pass .total {
   margin-top: 1rem;
   font-weight: 700;
