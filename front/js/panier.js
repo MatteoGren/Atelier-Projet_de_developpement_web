@@ -242,10 +242,6 @@ if (contenuPanier) {
 
         if (modifierQuantite(soireeId, type, nouvelleQuantite)) {
             afficherPanier();
-        // Délégation : le bouton est recréé à chaque affichage du panier.
-        const boutonValider = evenement.target.closest('#btn-valider');
-        if (boutonValider) {
-            validerEtPayer(boutonValider);
         }
     });
 
@@ -259,23 +255,20 @@ function afficherPanier() {
 
 // -------------------- Validation du panier (uniquement dans panier.html)
 
-async function validerEtPayer(bouton) {
-    const message = document.getElementById('msg-validation');
-    bouton.disabled = true;
-    if (message) message.textContent = '';
+const btnValider = document.getElementById('btn-valider');
 
-    try {
-        const resultat = await validerPanier(lirePanier());
-        viderPanier();
-        window.location.href = `paiement.html?commande=${encodeURIComponent(resultat.commande.id)}`;
-    } catch (erreur) {
-        if (erreur.status === 401) {
-            window.location.href = 'auth.html';
-            return;
+if (btnValider) {
+    btnValider.addEventListener('click', async (evenement) => {
+        const message = document.getElementById('msg-validation');
+        evenement.disabled = true;
+
+        try {
+            const resultat = await validerPanier(lirePanier());
+            viderPanier();
+            // window.location.href = `paiement.html?commande=${encodeURIComponent(resultat.commande.id)}`;
+        } catch (erreur) {
+            message.textContent = erreur.message;
+            bouton.disabled = false;
         }
-        if (message) {
-            message.textContent = erreur.message || 'Une erreur est survenue lors de la commande.';
-        }
-        bouton.disabled = false;
-    }
+    });
 }
