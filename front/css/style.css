@@ -18,12 +18,16 @@
   font-weight: bold;
   text-decoration: none;
 }
-.entete a:not(#btn-deconnexion) {
+.entete a:not(#btn-deconnexion, #lien-connexion) {
   padding-right: 0.5rem;
 }
-.entete a:not(#btn-deconnexion)::after {
+.entete a:not(#btn-deconnexion, #lien-connexion)::after {
   content: "|";
   padding-left: 0.5rem;
+}
+.entete a:hover {
+  color: #fff;
+  text-decoration: underline;
 }
 
 .entete button {
@@ -279,6 +283,118 @@
   margin: 0;
 }
 
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  color: #1e1e1e;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.tab-btn.active {
+  color: #c0262d;
+  border-bottom-color: #c0262d;
+}
+.tab-btn:hover, .tab-btn:focus-visible {
+  color: #c0262d;
+}
+
+.auth-card .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.auth-card label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e1e1e;
+}
+
+.auth-card input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+}
+.auth-card input:focus {
+  outline: 2px solid #c0262d;
+  outline-offset: 1px;
+  border-color: #c0262d;
+}
+
+.auth-card button[type=submit] {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 0;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.auth-card button[type=submit]:hover, .auth-card button[type=submit]:focus-visible {
+  background-color: #c0262d;
+}
+
+.auth-card .alert {
+  display: none;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.auth-card .alert-error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.auth-card .alert-success {
+  background-color: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+  .auth-card {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 1.5rem;
+  }
+}
 .panier-liste {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

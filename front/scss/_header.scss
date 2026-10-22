@@ -23,13 +23,18 @@
         font-weight: bold;
         text-decoration: none;
 
-        &:not(#btn-deconnexion) {
+        &:not(#btn-deconnexion, #lien-connexion) {
             padding-right: $espace / 2;
+
+            &::after {
+                content: "|";
+                padding-left: $espace / 2;
+            }
         }
 
-        &:not(#btn-deconnexion)::after {
-            content: "|";
-            padding-left: $espace / 2;
+        &:hover {
+            color: #fff;
+            text-decoration: underline;
         }
     } 
 }

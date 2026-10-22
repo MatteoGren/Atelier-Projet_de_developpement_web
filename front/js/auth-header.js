@@ -6,7 +6,7 @@ if (nav) {
         <a href="billets.html">Mes billets</a>
         <a href="panier.html">Panier</a>
 
-        <a href="auth.html" id="lien-connexion">> Connexion</a>
+        <a href="auth.html" id="lien-connexion">Connexion</a>
         <span id="zone-utilisateur" style="display: none;">
             <a href="#" id="btn-deconnexion"> Déconnexion</a>
             (<span id="nom-utilisateur"></span>)
