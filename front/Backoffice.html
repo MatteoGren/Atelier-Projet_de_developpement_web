@@ -18,6 +18,7 @@
             }
         })();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/auth-header.js"></script>
     <script type="module" src="js/backoffice.js"></script>
     <style>
@@ -129,6 +130,21 @@
                         <div id="liste-spectacles-selection" class="liste-spectacles-selection">
                             <p style="color: #888; font-size: 0.85rem; margin: 0;">Chargement des spectacles disponibles...</p>
                         </div>
+
+                        <script id="tpl-spectacles-libres" type="text/x-handlebars-template">
+                            {{#if erreur}}
+                            <p>Impossible de charger les spectacles.</p>
+                            {{else}}
+                            {{#each spectacles}}
+                            <label class="item-spectacle">
+                                <input type="checkbox" name="spectacles[]" value="{{id}}">
+                                <span>{{texteComplet}}</span>
+                            </label>
+                            {{else}}
+                            <p>Aucun spectacle libre. Créez d’abord un spectacle, puis associez-le à une soirée.</p>
+                            {{/each}}
+                            {{/if}}
+                        </script>
                         
                         <p class="texte-aide">
                             Associer 2 à 3 spectacles non programmés. La date doit appartenir aux 2 semaines du festival. La soirée enregistrée est publiée dans le programme visiteur.

@@ -38,6 +38,12 @@
                 <button type="reset" class="btn-secondaire">Réinitialiser</button>
             </form>
 
+            <script id="tpl-options" type="text/x-handlebars-template">
+                {{#each options}}
+                <option value="{{valeur}}">{{libelle}}</option>
+                {{/each}}
+            </script>
+
             <p id="message" class="message" role="status">Chargement des spectacles...</p>
             <div id="liste-spectacles" class="liste-spectacles"></div>
 

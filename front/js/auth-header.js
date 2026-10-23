@@ -1,3 +1,5 @@
+import { displayNav } from './ui.js';
+
 // Nav commune à toutes les pages : écrite ici une seule fois dans <nav id="nav">.
 const nav = document.getElementById('nav');
 const utilisateurAutorise = (() => {
@@ -10,17 +12,7 @@ const utilisateurAutorise = (() => {
 })();
 
 if (nav) {
-    nav.innerHTML = `
-        <a href="index.html">Programme</a>
-        <a href="billets.html">Mes billets</a>
-        <a href="panier.html">Panier</a>
-        ${utilisateurAutorise ? '<a href="Backoffice.html">Backoffice</a>' : ''}
-
-        <a href="auth.html" id="lien-connexion">Connexion</a>
-        <span id="zone-utilisateur" style="display: none;">
-            <a href="#" id="btn-deconnexion"> Déconnexion</a>
-            (<span id="nom-utilisateur"></span>)
-        </span>`;
+    displayNav(nav, utilisateurAutorise);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

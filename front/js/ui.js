@@ -27,9 +27,13 @@ export function displayFiltres(spectacles) {
     ajouterOptions('#filtre-style', styles, majuscule);
 }
 
+// Ajoutées après l'option « Toutes les … » déjà écrite dans la page.
 function ajouterOptions(selecteur, valeurs, libelle) {
-    const liste = document.querySelector(selecteur);
-    valeurs.forEach((valeur) => liste.add(new Option(libelle(valeur), valeur)));
+    const templateOptions = Handlebars.compile(document.querySelector('#tpl-options').innerHTML);
+
+    const options = valeurs.map((valeur) => ({ valeur, libelle: libelle(valeur) }));
+
+    document.querySelector(selecteur).insertAdjacentHTML('beforeend', templateOptions({ options }));
 }
 
 export function majuscule(texte) {
@@ -78,6 +82,42 @@ export function displayConfirmation(commande) {
         ...commande,
         montantFormate: prixEuros(commande.montantTotal)
     });
+}
+
+// Le template de la nav est ici et pas dans les pages : il est commun aux 7 pages.
+const TEMPLATE_NAV = `
+    <a href="index.html">Programme</a>
+    <a href="billets.html">Mes billets</a>
+    <a href="panier.html">Panier</a>
+    {{#if backoffice}}<a href="Backoffice.html">Backoffice</a>{{/if}}
+
+    <a href="auth.html" id="lien-connexion">Connexion</a>
+    <span id="zone-utilisateur" style="display: none;">
+        <a href="#" id="btn-deconnexion"> Déconnexion</a>
+        (<span id="nom-utilisateur"></span>)
+    </span>`;
+
+export function displayNav(nav, backoffice) {
+    const templateNav = Handlebars.compile(TEMPLATE_NAV);
+
+    nav.innerHTML = templateNav({ backoffice });
+}
+
+// erreur = true : le chargement a échoué ; liste vide : le template affiche « Aucun spectacle libre ».
+export function displaySpectaclesLibres(spectacles, erreur = false) {
+    const templateSpectaclesLibres = Handlebars.compile(document.querySelector('#tpl-spectacles-libres').innerHTML);
+
+    const donnees = spectacles.map((spectacle) => {
+        // Concaténation avec des points médians comme sur la maquette
+        const details = [spectacle.artistes || spectacle.artiste || '', spectacle.style || ''].filter(Boolean).join(' · ');
+        const titre = spectacle.titre || 'Sans titre';
+        return {
+            id: spectacle.id,
+            texteComplet: details ? `${titre} · ${details}` : titre
+        };
+    });
+
+    document.querySelector('#liste-spectacles-selection').innerHTML = templateSpectaclesLibres({ spectacles: donnees, erreur });
 }
 
 export function displayBillets(billets) {

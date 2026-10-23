@@ -44,6 +44,28 @@ export async function creerSoiree(payload) {
     return donnees;
 }
 
+// Renvoie { user, token } ; lève une erreur avec le message de l'API en cas d'échec.
+export async function connexion(payload) {
+    return envoyerFormulaireAuth(`${API_URL}/connexion`, payload, 'Erreur lors de la connexion.');
+}
+
+export async function inscription(payload) {
+    return envoyerFormulaireAuth(`${API_URL}/register`, payload, "Erreur lors de l'inscription.");
+}
+
+async function envoyerFormulaireAuth(url, payload, messageParDefaut) {
+    const reponse = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+    const donnees = await reponse.json().catch(() => ({}));
+    if (!reponse.ok) {
+        throw new Error(donnees.error || donnees.message || messageParDefaut);
+    }
+    return donnees;
+}
+
 
 async function chargerListe(url) {
     const reponse = await fetch(url);

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NRV.net - Connexion / inscription</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/auth-header.js"></script>
 </head>
 <body>
@@ -20,8 +21,8 @@
             <div id="alert-box" class="alert"></div>
 
             <div class="tabs">
-                <button id="btn-connexion" class="tab-btn active" onclick="switchTab('connexion')">Connexion</button>
-                <button id="btn-inscription" class="tab-btn" onclick="switchTab('inscription')">Inscription</button>
+                <button id="btn-connexion" class="tab-btn active" type="button">Connexion</button>
+                <button id="btn-inscription" class="tab-btn" type="button">Inscription</button>
             </div>
 
             <!-- Formulaire de Connexion -->
@@ -68,117 +69,6 @@
     <p>NRV.net - Billetterie du festival</p>
 </footer>
 
-<script>
-    const API_BASE_URL = `http://${location.hostname}:31001`;
-    const alertBox = document.getElementById('alert-box');
-
-    function notify(message, type = 'error') {
-        alertBox.textContent = message;
-        alertBox.className = `alert ${type === 'error' ? 'alert-error' : 'alert-success'}`;
-        alertBox.style.display = 'block';
-    }
-
-    function clearNotification() {
-        alertBox.textContent = '';
-        alertBox.style.display = 'none';
-    }
-
-    function switchTab(tab) {
-        clearNotification();
-        const formConnexion = document.getElementById('form-connexion');
-        const formInscription = document.getElementById('form-inscription');
-        const btnConnexion = document.getElementById('btn-connexion');
-        const btnInscription = document.getElementById('btn-inscription');
-
-        if (tab === 'connexion') {
-            formConnexion.classList.remove('hidden');
-            formInscription.classList.add('hidden');
-            btnConnexion.classList.add('active');
-            btnInscription.classList.remove('active');
-        } else {
-            formConnexion.classList.add('hidden');
-            formInscription.classList.remove('hidden');
-            btnConnexion.classList.remove('active');
-            btnInscription.classList.add('active');
-        }
-    }
-
-    // Traitement Connexion
-    document.getElementById('form-connexion').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        clearNotification();
-
-        const payload = {
-            email: document.getElementById('c-email').value,
-            motDePasse: document.getElementById('c-motDePasse').value
-        };
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/connexion`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-                notify(data.error || data.message || 'Erreur lors de la connexion.', 'error');
-                return;
-            }
-
-            // Sauvegarde des données utilisateur reçues du serveur
-            if (data.user) {
-                localStorage.setItem('user', JSON.stringify(data.user));
-                if (data.user.id) {
-                    localStorage.setItem('idUtilisateur', data.user.id);
-                }
-            }
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-            }
-
-            // Redirection vers index.html
-            window.location.href = 'index.html';
-        } catch (err) {
-            notify('Serveur API inaccessible sur le port 31001.', 'error');
-        }
-    });
-
-    // Traitement Inscription
-    document.getElementById('form-inscription').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        clearNotification();
-
-        const payload = {
-            nom: document.getElementById('r-nom').value,
-            prenom: document.getElementById('r-prenom').value,
-            email: document.getElementById('r-email').value,
-            telephone: document.getElementById('r-telephone').value,
-            motDePasse: document.getElementById('r-motDePasse').value
-        };
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await res.json().catch(() => ({}));
-
-            if (!res.ok) {
-                // Affiche l'erreur exacte renvoyée par le ServiceUtilisateur
-                notify(data.error || data.message || "Erreur lors de l'inscription.", 'error');
-                return;
-            }
-
-            switchTab('connexion');
-            notify('Compte créé avec succès ! Connectez-vous.', 'success');
-        } catch (err) {
-            notify('Serveur API inaccessible sur le port 31001.', 'error');
-        }
-    });
-</script>
+<script type="module" src="js/auth.js"></script>
 </body>
 </html>

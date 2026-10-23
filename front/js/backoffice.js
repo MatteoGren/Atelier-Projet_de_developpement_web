@@ -1,4 +1,5 @@
 import { creerSpectacle, creerSoiree, getSpectacles } from './api.js';
+import { displaySpectaclesLibres } from './ui.js';
 
 function verifierAccesBackoffice() {
     let utilisateur = null;
@@ -142,40 +143,15 @@ async function chargerSpectaclesDisponibles() {
     try {
         const spectacles = (await getSpectacles()).filter((spectacle) => !spectacle.idSoiree);
 
-        if (!Array.isArray(spectacles) || spectacles.length === 0) {
-            conteneur.innerHTML = '<p>Aucun spectacle libre. Créez d’abord un spectacle, puis associez-le à une soirée.</p>';
-            return;
-        }
-
-        conteneur.innerHTML = '';
-
-        spectacles.forEach(spec => {
-            const label = document.createElement('label');
-            label.className = 'item-spectacle';
-
-            const titre = spec.titre || 'Sans titre';
-            const artistes = spec.artistes || spec.artiste || '';
-            const style = spec.style || '';
-            const id = spec.id;
-
-            // Concaténation avec des points médians comme sur la maquette
-            const details = [artistes, style].filter(Boolean).join(' · ');
-            const texteComplet = details ? `${titre} · ${details}` : titre;
-
-            label.innerHTML = `
-                <input type="checkbox" name="spectacles[]" value="${id}">
-                <span>${texteComplet}</span>
-            `;
-
-            conteneur.appendChild(label);
-        });
+        displaySpectaclesLibres(spectacles);
+        if (spectacles.length === 0) return;
 
         // Initialise la gestion du compteur (x/3) et la limite de 3 sélections
         initialiserGestionSelection();
 
     } catch (erreur) {
         console.error('Erreur chargement spectacles :', erreur);
-        conteneur.innerHTML = '<p>Impossible de charger les spectacles.</p>';
+        displaySpectaclesLibres([], true);
     }
 }
 
