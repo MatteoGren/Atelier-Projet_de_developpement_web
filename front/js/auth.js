@@ -52,10 +52,10 @@ document.getElementById('form-connexion').addEventListener('submit', async (e) =
     try {
         const data = await connexion(payload);
 
-        if (data.user) {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            if (data.user.id) {
-                localStorage.setItem('idUtilisateur', data.user.id);
+        if (data.utilisateur) {
+            localStorage.setItem('user', JSON.stringify(data.utilisateur));
+            if (data.utilisateur.id) {
+                localStorage.setItem('idUtilisateur', data.utilisateur.id);
             }
         }
         if (data.token) {

@@ -38,7 +38,8 @@ class GetSoireeAction
             'soiree' => $soiree->toArray(),
             'links' => [
                 'self' => ['href' => '/soirees/' . $soiree->id],
-                'spectacles' => ['href' => '/spectacles'],
+                // Les spectacles de la soirée sont inclus dans "soiree" ; ce lien ramène au programme complet.
+                'collection' => ['href' => '/spectacles'],
             ],
         ];
 

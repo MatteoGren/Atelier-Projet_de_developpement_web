@@ -36,6 +36,11 @@ class FakeSoireeRepository implements SoireeRepositoryInterface
         $this->soirees[] = $soiree;
     }
 
+    public function chargerRecette(Soiree $soiree): float
+    {
+        return 0.0;
+    }
+
     public function findAll(): array
     {
         return $this->soirees;

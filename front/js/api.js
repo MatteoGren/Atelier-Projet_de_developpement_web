@@ -7,10 +7,10 @@ export async function getSpectacles() {
 // Filtre vide ('') = non utilisé : l'API renvoie alors tous les spectacles.
 export async function getSpectaclesFiltres(date, style) {
     const parametres = new URLSearchParams({ date, style });
-    return chargerListe(`${API_URL}/spectacles/filtre?${parametres}`);
+    return chargerListe(`${API_URL}/spectacles?${parametres}`);
 }
 
-// Renvoie { success, id } ; lève une erreur avec le message de l'API en cas d'échec.
+// Renvoie { spectacle, links } ; lève une erreur avec le message de l'API en cas d'échec.
 export async function creerSpectacle(payload) {
     const reponse = await fetch(`${API_URL}/spectacles`, {
         method: 'POST',
@@ -44,13 +44,13 @@ export async function creerSoiree(payload) {
     return donnees;
 }
 
-// Renvoie { user, token } ; lève une erreur avec le message de l'API en cas d'échec.
+// Renvoie { utilisateur, links } ; lève une erreur avec le message de l'API en cas d'échec.
 export async function connexion(payload) {
-    return envoyerFormulaireAuth(`${API_URL}/connexion`, payload, 'Erreur lors de la connexion.');
+    return envoyerFormulaireAuth(`${API_URL}/sessions`, payload, 'Erreur lors de la connexion.');
 }
 
 export async function inscription(payload) {
-    return envoyerFormulaireAuth(`${API_URL}/register`, payload, "Erreur lors de l'inscription.");
+    return envoyerFormulaireAuth(`${API_URL}/utilisateurs`, payload, "Erreur lors de l'inscription.");
 }
 
 async function envoyerFormulaireAuth(url, payload, messageParDefaut) {
@@ -257,7 +257,7 @@ function avecToken(billet, links) {
 }
 
 export async function getStatistiquesVentes() {
-    const reponse = await fetch(`${API_URL}/backOffices`);
+    const reponse = await fetch(`${API_URL}/soirees`);
 
     if (!reponse.ok) {
         throw new Error(`Erreur HTTP ${reponse.status}`);

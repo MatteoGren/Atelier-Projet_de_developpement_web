@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const donnees = await getStatistiquesVentes();
 
-            if (!donnees || !Array.isArray(donnees.soiree)) {
+            if (!donnees || !Array.isArray(donnees.soirees)) {
                 throw new Error('Format de réponse API invalide.');
             }
 
-            const soirees = donnees.soiree.map((soiree) => ({
+            const soirees = donnees.soirees.map(({ soiree }) => ({
                 nom: String(soiree.nom ?? 'Soirée sans nom'),
                 placesVendues: Number(soiree.placesVendues),
                 capacite: Number(soiree.capacite),

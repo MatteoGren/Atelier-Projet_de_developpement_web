@@ -42,6 +42,11 @@ beforeEach(function () {
         public function save(Soiree $soiree): void
         {
         }
+
+        public function chargerRecette(Soiree $soiree): float
+        {
+            return 0.0;
+        }
     };
 
     $utilisateurs = new class implements UtilisateurRepositoryInterface {

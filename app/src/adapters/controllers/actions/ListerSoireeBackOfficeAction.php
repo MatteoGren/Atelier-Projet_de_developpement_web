@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace nrv\adapters\controllers\actions;
 
-use nrv\application\exceptions\IdentifiantInvalideException;
-use nrv\application\exceptions\SoireeIntrouvableException;
 use nrv\application\ports\api\ServiceSoireeInterface;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpNotFoundException;
 
 class ListerSoireeBackOfficeAction{
 
@@ -24,19 +20,20 @@ class ListerSoireeBackOfficeAction{
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-    
-
-        try {
-            $soirees = $this->serviceSoiree->listerSoireeBackOffice();
-        } catch (IdentifiantInvalideException $e) {
-            throw new HttpBadRequestException($request, $e->getMessage(), $e);
-        } catch (SoireeIntrouvableException $e) {
-            throw new HttpNotFoundException($request, $e->getMessage(), $e);
-        }
+        $soirees = $this->serviceSoiree->listerSoireeBackOffice();
 
         $donnees = [
-            'type' => 'resource',
-            'soiree' => $soirees,
+            'type' => 'collection',
+            'count' => count($soirees),
+            'soirees' => array_map(fn ($dto) => [
+                'soiree' => $dto->toArray(),
+                'links' => [
+                    'self' => ['href' => '/soirees/' . $dto->id],
+                ],
+            ], $soirees),
+            'links' => [
+                'self' => ['href' => '/soirees'],
+            ],
         ];
 
         $response->getBody()->write(json_encode($donnees, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));

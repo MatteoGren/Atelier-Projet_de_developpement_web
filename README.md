@@ -100,8 +100,12 @@ Mise à jour : `cd ~/nrv && git pull && docker compose up -d` (puis les mêmes �
 
 | Méthode | Route | Description |
 |---------|-------|-------------|
+| GET | `/` | Point d'entrée : liens vers toutes les ressources de l'API |
 | GET | `/spectacles` | Liste des spectacles (titre, date, horaire, image) |
-| GET | `/spectacles/filtre?date=AAAA-MM-JJ&style=...` | Spectacles filtrés par date et/ou style ; 400 si la date est invalide |
+| GET | `/spectacles?date=AAAA-MM-JJ&style=...` | Spectacles filtrés par date et/ou style ; 400 si la date est invalide |
+| POST | `/spectacles` | Crée un spectacle (organisateur ou administrateur) |
+| GET | `/soirees` | Soirées avec places vendues, capacité et recette (tableau de bord) |
+| POST | `/soirees` | Crée une soirée de 2 ou 3 spectacles (organisateur ou administrateur) |
 | GET | `/soirees/{id}` | Détail d'une soirée (nom, thématique, date, horaire, lieu, tarifs, spectacles) ; 400 si l'identifiant n'est pas un UUID, 404 si la soirée n'existe pas |
 | POST | `/commandes` | Crée une commande en attente à partir du panier (connexion requise) |
 | GET | `/commandes/{id}` | Détail d'une commande de l'utilisateur connecté |
@@ -109,8 +113,8 @@ Mise à jour : `cd ~/nrv && git pull && docker compose up -d` (puis les mêmes �
 | GET | `/commandes/{id}/billets` | Billets d'une commande payée ; 409 si elle n'est pas encore payée |
 | GET | `/billets` | Tous les billets payés de l'utilisateur connecté |
 | GET | `/billets/{token}` | Un billet par son lien personnel (public) |
-| POST | `/register` | Inscription |
-| POST | `/connexion` | Connexion |
+| POST | `/utilisateurs` | Inscription ; 409 si l'email a déjà un compte |
+| POST | `/sessions` | Connexion ; 401 si l'email ou le mot de passe est incorrect |
 
 Les routes marquées « connexion requise » ou liées à un utilisateur attendent l'en-tête `Authorization: Bearer <identifiant>` ; sans lui, elles répondent 401.
 

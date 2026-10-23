@@ -11,6 +11,7 @@ use nrv\application\ports\api\ServiceSoireeInterface;
 use nrv\application\ports\spi\UtilisateurRepositoryInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
 
 class CreerSoireeAction
 {
@@ -34,47 +35,42 @@ class CreerSoireeAction
             ['organisateur', 'administrateur']
         );
 
-        $body = (array) $request->getParsedBody();
-        if (empty($body)) {
-            $json = (string) $request->getBody();
-            $body = json_decode($json, true) ?? [];
+        $body = $request->getParsedBody();
+        if (!is_array($body)) {
+            throw new HttpBadRequestException($request, 'Corps invalide : un objet JSON est attendu.');
         }
+
+        // Les tarifs sont fixes par la règle métier de Soiree.
+        $dto = new CreerSoireeDTO(
+            nom: (string) ($body['nom'] ?? ''),
+            thematique: (string) ($body['thematique'] ?? ''),
+            date: (string) ($body['date'] ?? ''),
+            lieu: (string) ($body['lieu'] ?? ''),
+            capacite: (int) ($body['capacite'] ?? 0),
+            spectacles: (array) ($body['spectacles'] ?? [])
+        );
 
         try {
-            // Les tarifs sont fixes par la règle métier de Soiree.
-            $dto = new CreerSoireeDTO(
-                nom: (string) ($body['nom'] ?? ''),
-                thematique: (string) ($body['thematique'] ?? ''),
-                date: (string) ($body['date'] ?? ''),
-                lieu: (string) ($body['lieu'] ?? ''),
-                capacite: (int) ($body['capacite'] ?? 0),
-                spectacles: (array) ($body['spectacles'] ?? [])
-            );
-
             $id = $this->serviceSoiree->creerSoiree($dto);
-
-            $response->getBody()->write(json_encode([
-                'status' => 'success',
-                'id' => $id
-            ], JSON_UNESCAPED_UNICODE));
-
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(201);
-
         } catch (InvalidArgumentException $e) {
-            $response->getBody()->write(json_encode([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ], JSON_UNESCAPED_UNICODE));
-
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', '*')
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(400);
+            throw new HttpBadRequestException($request, $e->getMessage(), $e);
         }
+
+        $soiree = $this->serviceSoiree->afficherSoiree($id);
+
+        $donnees = [
+            'type' => 'resource',
+            'soiree' => $soiree->toArray(),
+            'links' => [
+                'self' => ['href' => '/soirees/' . $id],
+                'collection' => ['href' => '/soirees'],
+            ],
+        ];
+
+        $response->getBody()->write(json_encode($donnees, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Location', '/soirees/' . $id)
+            ->withStatus(201);
     }
 }

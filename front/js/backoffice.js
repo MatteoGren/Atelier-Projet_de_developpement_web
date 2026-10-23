@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const res = await creerSpectacle(payload);
-                alert(`Spectacle créé avec succès ! (ID : ${res.id || 'ok'})`);
+                alert(`Spectacle créé avec succès ! (ID : ${res.spectacle?.id || 'ok'})`);
                 formSpectacle.reset();
                 toggleForm('spectacle');
             } catch (err) {
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const resultat = await creerSoiree(donneesSoiree);
-                alert(`Soirée enregistrée avec succès ! (ID : ${resultat.id || 'OK'})`);
+                alert(`Soirée enregistrée avec succès ! (ID : ${resultat.soiree?.id || 'OK'})`);
 
                 formSoiree.reset();
 
