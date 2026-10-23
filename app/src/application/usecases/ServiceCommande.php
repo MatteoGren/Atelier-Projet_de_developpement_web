@@ -24,6 +24,8 @@ use Ramsey\Uuid\Uuid;
 
 class ServiceCommande implements ServiceCommandeInterface
 {
+    private const REMISE_PASS = 0.03;
+    private const NB_SOIREES_PASS = 3;
 
     private SoireeRepositoryInterface $soireeRepository;
     private CommandeRepositoryInterface $commandeRepository;
@@ -40,18 +42,22 @@ class ServiceCommande implements ServiceCommandeInterface
 
         $commande = new Commande(Uuid::uuid4()->toString(), $dto->idUtilisateur);
 
-        foreach ($dto->lignes as $ligne) {              
+        $nbSoireesAvecRemise = intdiv(count($dto->lignes), self::NB_SOIREES_PASS)
+            * self::NB_SOIREES_PASS;
+
+        foreach ($dto->lignes as $index => $ligne) {
             $soiree = $this->soireeRepository->findById($ligne->idSoiree);
             if ($soiree === null) {
                 throw new SoireeIntrouvableException($ligne->idSoiree);
             }
             // Refus dès la commande s'il ne reste pas assez de places (revérifié au paiement).
             $soiree->verifierPlaces($ligne->nbNormal + $ligne->nbReduit);
+            $passActif = $index < $nbSoireesAvecRemise;
             for ($i = 0; $i < $ligne->nbNormal; $i++) {
-                $commande->ajouterBillet($this->nouveauBillet($commande, $soiree, false));
+                $commande->ajouterBillet($this->nouveauBillet($commande, $soiree, false, $passActif));
             }
             for ($i = 0; $i < $ligne->nbReduit; $i++) {
-                $commande->ajouterBillet($this->nouveauBillet($commande, $soiree, true));
+                $commande->ajouterBillet($this->nouveauBillet($commande, $soiree, true, $passActif));
             }
         }
 
@@ -101,9 +107,18 @@ class ServiceCommande implements ServiceCommandeInterface
         return $commande;
     }
 
-    private function nouveauBillet(Commande $commande, Soiree $soiree, bool $tarifReduit): Billet
+    private function nouveauBillet(
+        Commande $commande,
+        Soiree $soiree,
+        bool $tarifReduit,
+        bool $passActif
+    ): Billet
     {
         $tarifs = $soiree->getTarifs();
+        $prix = $tarifReduit ? $tarifs['reduit'] : $tarifs['normal'];
+        if ($passActif) {
+            $prix = round($prix * (1 - self::REMISE_PASS), 2);
+        }
 
         return new Billet(
             Uuid::uuid4()->toString(),
@@ -112,7 +127,7 @@ class ServiceCommande implements ServiceCommandeInterface
             'NRV-' . strtoupper(bin2hex(random_bytes(4))),   
             bin2hex(random_bytes(32)),                       
             $tarifReduit,
-            $tarifReduit ? $tarifs['reduit'] : $tarifs['normal']
+            $prix
         );
     }
 }

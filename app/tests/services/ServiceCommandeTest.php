@@ -23,7 +23,7 @@ beforeEach(function () {
     $this->soirees = new class implements SoireeRepositoryInterface {
         public function findById(string $id): ?Soiree
         {
-            if (!in_array($id, [uneSoiree(1), uneSoiree(2), uneSoiree(3)], true)) {
+            if (!in_array($id, [uneSoiree(1), uneSoiree(2), uneSoiree(3), uneSoiree(4)], true)) {
                 return null;
             }
             // La soirée 3 a déjà vendu toutes ses places.
@@ -103,6 +103,16 @@ it('calcule le montant total avec les tarifs du domaine', function () {
 
     expect($commande->montantTotal)->toBe(2 * Soiree::TARIF_NORMAL + 4 * Soiree::TARIF_REDUIT);
     expect($commande->nbBillets)->toBe(6);
+});
+
+it('applique la remise du pass aux trois premières soirées', function () {
+    $commande = $this->service->creerCommande(unPanier(
+        uneLigne(1, 1, 0),
+        uneLigne(2, 1, 0),
+        uneLigne(4, 1, 0)
+    ));
+
+    expect($commande->montantTotal)->toBe(3 * round(Soiree::TARIF_NORMAL * 0.97, 2));
 });
 
 it('crée un billet par place avec le bon tarif', function () {
