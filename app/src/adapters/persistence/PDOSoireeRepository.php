@@ -66,7 +66,7 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
         return $soiree;
     }
 
-    public function chargerRecette(Soiree $soiree): int{
+    public function chargerRecette(Soiree $soiree): float{
          $stmt = $this->pdo->prepare(
             'SELECT SUM(prix)
              FROM billet
@@ -81,7 +81,7 @@ class PDOSoireeRepository implements SoireeRepositoryInterface
             'statut'=> 'validee'
             ]);
         
-        return (int)$stmt->fetchColumn();
+        return (float)$stmt->fetchColumn();
     }
 
 
