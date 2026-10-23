@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace nrv\adapters\controllers\actions;
 
+use Exception;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,7 +21,25 @@ class GetSpectaclesAction
     public function __invoke(Request $request, Response $response): Response
     {
         $spectacles = $this->serviceSpectacle->listerSpectacles();
+        $tabSpectacles = [];
+        $taillePage = 0;
+        $tailleTab = 0;
 
+        foreach($spectacles as $spectacle){
+            if($taillePage > 5){
+                $taillePage = 0;
+                $tailleTab += 1;
+            }
+            $tabSpectacles[$tailleTab][$taillePage] = $spectacle;
+            $taillePage += 1;
+        }
+
+        $parametres = $request->getQueryParams();
+        $requestIndex = (int) ($parametres['page'] ?? 1);
+        if($requestIndex > count($tabSpectacles)){
+            throw new Exception('Index out of bounds');
+        }
+        
         $donnees = [
             'type' => 'collection',
             'count' => count($spectacles),
@@ -33,7 +52,7 @@ class GetSpectaclesAction
                         ? null
                         : ['href' => '/soirees/' . $dto->soireeId],
                 ],
-            ], $spectacles),
+            ], $tabSpectacles[$requestIndex - 1]),
             'links' => [
                 'self' => ['href' => '/spectacles'],
             ],
