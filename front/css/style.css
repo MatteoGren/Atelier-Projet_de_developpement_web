@@ -805,9 +805,9 @@ header button {
 }
 
 .btn-secondaire.active {
-  background-color: #1e1e1e;
+  background-color: #c0262d;
   color: #fff;
-  border-color: #1e1e1e;
+  border-color: #c0262d;
 }
 
 .carte-paiement textarea {
@@ -895,6 +895,64 @@ header button {
   font-size: 0.75rem;
   color: #1e1e1e;
   line-height: 1.4;
+}
+
+main.main-large {
+  max-width: 1600px;
+  width: 95%;
+}
+
+.carte-paiement.form-toggle {
+  display: none !important;
+}
+
+.carte-paiement.form-toggle.visible {
+  display: block !important;
+}
+
+.billets-entete.actions-backoffice {
+  justify-content: flex-end;
+}
+
+.actions-backoffice .btn-secondaire {
+  width: auto;
+}
+
+.boutons-backoffice {
+  display: flex;
+  gap: 1rem;
+}
+
+.backoffice-grille .filtres {
+  margin-bottom: 1rem;
+}
+
+.chargement-spectacles {
+  color: #888;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.paiement-ligne.actions-formulaire {
+  margin-top: 1rem;
+}
+
+#form-spectacle-box .actions-formulaire {
+  margin-top: 1.5rem;
+}
+
+.champ-fichier-cache {
+  display: none;
+}
+
+.lien-ajout-image {
+  margin: -0.5rem 0 0.5rem;
+}
+
+.lien-ajout-image label {
+  color: #c0262d;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 #btn-actualiser {

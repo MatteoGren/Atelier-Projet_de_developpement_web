@@ -19,7 +19,9 @@ function verifierAccesBackoffice() {
     return true;
 }
 
-window.toggleForm = function (type) {
+const accesAutorise = verifierAccesBackoffice();
+
+function toggleForm(type) {
     const soireeBox = document.getElementById('form-soiree-box');
     const spectacleBox = document.getElementById('form-spectacle-box');
     const btnSoiree = document.getElementById('btn-toggle-soiree');
@@ -32,12 +34,18 @@ window.toggleForm = function (type) {
         const isOpen = spectacleBox.classList.toggle('visible');
         btnSpectacle?.classList.toggle('active', isOpen);
     }
-};
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (!verifierAccesBackoffice()) return;
+    if (!accesAutorise) return;
 
+    document.querySelectorAll('[data-toggle-form]').forEach((bouton) => {
+        bouton.addEventListener('click', () => toggleForm(bouton.dataset.toggleForm));
+    });
 
+    document.getElementById('selecteur-fichier')?.addEventListener('change', (e) => {
+        document.getElementById('img-spectacle').value = e.target.files[0]?.name || '';
+    });
 
     const formSpectacle = document.getElementById('form-spectacle');
 
@@ -63,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await creerSpectacle(payload);
                 alert(`Spectacle créé avec succès ! (ID : ${res.id || 'ok'})`);
                 formSpectacle.reset();
-                window.toggleForm('spectacle');
+                toggleForm('spectacle');
             } catch (err) {
                 console.error(err);
                 alert(err.message || 'Erreur lors de la création du spectacle.');
@@ -118,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 await chargerSpectaclesDisponibles();
 
-                window.toggleForm('soiree');
+                toggleForm('soiree');
             } catch (err) {
                 console.error(err);
                 alert(`Erreur : ${err.message}`);

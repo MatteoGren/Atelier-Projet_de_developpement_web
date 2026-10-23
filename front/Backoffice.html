@@ -5,67 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nancy Rock Vibration - Backoffice</title>
     <link rel="stylesheet" href="css/style.css">
-    <script>
-        (() => {
-            try {
-                const utilisateur = JSON.parse(localStorage.getItem('user') || 'null');
-                const rolesAutorises = ['organisateur', 'administrateur'];
-                if (!utilisateur || !rolesAutorises.includes(utilisateur.role)) {
-                    window.location.replace('auth.html');
-                }
-            } catch {
-                window.location.replace('auth.html');
-            }
-        })();
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/auth-header.js"></script>
     <script type="module" src="js/backoffice.js"></script>
-    <style>
-        main.main-large {
-            max-width: 1600px;
-            width: 95%;
-        }
-
-        .carte-paiement.form-toggle {
-            display: none !important;
-        }
-
-        .carte-paiement.form-toggle.visible {
-            display: block !important;
-        }
-
-        .backoffice-grille {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            align-items: start;
-        }
-
-        @media (min-width: 900px) {
-            .backoffice-grille {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .btn-secondaire.active {
-            background-color: #c0262d;
-            color: #fff;
-            border-color: #c0262d;
-        }
-
-        .carte-paiement textarea {
-            width: 100%;
-            min-height: 5.5rem;
-            margin-bottom: 1rem;
-            padding: 0.6rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-    </style>
 </head>
 <body>
 
@@ -76,10 +18,10 @@
     </header>
 
     <main class="main-large">
-        <div class="billets-entete" style="justify-content: flex-end;">
-            <div style="display: flex; gap: 1rem;">
-                <button type="button" id="btn-toggle-soiree" class="btn-secondaire" style="width: auto;" onclick="toggleForm('soiree')">Ajouter une soirée</button>
-                <button type="button" id="btn-toggle-spectacle" class="btn-secondaire" style="width: auto;" onclick="toggleForm('spectacle')">Ajouter un spectacle</button>
+        <div class="billets-entete actions-backoffice">
+            <div class="boutons-backoffice">
+                <button type="button" id="btn-toggle-soiree" class="btn-secondaire" data-toggle-form="soiree">Ajouter une soirée</button>
+                <button type="button" id="btn-toggle-spectacle" class="btn-secondaire" data-toggle-form="spectacle">Ajouter un spectacle</button>
             </div>
         </div>
 
@@ -91,7 +33,7 @@
                     <label for="nom-soiree">Nom de la soirée</label>
                     <input type="text" id="nom-soiree" placeholder="Ex: Soirée Rock Alternatif" required>
 
-                    <div class="filtres" style="margin-bottom: 1rem;">
+                    <div class="filtres">
                         <div class="champ">
                             <label for="thematique">Thématique</label>
                             <select id="thematique" required>
@@ -125,7 +67,7 @@
                         <label>Spectacles associés <span id="compteur-spectacles" class="compteur">(0/3)</span></label>
                         
                         <div id="liste-spectacles-selection" class="liste-spectacles-selection">
-                            <p style="color: #888; font-size: 0.85rem; margin: 0;">Chargement des spectacles disponibles...</p>
+                            <p class="chargement-spectacles">Chargement des spectacles disponibles...</p>
                         </div>
 
                         <script id="tpl-spectacles-libres" type="text/x-handlebars-template">
@@ -148,9 +90,9 @@
                         </p>
                     </div>
 
-                    <div class="paiement-ligne" style="margin-top: 1rem;">
+                    <div class="paiement-ligne actions-formulaire">
                         <button type="submit" class="btn-principal">Enregistrer</button>
-                        <button type="button" class="btn-secondaire" onclick="toggleForm('soiree')">Annuler</button>
+                        <button type="button" class="btn-secondaire" data-toggle-form="soiree">Annuler</button>
                     </div>
                 </form>
             </div>
@@ -182,9 +124,9 @@
                     <label for="img-spectacle">Image(s)</label>
                     <input type="text" id="img-spectacle" name="images" placeholder="image1.jpg;image2.jpg">
 
-                    <input type="file" id="selecteur-fichier" accept="image/*" style="display: none;" onchange="document.getElementById('img-spectacle').value = this.files[0]?.name || ''">
-                    <p style="margin: -0.5rem 0 0.5rem;">
-                        <label for="selecteur-fichier" style="color: #c0262d; text-decoration: underline; cursor: pointer;">
+                    <input type="file" id="selecteur-fichier" accept="image/*" class="champ-fichier-cache">
+                    <p class="lien-ajout-image">
+                        <label for="selecteur-fichier">
                             Ajouter une image +
                         </label>
                     </p>
@@ -192,9 +134,9 @@
                     <label for="video-spectacle">URL de vidéo</label>
                     <input type="text" id="video-spectacle" name="chemin_video" placeholder="https://youtube.com/...">
 
-                    <div class="paiement-ligne" style="margin-top: 1.5rem;">
+                    <div class="paiement-ligne actions-formulaire">
                         <button type="submit" class="btn-principal">Enregistrer</button>
-                        <button type="button" class="btn-secondaire" onclick="toggleForm('spectacle')">Annuler</button>
+                        <button type="button" class="btn-secondaire" data-toggle-form="spectacle">Annuler</button>
                     </div>
                 </form>
             </div>
@@ -205,22 +147,5 @@
     <footer class="pieddepage">
         <p>&copy; 2026 NRV.net - Tous droits réservés</p>
     </footer>
-
-    <script>
-        function toggleForm(type) {
-            const soireeBox = document.getElementById('form-soiree-box');
-            const spectacleBox = document.getElementById('form-spectacle-box');
-            const btnSoiree = document.getElementById('btn-toggle-soiree');
-            const btnSpectacle = document.getElementById('btn-toggle-spectacle');
-
-            if (type === 'soiree') {
-                const isOpen = soireeBox.classList.toggle('visible');
-                btnSoiree.classList.toggle('active', isOpen);
-            } else if (type === 'spectacle') {
-                const isOpen = spectacleBox.classList.toggle('visible');
-                btnSpectacle.classList.toggle('active', isOpen);
-            }
-        }
-    </script>
 </body>
 </html>
