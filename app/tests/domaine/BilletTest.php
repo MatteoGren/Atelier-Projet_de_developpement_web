@@ -2,25 +2,17 @@
 
 declare(strict_types=1);
 
-namespace nrv\tests\domaine;
-
 use nrv\domain\entities\Billet;
-use PHPUnit\Framework\TestCase;
 
-class BilletTest extends TestCase
+function unBillet(bool $tarifReduit): Billet
 {
-    private function creerBillet(bool $tarifReduit): Billet
-    {
-        return new Billet('billet-1', 'commande-1', 'soiree-1', 'NRV-1', 'token-1', $tarifReduit, 25.0);
-    }
-
-    public function testCategorieNormale(): void
-    {
-        $this->assertSame('normal', $this->creerBillet(false)->getCategorie());
-    }
-
-    public function testCategorieReduite(): void
-    {
-        $this->assertSame('reduit', $this->creerBillet(true)->getCategorie());
-    }
+    return new Billet('billet-1', 'commande-1', 'soiree-1', 'NRV-1', 'token-1', $tarifReduit, 25.0);
 }
+
+it('classe un billet plein tarif en catégorie normale', function () {
+    expect(unBillet(false)->getCategorie())->toBe('normal');
+});
+
+it('classe un billet à tarif réduit en catégorie réduite', function () {
+    expect(unBillet(true)->getCategorie())->toBe('reduit');
+});

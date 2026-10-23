@@ -10,11 +10,14 @@ use nrv\adapters\config\ContainerConfig;
 
 use nrv\adapters\controllers\middlewares\Cors;
 
-// nrv.env est monté en /var/nrv.env par docker compose
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../', 'nrv.env');
-$dotenv->load();
+// Les tests fournissent leur propre $container (dépôts en mémoire, sans base ni nrv.env).
+if (!isset($container)) {
+    // nrv.env est monté en /var/nrv.env par docker compose
+    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../', 'nrv.env');
+    $dotenv->load();
 
-$container = ContainerConfig::build();
+    $container = ContainerConfig::build();
+}
 
 $app = AppFactory::createFromContainer($container);
 $app->addBodyParsingMiddleware();

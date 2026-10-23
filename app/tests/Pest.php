@@ -8,6 +8,18 @@ use nrv\application\dtos\PaiementDTO;
 
 const UTILISATEUR_TEST = '11111111-0000-0000-0000-000000000001';
 
+// Comptes de l'API en mémoire (tests/fakes/ApiEnMemoire.php), mot de passe : secret123
+const CLIENT = UTILISATEUR_TEST;
+const AUTRE_CLIENT = '11111111-0000-0000-0000-000000000002';
+const ORGANISATEUR = '11111111-0000-0000-0000-000000000003';
+const ADMINISTRATEUR = '11111111-0000-0000-0000-000000000004';
+
+// Corps JSON d'une réponse de l'API, décodé en tableau.
+function corps(Psr\Http\Message\ResponseInterface $reponse): array
+{
+    return json_decode((string) $reponse->getBody(), true);
+}
+
 // UUID de la soirée n° $numero (1 et 2 existent dans le faux dépôt, 3 est complète, la 99 n'existe pas)
 function uneSoiree(int $numero): string
 {

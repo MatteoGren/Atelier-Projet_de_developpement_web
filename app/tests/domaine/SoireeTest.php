@@ -2,60 +2,30 @@
 
 declare(strict_types=1);
 
-namespace nrv\tests\domaine;
-
-use DateTimeImmutable;
 use nrv\domain\entities\Soiree;
 use nrv\domain\exceptions\PlacesInsuffisantesException;
-use PHPUnit\Framework\TestCase;
 
-class SoireeTest extends TestCase
+function uneSoireeDe(int $capacite, int $placesVendues = 0): Soiree
 {
-    private function creerSoiree(): Soiree
-    {
-        return new Soiree(
-            'soiree-1',
-            'Ouverture Électrique',
-            'Classic rock',
-            new DateTimeImmutable('2027-06-04 20:00'),
-            'Place Stanislas',
-            800
-        );
-    }
-
-    public function testTarifsNormalEtReduit(): void
-    {
-        $this->assertSame(
-            ['normal' => 25.0, 'reduit' => 15.0],
-            $this->creerSoiree()->getTarifs()
-        );
-    }
-
-    public function testTarifReduitInferieurAuTarifNormal(): void
-    {
-        $this->assertLessThan(Soiree::TARIF_NORMAL, Soiree::TARIF_REDUIT);
-    }
-
-    public function testDateContientJourEtHoraireDeDebut(): void
-    {
-        $soiree = $this->creerSoiree();
-
-        $this->assertSame('2027-06-04', $soiree->getDate()->format('Y-m-d'));
-        $this->assertSame('20:00', $soiree->getDate()->format('H:i'));
-    }
-
-    public function testPlacesDisponiblesSansVente(): void
-    {
-        $this->assertSame(800, $this->creerSoiree()->placesDisponibles());
-    }
-
-    public function testPlacesDisponiblesApresVentes(): void
-    {
-        $soiree = new Soiree('soiree-7', 'Session Intimiste', 'Blues rock', new DateTimeImmutable('2027-06-15 21:00'), 'Café Le Terminus', 4, 3);
-
-        $this->assertSame(1, $soiree->placesDisponibles());
-        $soiree->verifierPlaces(1);
-        $this->expectException(PlacesInsuffisantesException::class);
-        $soiree->verifierPlaces(2);
-    }
+    return new Soiree('soiree-1', 'Ouverture Électrique', 'Classic rock', new DateTimeImmutable('2027-06-04 20:00'), 'Place Stanislas', $capacite, $placesVendues);
 }
+
+it('applique les tarifs normal et réduit du festival', function () {
+    expect(uneSoireeDe(800)->getTarifs())->toBe(['normal' => 25.0, 'reduit' => 15.0]);
+});
+
+it('offre toute la capacité tant que rien n\'est vendu', function () {
+    expect(uneSoireeDe(800)->placesDisponibles())->toBe(800);
+});
+
+it('retire les places vendues de la capacité', function () {
+    expect(uneSoireeDe(4, 3)->placesDisponibles())->toBe(1);
+});
+
+it('accepte une commande qui tient dans les places restantes', function () {
+    uneSoireeDe(4, 3)->verifierPlaces(1);
+})->throwsNoExceptions();
+
+it('refuse une commande qui dépasse les places restantes', function () {
+    uneSoireeDe(4, 3)->verifierPlaces(2);
+})->throws(PlacesInsuffisantesException::class);

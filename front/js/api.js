@@ -257,7 +257,7 @@ function avecToken(billet, links) {
 }
 
 export async function getStatistiquesVentes() {
-    const reponse = await fetch(`${API_URL}/soirees`);
+    const reponse = await fetch(`${API_URL}/soirees`, { headers: enTeteConnexion() });
 
     if (!reponse.ok) {
         throw new Error(`Erreur HTTP ${reponse.status}`);
