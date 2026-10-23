@@ -15,6 +15,7 @@ if (nav) {
         <a href="billets.html">Mes billets</a>
         <a href="panier.html">Panier</a>
         ${utilisateurAutorise ? '<a href="Backoffice.html">Backoffice</a>' : ''}
+        ${utilisateurAutorise ? '<a href="tableaudebord.html">Tableau de Bord</a>' : ''}
 
         <a href="auth.html" id="lien-connexion">Connexion</a>
         <span id="zone-utilisateur" style="display: none;">
