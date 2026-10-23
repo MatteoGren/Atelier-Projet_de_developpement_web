@@ -9,14 +9,8 @@ use nrv\domain\entities\Spectacle;
 
 interface SpectacleRepositoryInterface
 {
-    /**
-     * @return Spectacle[] triés par horaire croissant
-     */
     public function findAll(): array;
 
-    /**
-     * @return Spectacle[] spectacles de la soirée, triés par horaire croissant
-     */
     public function findBySoireeId(string $soireeId): array;
 
     public function filtrerParDate(DateTime $date): array;

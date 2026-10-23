@@ -8,13 +8,7 @@ use nrv\domain\entities\Billet;
 
 interface BilletRepositoryInterface
 {
-    /**
-     * @return Billet|null null si aucun billet n'a ce token
-     */
     public function findByToken(string $token): ?Billet;
 
-    /**
-     * @return Billet[] billets des commandes payées de l'utilisateur, par date de soirée
-     */
     public function findPayesByUtilisateur(string $idUtilisateur): array;
 }

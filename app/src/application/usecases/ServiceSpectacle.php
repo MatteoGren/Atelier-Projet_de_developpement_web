@@ -9,7 +9,6 @@ use nrv\application\dtos\SpectacleListeDTO;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use nrv\application\ports\spi\SpectacleRepositoryInterface;
 use nrv\domain\entities\Spectacle;
-use Override;
 use Ramsey\Uuid\Uuid;
 
 class ServiceSpectacle implements ServiceSpectacleInterface

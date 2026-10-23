@@ -6,7 +6,6 @@ namespace nrv\application\validators;
 
 use nrv\application\dtos\CreerCommandeDTO;
 use nrv\application\exceptions\CommandeInvalideException;
-use nrv\application\exceptions\IdentifiantInvalideException;
 
 class CommandeValidator
 {

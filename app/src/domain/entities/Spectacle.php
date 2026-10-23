@@ -13,15 +13,11 @@ class Spectacle
     private string $titre;
     private string $artistes;
     private ?string $description;
-    /** @var string[] chemins des images, la première est l'image principale */
     private array $images;
     private ?string $video;
     private DateTimeImmutable $horaire;
     private string $style;
 
-    /**
-     * @param string[] $images
-     */
     public function __construct(
         string $id,
         ?string $soireeId,
@@ -69,9 +65,6 @@ class Spectacle
         return $this->description;
     }
 
-    /**
-     * @return string[]
-     */
     public function getImages(): array
     {
         return $this->images;

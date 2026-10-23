@@ -15,7 +15,6 @@ use nrv\application\ports\spi\CommandeRepositoryInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
 use nrv\application\ports\spi\UtilisateurRepositoryInterface;
 use nrv\application\validators\IdentifiantValidator;
-use nrv\domain\entities\Billet;
 use nrv\domain\entities\Commande;
 use nrv\domain\entities\Soiree;
 use nrv\domain\entities\Utilisateur;
@@ -83,10 +82,6 @@ class ServiceBillet implements ServiceBilletInterface
         return BilletDTO::fromEntities($billet, $this->trouverSoiree($billet->getIdSoiree()), $this->trouverAcheteur($commande));
     }
 
-    /**
-     * @param Billet[] $billets
-     * @return BilletDTO[]
-     */
     private function versDTOs(array $billets, Utilisateur $acheteur): array
     {
         $soirees = [];

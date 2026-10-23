@@ -47,9 +47,6 @@ class Commande {
         return $this->billets;
     }
 
-    /**
-     * @return array<string, int> nombre de billets par identifiant de soirée
-     */
     public function billetsParSoiree(): array
     {
         $nbBillets = [];
@@ -59,9 +56,6 @@ class Commande {
         return $nbBillets;
     }
 
-    /**
-     * @throws CommandeNonPayableException
-     */
     public function verifierPayable(): void
     {
         if ($this->statut !== self::STATUT_EN_ATTENTE) {
@@ -69,9 +63,6 @@ class Commande {
         }
     }
 
-    /**
-     * @throws CommandeNonPayableException
-     */
     public function payer(DateTimeImmutable $datePaiement): void
     {
         $this->verifierPayable();
@@ -85,9 +76,6 @@ class Commande {
         return $this->statut === self::STATUT_VALIDEE;
     }
 
-    /**
-     * @throws CommandeNonPayeeException
-     */
     public function verifierPayee(): void
     {
         if (!$this->estPayee()) {

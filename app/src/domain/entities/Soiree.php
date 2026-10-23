@@ -16,7 +16,6 @@ class Soiree
     private string $id;
     private string $nom;
     private string $thematique;
-    /** date et horaire de début */
     private DateTimeImmutable $date;
     private string $lieu;
     private int $capacite;
@@ -91,9 +90,6 @@ class Soiree
         return $this->capacite - $this->placesVendues;
     }
 
-    /**
-     * @throws PlacesInsuffisantesException
-     */
     public function verifierPlaces(int $nbBillets): void
     {
         if ($nbBillets > $this->placesDisponibles()) {
@@ -101,9 +97,6 @@ class Soiree
         }
     }
 
-    /**
-     * @return array{normal: float, reduit: float}
-     */
     public function getTarifs(): array
     {
         return [

@@ -16,15 +16,9 @@ final class SoireeDetailDTO
     public readonly string $date;
     public readonly string $horaire;
     public readonly string $lieu;
-    /** @var array{normal: float, reduit: float} */
     public readonly array $tarifs;
-    /** @var SpectacleDetailDTO[] */
     public readonly array $spectacles;
 
-    /**
-     * @param array{normal: float, reduit: float} $tarifs
-     * @param SpectacleDetailDTO[] $spectacles
-     */
     public function __construct(
         string $id,
         string $nom,
@@ -45,9 +39,6 @@ final class SoireeDetailDTO
         $this->spectacles = $spectacles;
     }
 
-    /**
-     * @param Spectacle[] $spectacles
-     */
     public static function fromEntities(Soiree $soiree, array $spectacles): self
     {
         return new self(

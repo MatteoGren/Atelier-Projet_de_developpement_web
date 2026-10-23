@@ -6,15 +6,10 @@ namespace nrv\application\validators;
 
 use DateTimeImmutable;
 use nrv\application\dtos\PaiementDTO;
-use nrv\application\exceptions\IdentifiantInvalideException;
 use nrv\application\exceptions\PaiementInvalideException;
 
 class PaiementValidator
 {
-    /**
-     * @throws IdentifiantInvalideException
-     * @throws PaiementInvalideException
-     */
     public static function valider(PaiementDTO $paiement): void
     {
         IdentifiantValidator::valider($paiement->idCommande);

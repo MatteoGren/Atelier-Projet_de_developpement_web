@@ -11,7 +11,6 @@ final class CreerSoireeDTO
     public readonly string $date;
     public readonly string $lieu;
     public readonly int $capacite;
-    /** @var string[] */
     public readonly array $spectacles;
 
     public function __construct(
