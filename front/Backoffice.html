@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nancy Rock Vibration - Backoffice</title>
     <link rel="stylesheet" href="css/style.css">
+    <script>
+        (() => {
+            try {
+                const utilisateur = JSON.parse(localStorage.getItem('user') || 'null');
+                const rolesAutorises = ['organisateur', 'administrateur'];
+                if (!utilisateur || !rolesAutorises.includes(utilisateur.role)) {
+                    window.location.replace('auth.html');
+                }
+            } catch {
+                window.location.replace('auth.html');
+            }
+        })();
+    </script>
     <script type="module" src="js/auth-header.js"></script>
     <script type="module" src="js/backoffice.js"></script>
     <style>
