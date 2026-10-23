@@ -34,7 +34,6 @@ class CreerSoireeAction
             ['organisateur', 'administrateur']
         );
 
-        // 1. Récupération sécurisée du body (gère form-data et payload JSON)
         $body = (array) $request->getParsedBody();
         if (empty($body)) {
             $json = (string) $request->getBody();
@@ -52,7 +51,6 @@ class CreerSoireeAction
                 spectacles: (array) ($body['spectacles'] ?? [])
             );
 
-            // 3. Appel du service (qui insère la soirée et fait l'UPDATE des spectacles)
             $id = $this->serviceSoiree->creerSoiree($dto);
 
             $response->getBody()->write(json_encode([
@@ -68,7 +66,6 @@ class CreerSoireeAction
                 ->withStatus(201);
 
         } catch (InvalidArgumentException $e) {
-            // Gestion propre des erreurs de validation (ex: moins de 2 spectacles cochés)
             $response->getBody()->write(json_encode([
                 'status' => 'error',
                 'message' => $e->getMessage()

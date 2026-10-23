@@ -19,16 +19,12 @@ interface SpectacleRepositoryInterface
      */
     public function findBySoireeId(string $soireeId): array;
 
-    //fonction pour trier avec la date
     public function filtrerParDate(DateTime $date): array;
 
-    //fonction pour trier par le style de musique
     public function filtrerParStyle(string $style): array;
 
-    //fonction qui englobe les deux filtres
     public function filtrer(DateTime $date, string $style): array;
 
-    //fonction pour sauvegarder un spectacle dans la base de données
     public function save(Spectacle $spectacle): string;
 
     public function associerSoireeAuxSpectacles(string $soireeId, array $spectacleIds): void;

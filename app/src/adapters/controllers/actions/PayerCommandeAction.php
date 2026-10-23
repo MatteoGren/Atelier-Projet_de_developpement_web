@@ -30,7 +30,6 @@ class PayerCommandeAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        // 400 : la requête n'a pas la forme attendue
         $corps = $request->getParsedBody();
         if (!is_array($corps)
             || !is_string($corps['numeroCarte'] ?? null)

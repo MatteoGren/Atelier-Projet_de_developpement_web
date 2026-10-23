@@ -146,7 +146,6 @@ class PDOSpectacleRepository implements SpectacleRepositoryInterface
             return;
         }
 
-        // Crée autant de marqueurs ? que d'identifiants reçus
         $placeholders = implode(',', array_fill(0, count($spectacleIds), '?'));
 
         $sql = "UPDATE spectacle

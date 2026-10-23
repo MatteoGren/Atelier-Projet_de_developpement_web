@@ -25,7 +25,6 @@ class GetSoireeAction
     {
         $id = $args['id'];
 
-        // Exceptions applicatives traduites en erreurs HTTP Slim (400 / 404, rendues en JSON).
         try {
             $soiree = $this->serviceSoiree->afficherSoiree($id);
         } catch (IdentifiantInvalideException $e) {

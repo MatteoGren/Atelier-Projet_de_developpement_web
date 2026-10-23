@@ -37,7 +37,7 @@ final class ConnexionAction
                 'id'     => $utilisateur->getIdUtilisateur(),
                 'email'  => $utilisateur->getEmail(),
                 'role'   => $utilisateur->getRole(),
-                'nom'    => $utilisateur->getNom(),    // Adapte selon les méthodes de ton entité
+                'nom'    => $utilisateur->getNom(),
                 'prenom' => $utilisateur->getPrenom(),
             ];
 

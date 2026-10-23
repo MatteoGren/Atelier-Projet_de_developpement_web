@@ -1,6 +1,5 @@
 import { displayNav } from './ui.js';
 
-// Nav commune à toutes les pages : écrite ici une seule fois dans <nav id="nav">.
 const nav = document.getElementById('nav');
 const utilisateurAutorise = (() => {
     try {
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const user = JSON.parse(userRaw);
 
-            // Masque le lien "Connexion" et affiche la zone utilisateur
             if (lienConnexion) lienConnexion.style.display = 'none';
             if (zoneUtilisateur) zoneUtilisateur.style.display = 'inline';
 
@@ -44,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Gestion du clic sur "Déconnexion"
     if (btnDeconnexion) {
         btnDeconnexion.addEventListener('click', (evenement) => {
             evenement.preventDefault();

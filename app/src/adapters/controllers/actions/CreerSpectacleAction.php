@@ -34,7 +34,6 @@ class CreerSpectacleAction
 
         $body = (array)$request->getParsedBody();
 
-        // Transformation et validation minimale
         $data = [
             'soiree_id'    => $body['soiree_id'] ?? null,
             'titre'        => trim($body['titre'] ?? ''),

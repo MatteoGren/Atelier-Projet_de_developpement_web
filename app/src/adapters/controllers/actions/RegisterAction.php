@@ -31,7 +31,6 @@ final class RegisterAction
         try {
             $this->serviceUtilisateur->register($nom, $prenom, $email, $telephone, $motDePasse, 'client');
 
-            // Réponse JSON de succès pour l'API
             $payload = json_encode(['success' => true, 'message' => 'Utilisateur créé']);
             $response->getBody()->write($payload);
 

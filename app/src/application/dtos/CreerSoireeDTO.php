@@ -26,7 +26,7 @@ final class CreerSoireeDTO
         $this->thematique = $thematique;
         $this->date = $date;
         $this->lieu = $lieu;
-        $this->capacite = $capacite; // <-- C'est cette ligne qui manquait ou n'était pas exécutée
+        $this->capacite = $capacite;
         $this->spectacles = $spectacles;
     }
 

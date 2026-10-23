@@ -14,7 +14,7 @@ export async function getSpectaclesFiltres(date, style) {
 export async function creerSpectacle(payload) {
     const reponse = await fetch(`${API_URL}/spectacles`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...enTeteConnexion() },
         body: JSON.stringify(payload)
     });
     const donnees = await reponse.json().catch(() => ({}));
@@ -96,7 +96,6 @@ export async function getSoiree(id) {
 
 
 export async function validerPanier(panier) {
-    // 1. Récupération de l'utilisateur stocké lors du login
     let idUtilisateur = null;
     const userRaw = localStorage.getItem('user');
 
@@ -109,14 +108,12 @@ export async function validerPanier(panier) {
         }
     }
 
-    // 2. Si pas d'identifiant en localStorage, arrêt immédiat
     if (!idUtilisateur) {
         const erreur = new Error('Connexion requise');
         erreur.status = 401;
         throw erreur;
     }
 
-    // 3. Envoi avec le header X-User-Id
     const reponse = await fetch(`${API_URL}/commandes`, {
         method: 'POST',
         headers: {

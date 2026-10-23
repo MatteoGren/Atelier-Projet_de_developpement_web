@@ -41,7 +41,6 @@ function switchTab(tab) {
 document.getElementById('btn-connexion').addEventListener('click', () => switchTab('connexion'));
 document.getElementById('btn-inscription').addEventListener('click', () => switchTab('inscription'));
 
-// Traitement Connexion
 document.getElementById('form-connexion').addEventListener('submit', async (e) => {
     e.preventDefault();
     clearNotification();
@@ -54,7 +53,6 @@ document.getElementById('form-connexion').addEventListener('submit', async (e) =
     try {
         const data = await connexion(payload);
 
-        // Sauvegarde des données utilisateur reçues du serveur
         if (data.user) {
             localStorage.setItem('user', JSON.stringify(data.user));
             if (data.user.id) {
@@ -65,14 +63,12 @@ document.getElementById('form-connexion').addEventListener('submit', async (e) =
             localStorage.setItem('token', data.token);
         }
 
-        // Redirection vers index.html
         window.location.href = 'index.html';
     } catch (err) {
         notify(messageErreur(err), 'error');
     }
 });
 
-// Traitement Inscription
 document.getElementById('form-inscription').addEventListener('submit', async (e) => {
     e.preventDefault();
     clearNotification();
@@ -91,7 +87,6 @@ document.getElementById('form-inscription').addEventListener('submit', async (e)
         switchTab('connexion');
         notify('Compte créé avec succès ! Connectez-vous.', 'success');
     } catch (err) {
-        // Affiche l'erreur exacte renvoyée par le ServiceUtilisateur
         notify(messageErreur(err), 'error');
     }
 });

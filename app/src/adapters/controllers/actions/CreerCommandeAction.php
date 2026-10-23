@@ -28,7 +28,6 @@ class CreerCommandeAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        // 400 : la requête n'a pas la forme attendue
         $corps = $request->getParsedBody();
         if (!is_array($corps) || !isset($corps['lignes']) || !is_array($corps['lignes'])) {
             throw new HttpBadRequestException($request, 'Corps invalide : un tableau "lignes" est attendu.');

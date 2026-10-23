@@ -30,14 +30,12 @@ class CommandeValidator
 
             $soireesVues[$ligne->idSoiree] = true;
 
-            // Vérifier les quantités négatives
             if ($ligne->nbNormal < 0 || $ligne->nbReduit < 0) {
                 throw new CommandeInvalideException(
                     'Les quantités de billets ne peuvent pas être négatives.'
                 );
             }
 
-            // Vérifier qu'au moins un billet est demandé
             if ($ligne->nbNormal + $ligne->nbReduit === 0) {
                 throw new CommandeInvalideException(
                     "Aucun billet demandé pour la soirée {$ligne->idSoiree}."

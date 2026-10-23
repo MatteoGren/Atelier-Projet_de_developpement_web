@@ -51,7 +51,6 @@ class ServiceSoiree implements ServiceSoireeInterface
             throw new InvalidArgumentException("La capacité doit être strictement positive.");
         }
 
-        // Vérification de la contrainte métier : 2 à 3 spectacles
         $nbSpectacles = count($dto->spectacles);
         if ($nbSpectacles < 2 || $nbSpectacles > 3) {
             throw new InvalidArgumentException("Une soirée doit être associée à 2 ou 3 spectacles.");
@@ -63,7 +62,6 @@ class ServiceSoiree implements ServiceSoireeInterface
             throw new InvalidArgumentException("Format de date invalide.");
         }
 
-        // Génération d'un UUID (ex: ramsey/uuid ou v4 natif)
         $id = class_exists(Uuid::class)
             ? Uuid::uuid4()->toString()
             : sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -84,10 +82,8 @@ class ServiceSoiree implements ServiceSoireeInterface
             0
         );
 
-        // 1. Sauvegarde de la soirée
         $this->soireeRepository->save($soiree);
 
-        // 2. Mise à jour des spectacles sélectionnés pour leur attribuer cet $id de soirée
         $this->spectacleRepository->associerSoireeAuxSpectacles($id, $dto->spectacles);
 
         return $id;

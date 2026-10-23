@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Formulaire Spectacle
     const formSpectacle = document.getElementById('form-spectacle');
 
     if (formSpectacle) {
@@ -74,18 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Formulaire Soirée
     const formSoiree = document.getElementById('form-soiree');
 
     if (formSoiree) {
         formSoiree.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            //Récupération des IDs des spectacles sélectionnés
             const checkboxesCochees = document.querySelectorAll('input[name="spectacles[]"]:checked');
             const spectaclesSelectionnes = Array.from(checkboxesCochees).map(cb => cb.value);
 
-            // Vérification côté client
             if (spectaclesSelectionnes.length < 2 || spectaclesSelectionnes.length > 3) {
                 alert("Veuillez sélectionner 2 ou 3 spectacles.");
                 return;
@@ -99,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            //Préparation des données complètes à envoyer au serveur
             const donneesSoiree = {
                 nom: document.getElementById('nom-soiree').value.trim(),
                 thematique: document.getElementById('thematique').value,
@@ -118,11 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 formSoiree.reset();
 
-                // Réinitialiser le compteur (0/3)
                 const compteur = document.getElementById('compteur-spectacles');
                 if (compteur) compteur.textContent = '(0/3)';
 
-                // Recharger les spectacles disponibles
                 await chargerSpectaclesDisponibles();
 
                 window.toggleForm('soiree');
@@ -146,7 +139,6 @@ async function chargerSpectaclesDisponibles() {
         displaySpectaclesLibres(spectacles);
         if (spectacles.length === 0) return;
 
-        // Initialise la gestion du compteur (x/3) et la limite de 3 sélections
         initialiserGestionSelection();
 
     } catch (erreur) {
@@ -155,7 +147,6 @@ async function chargerSpectaclesDisponibles() {
     }
 }
 
-// Fonction de gestion du compteur (0/3) et de la limite
 function initialiserGestionSelection() {
     const checkboxes = document.querySelectorAll('input[name="spectacles[]"]');
     const compteur = document.getElementById('compteur-spectacles');
@@ -164,7 +155,6 @@ function initialiserGestionSelection() {
         cb.addEventListener('change', () => {
             const coches = document.querySelectorAll('input[name="spectacles[]"]:checked');
 
-            // Bloquer si l'utilisateur essaie d'en sélectionner plus de 3
             if (coches.length > 3) {
                 cb.checked = false;
                 alert("Vous ne pouvez pas associer plus de 3 spectacles à une soirée.");

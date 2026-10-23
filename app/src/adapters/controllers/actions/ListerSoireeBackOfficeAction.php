@@ -26,7 +26,6 @@ class ListerSoireeBackOfficeAction{
     {
     
 
-        // Exceptions applicatives traduites en erreurs HTTP Slim (400 / 404, rendues en JSON).
         try {
             $soirees = $this->serviceSoiree->listerSoireeBackOffice();
         } catch (IdentifiantInvalideException $e) {

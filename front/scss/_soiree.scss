@@ -41,9 +41,6 @@
     gap: $espace;
     @include mix.colonnes(1);
 
-    // @include mix.a-partir-de($tablette) {
-    //     @include mix.colonnes(2);
-    // }
 
     article {
         min-width: 0;

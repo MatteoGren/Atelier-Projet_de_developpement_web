@@ -84,7 +84,6 @@ export function displayConfirmation(commande) {
     });
 }
 
-// Le template de la nav est ici et pas dans les pages : il est commun aux 7 pages.
 const TEMPLATE_NAV = `
     <a href="index.html">Programme</a>
     <a href="billets.html">Mes billets</a>

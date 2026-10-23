@@ -10,7 +10,6 @@ function verifierAccesTableaudeBord() {
         utilisateur = null;
     }
 
-    // Seuls les organisateurs et les administrateurs sont autorisés
     const rolesAutorises = ['organisateur', 'administrateur'];
 
     if (!utilisateur || !rolesAutorises.includes(utilisateur.role)) {
@@ -21,7 +20,6 @@ function verifierAccesTableaudeBord() {
     return true;
 }
 
-// Vérifier les droits avant de charger le tableau de bord
 document.addEventListener('DOMContentLoaded', () => {
     if (!verifierAccesTableaudeBord()) {
         return;
@@ -33,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         etat: document.getElementById('etat-chargement')
     };
 
-    // Vérifier que les éléments HTML nécessaires existent
     if (!elements.grille || !elements.actualiser || !elements.etat) {
         console.error('Certains éléments du tableau de bord sont introuvables.');
         return;
@@ -104,6 +101,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.actualiser.addEventListener('click', chargerTableauBord);
 
-    // Chargement initial uniquement si le rôle est autorisé
     chargerTableauBord();
 });

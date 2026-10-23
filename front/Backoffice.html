@@ -76,7 +76,6 @@
     </header>
 
     <main class="main-large">
-        <!-- Entête des billets -->
         <div class="billets-entete" style="justify-content: flex-end;">
             <div style="display: flex; gap: 1rem;">
                 <button type="button" id="btn-toggle-soiree" class="btn-secondaire" style="width: auto;" onclick="toggleForm('soiree')">Ajouter une soirée</button>
@@ -86,7 +85,6 @@
 
         <div class="backoffice-grille">
             
-            <!-- Formulaire Soirée -->
             <div id="form-soiree-box" class="carte-paiement form-toggle">
                 <legend>Ajouter une soirée</legend>
                 <form id="form-soiree">
@@ -126,7 +124,6 @@
                     <div class="champ-spectacles-box">
                         <label>Spectacles associés <span id="compteur-spectacles" class="compteur">(0/3)</span></label>
                         
-                        <!-- Ce conteneur sera rempli dynamiquement par JavaScript -->
                         <div id="liste-spectacles-selection" class="liste-spectacles-selection">
                             <p style="color: #888; font-size: 0.85rem; margin: 0;">Chargement des spectacles disponibles...</p>
                         </div>
@@ -158,11 +155,9 @@
                 </form>
             </div>
 
-            <!-- Formulaire Spectacle -->
             <div id="form-spectacle-box" class="carte-paiement form-toggle">
                 <legend>Ajouter un spectacle</legend>
                 <form id="form-spectacle">
-                    <!-- Soirée rattachée -->
 
                     <label for="titre-spectacle">Titre du spectacle</label>
                     <input type="text" id="titre-spectacle" name="titre" placeholder="[Titre du spectacle]" required>
