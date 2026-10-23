@@ -73,51 +73,6 @@ La base Postgres n'a pas de port publié : seuls l'API et Adminer y accèdent, v
 
 En déploiement sur docketu, remplacer `localhost` par `docketu.iutnc.univ-lorraine.fr`.
 
-## Déploiement sur docketu
-
-| Service | URL |
-|---------|-----|
-| Front | http://docketu.iutnc.univ-lorraine.fr:31000 |
-| API | http://docketu.iutnc.univ-lorraine.fr:31001 |
-| Adminer | http://docketu.iutnc.univ-lorraine.fr:31002 (serveur : `nrv.db`) |
-
-### Connexion au VPN de l'université
-
-docketu n'est joignable que depuis le réseau de l'université : hors de l'IUT, il faut se connecter au VPN avant toute connexion SSH ou ouverture des URL ci-dessus.
-
-1. Installer **Cisco Secure Client** (anciennement Cisco AnyConnect). Il se télécharge en ouvrant `https://vpn.lothaire.net` dans un navigateur et en se connectant avec ses identifiants universitaires. Sous Linux, `openconnect` fonctionne aussi : `sudo openconnect vpn.lothaire.net`.
-2. Lancer Cisco Secure Client, saisir l'adresse `vpn.lothaire.net`, puis cliquer sur « Connecter ».
-3. S'identifier avec son compte de l'Université de Lorraine (le même identifiant et mot de passe que pour l'ENT).
-4. Une fois connecté, se connecter à docketu en SSH avec ce même identifiant : `ssh identifiant@docketu.iutnc.univ-lorraine.fr`.
-
-Penser à se déconnecter du VPN une fois le travail terminé.
-
-### Déploiement
-
-Les ports 31000-31002 ne peuvent être utilisés que par un seul compte à la fois : avant de déployer sur un autre compte, arrêter le déploiement existant (`docker compose down`).
-
-Premier déploiement :
-
-```bash
-ssh e2XXXXXu@docketu.iutnc.univ-lorraine.fr
-git clone https://github.com/MatteoGren/Atelier-Projet_de_developpement_web.git ~/nrv
-cd ~/nrv
-cat > nrv.env <<EOF
-POSTGRES_DB=nrv
-POSTGRES_USER=nrv
-POSTGRES_PASSWORD=$(openssl rand -hex 16)
-JWT_SECRET=$(openssl rand -hex 32)
-EOF
-chmod 600 nrv.env
-docker compose up -d
-docker compose logs -f api.nrv   # attendre "Development Server ... started", puis Ctrl+C
-docker compose exec nrv.db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /var/sql/nrv.schema.sql'
-docker compose exec nrv.db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /var/sql/nrv.donnees.sql'
-```
-
-- Adminer est lancé en IPv4 (`command` dans `docker-compose.yml`) car le Docker de docketu n'a pas d'IPv6.
-- `docker compose down` supprime les données de la base : recharger ensuite les deux fichiers SQL.
-
 ## Routes de l'API
 
 | Méthode | Route | Description |
