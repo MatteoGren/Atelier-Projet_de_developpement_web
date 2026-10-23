@@ -30,16 +30,36 @@ API RESTful (PHP / Slim, architecture hexagonale) et front HTML/SCSS/JS.
 
 Ces deux commandes peuvent être relancées sans risque : le schéma supprime les tables existantes avant de les recréer.
 
-## Mise à jour après un `git pull`
+## Fonctionnalités et répartition des tâches
 
-```bash
-docker compose up -d
-docker compose restart api.nrv
-```
+| N° | Fonctionnalité | Réalisé par |
+|----|----------------|-------------|
+| | **Programme** | |
+| 1 | Liste des spectacles (titre, date, horaire, image) | Serge |
+| 2 | Détail d'une soirée (nom, thématique, date, horaire, lieu, tarifs, spectacles avec titre, artistes, description, style et vidéo) | Serge |
+| 3 | Clic sur un spectacle, qui affiche la soirée correspondante | Serge |
+| 4 | Filtre par date | Kazel |
+| 5 | Filtre par style de musique | Kazel |
+| | **Achat de billets** | |
+| 6 | Ajout de billets d'une soirée dans un panier | Auriane |
+| 7 | Consultation du panier avec calcul du montant total | Auriane |
+| 8 | Validation du panier, qui devient une commande | Auriane |
+| 9 | Paiement simulé (numéro, date d'expiration, code) : contrôle des places disponibles, mise à jour du stock et validation de la commande | Serge |
+| 10 | Création des billets (nom de l'acheteur, référence, date et horaire de la soirée, catégorie de tarif), imprimables avec `@media print` | Serge |
+| | **Connexion / inscription** | |
+| 11 | Création de comptes utilisateur (email, mot de passe) | Mattéo |
+| 12 | Connexion aux services après la création d'un compte | Mattéo |
+| | **Backoffice** | |
+| 13 | Jauge par soirée (places vendues) et recette de la soirée | Kazel (back), Auriane (front) |
+| | **Fonctionnalités étendues** | |
+| 14 | Pagination de la liste des spectacles | Kazel |
+| 15 | Modification du panier (nombre de billets) | Auriane |
+| 16 | Ajout de spectacles et de soirées depuis le backoffice | Mattéo |
 
-- `up -d` recrée les conteneurs dont la configuration a changé et lance les nouveaux services.
-- `restart api.nrv` relance `composer install`, ce qui régénère l'autoload. À faire si l'API affiche `Class "..." not found` (nouvelle classe ou nouveau namespace).
-- Si les fichiers SQL ont changé, relancer les deux commandes de l'étape 3.
+Autres tâches :
+
+- **Serge** : wireframes, déploiement sur docketu.
+- **Auriane** : modification du front.
 
 ## Services
 
@@ -94,8 +114,6 @@ docker compose logs -f api.nrv   # attendre "Development Server ... started", pu
 docker compose exec nrv.db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /var/sql/nrv.schema.sql'
 docker compose exec nrv.db sh -c 'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f /var/sql/nrv.donnees.sql'
 ```
-
-Mise à jour : `cd ~/nrv && git pull && docker compose up -d` (puis les mêmes étapes que dans « Mise à jour après un `git pull` »).
 
 - Adminer est lancé en IPv4 (`command` dans `docker-compose.yml`) car le Docker de docketu n'a pas d'IPv6.
 - `docker compose down` supprime les données de la base : recharger ensuite les deux fichiers SQL.
