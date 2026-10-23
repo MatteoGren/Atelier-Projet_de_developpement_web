@@ -89,7 +89,10 @@ const TEMPLATE_NAV = `
     <a href="index.html">Programme</a>
     <a href="billets.html">Mes billets</a>
     <a href="panier.html">Panier</a>
-    {{#if backoffice}}<a href="Backoffice.html">Backoffice</a>{{/if}}
+    {{#if backoffice}}
+    <a href="Backoffice.html">Backoffice</a>
+    <a href="tableaudebord.html">Tableau de Bord</a>
+    {{/if}}
 
     <a href="auth.html" id="lien-connexion">Connexion</a>
     <span id="zone-utilisateur" style="display: none;">
@@ -133,3 +136,48 @@ export function displayBillets(billets) {
 
     document.querySelector('#liste-billets').innerHTML = templateBillets({ billets: donnees });
 }
+
+
+export function displayTableauBord(statistiques) {
+    const formatNombre = new Intl.NumberFormat('fr-FR');
+    const formatEuro = new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'EUR'
+    });
+
+    document.querySelector('#total-places').textContent =
+        formatNombre.format(statistiques.totalPlaces);
+
+    document.querySelector('#capacite-totale').textContent =
+        `sur ${formatNombre.format(statistiques.capaciteTotale)} places`;
+
+    document.querySelector('#recette-totale').textContent =
+        formatEuro.format(statistiques.recetteTotale);
+
+    const template = Handlebars.compile(
+        document.querySelector('#tpl-carte-soiree').innerHTML
+    );
+
+    const soirees = statistiques.soirees.map((soiree) => {
+        const taux = soiree.capacite > 0
+            ? (soiree.placesVendues / soiree.capacite) * 100
+            : 0;
+
+        return {
+            ...soiree,
+            taux,
+            tauxFormate: taux >= 100
+                ? 'Complet'
+                : `${taux.toLocaleString('fr-FR', {
+                    maximumFractionDigits: 1
+                })} %`,
+            placesFormatees: formatNombre.format(soiree.placesVendues),
+            capaciteFormatee: formatNombre.format(soiree.capacite),
+            recetteFormatee: formatEuro.format(soiree.recette)
+        };
+    });
+
+    document.querySelector('#grille-soirees').innerHTML =
+        template({ soirees });
+}
+

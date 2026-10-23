@@ -258,3 +258,13 @@ export async function getBillet(token) {
 function avecToken(billet, links) {
     return { ...billet, token: links.self.href.split('/').pop() };
 }
+
+export async function getStatistiquesVentes() {
+    const reponse = await fetch(`${API_URL}/backOffices`);
+
+    if (!reponse.ok) {
+        throw new Error(`Erreur HTTP ${reponse.status}`);
+    }
+
+    return reponse.json();
+}

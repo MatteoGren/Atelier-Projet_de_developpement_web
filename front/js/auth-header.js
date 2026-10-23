@@ -58,12 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ------------------- Menu Mobile
-const entete = document.querySelector('.entete');
+const header = document.querySelector('header');
 const btnMenu = document.getElementById('btn-menu');
 
-if (entete && btnMenu) {
+if (header && btnMenu) {
     btnMenu.addEventListener('click', () => {
-        const menuOuvert = entete.classList.toggle('menu-ouvert');
+        const menuOuvert = header.classList.toggle('menu-ouvert');
 
         btnMenu.textContent = menuOuvert ? 'X' : 'Menu';
     });

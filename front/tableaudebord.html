@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nancy Rock Vibration - Backoffice</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
+    <script type="module" src="js/auth-header.js"></script>
+    <script type="module" src="./js/tableaudebord.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Nancy Rock Vibration</h1>
+        <button type="button" id="btn-menu">Menu</button>
+        <nav class="Navigation" id="nav"></nav>
+    </header>
+
+    <main class="main-large">
+        <div class="entete">
+            <h3>Performances globales</h3>
+            <p>Suivi des ventes et des recettes du festival.</p>
+        </div>
+        <section class="indicateurs" aria-label="Statistiques globales">
+            <article class="indicateur">
+                <p class="titre">Billets vendus</p>
+                <p class="valeur" id="total-places">0</p>
+                <p class="detail" id="capacite-totale">sur 0 places</p>
+            </article>
+            <article class="indicateur">
+                <p class="titre">Recette totale</p>
+                <p class="valeur" id="recette-totale">0 €</p>
+            </article>
+        </section>
+       
+        <section class="ventes">
+            <h3>Performances par soirée</h3>
+
+            <div id="grille-soirees" class="grille-soirees"></div>
+        </section>
+
+        <button id="btn-actualiser" class="btn-principal" type="button">
+            Actualiser les statistiques
+        </button>
+        <p id="etat-chargement" class="message" role="status"></p>
+
+        
+        <template id="tpl-carte-soiree">
+            {{#each soirees}}
+            <article class="carte-soiree">
+                <div class="entete">
+                    <h4 class="titre">{{nom}}</h4>
+                    <span class="badge">{{tauxFormate}}</span>
+                </div>
+                <p class="libelle">Places vendues</p>
+                <p class="places">{{placesFormatees}} / {{capaciteFormatee}}</p>
+                <progress class="progression" max="100" value="{{taux}}">{{taux}} %</progress>
+                <div class="separateur"></div>
+                <div class="recette">
+                    <p>Recette générée</p>
+                    <p>{{recetteFormatee}}</p>
+                </div>
+            </article>
+            {{else}}
+            <p class="grille-soirees-vide">Aucune soirée disponible.</p>
+            {{/each}}
+        </template>
+    </main>
+
+    <footer class="pieddepage">
+        <p>&copy; 2026 NRV.net - Tous droits réservés</p>
+    </footer>
+</body>
+
+</html>
