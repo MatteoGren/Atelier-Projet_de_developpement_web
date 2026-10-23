@@ -43,12 +43,14 @@ class GetSpectaclesAction
             $taillePage += 1;
         }
 
-        $requestIndex = (int) ($parametres['page'] ?? 1);
+        $parametres = $request->getQueryParams();
+        $requestIndex = (int) ($parametres['page'] ?? '');
         if($requestIndex > count($tabSpectacles)){
             throw new Exception('Index out of bounds');
         }
+        if($requestIndex != '' && $requestIndex != null){
+            $donnees = [
 
-        $donnees = [
             'type' => 'collection',
             'count' => count($spectacles),
             'spectacles' => array_map(fn ($dto) => $this->element($dto), $tabSpectacles[$requestIndex - 1]),
@@ -56,6 +58,27 @@ class GetSpectaclesAction
                 'self' => ['href' => '/spectacles'],
             ],
         ];
+        }else{
+            $donnees = [
+            'type' => 'collection',
+            'count' => count($spectacles),
+            'spectacles' => array_map(fn ($dto) => [
+                'spectacle' => array_merge($dto->toArray(), [
+                    'soiree_id' => $dto->soireeId,
+                ]),
+                'links' => [
+                    'soiree' => $dto->soireeId === null
+                        ? null
+                        : ['href' => '/soirees/' . $dto->soireeId],
+                ],
+            ], $spectacles),
+            'links' => [
+                'self' => ['href' => '/spectacles'],
+            ],
+        ];
+        }
+        
+        
 
         return $this->repondre($response, $donnees);
     }

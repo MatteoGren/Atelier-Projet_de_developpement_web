@@ -1,7 +1,30 @@
 import { API_URL } from './config.js';
 
 export async function getSpectacles() {
-    return chargerListe(`${API_URL}/spectacles`);
+    const nbPage = await getNbPage();
+    const spectacle = await chargerListe(`${API_URL}/spectacles`);
+    const nbSpe = spectacle.length;
+    return [nbPage, spe, nbSpe];
+}
+
+export async function getSpectaclePage(page){
+    return chargerListe(`${API_URL}/spectacles?page=${page}`);
+}
+
+export async function getNbPage(){
+    const reponse = await fetch(`${API_URL}/spectacles`);
+    if (!reponse.ok) {
+        throw new Error(`Erreur ${reponse.status} lors du chargement des spectacles`);
+    }
+    const donnees = await reponse.json();
+    let count = donnees['count'];
+    let nbPage = 0;
+    while(count > 0){
+        count = count - 6;
+        nbPage += 1;
+    }
+    return nbPage
+    
 }
 
 // Filtre vide ('') = non utilisé : l'API renvoie alors tous les spectacles.

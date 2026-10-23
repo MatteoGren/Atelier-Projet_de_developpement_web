@@ -1,4 +1,4 @@
-import { getSpectacles, getSpectaclesFiltres } from './api.js';
+import { getSpectacles,getSpectaclePage, getSpectaclesFiltres } from './api.js';
 import { displayFiltres, displaySpectacles, IMAGE_PAR_DEFAUT } from './ui.js';
 
 const conteneur = document.getElementById('liste-spectacles');
@@ -14,7 +14,7 @@ conteneur.addEventListener('error', (evenement) => {
 
 async function chargerSpectacles() {
     try {
-        const spectacles = await getSpectacles();
+        const [nbPage, spectacles, nbSpe] = await getSpectacles();
         if (spectacles.length === 0) {
             message.textContent = 'Aucun spectacle programmé pour le moment.';
             return;
@@ -22,7 +22,7 @@ async function chargerSpectacles() {
 
         displayFiltres(spectacles);
         displaySpectacles(spectacles);
-        message.textContent = `${spectacles.length} spectacles prévus`;
+        message.textContent = `${nbSpe} spectacles prévus`;
     } catch (erreur) {
         message.textContent = 'Impossible de charger les spectacles. Réessayez plus tard.';
         console.error(erreur);
