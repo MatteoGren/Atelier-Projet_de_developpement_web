@@ -9,6 +9,7 @@ final class SoireeBackOfficeDTO{
 
 
     public function __construct(
+        public string $id,
         public string $nom,
         public int $placesVendues,
         public int $capacite,
@@ -18,6 +19,7 @@ final class SoireeBackOfficeDTO{
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'nom' => $this->nom,
             'placesVendues' => $this->placesVendues,
             'capacite' => $this->capacite,
