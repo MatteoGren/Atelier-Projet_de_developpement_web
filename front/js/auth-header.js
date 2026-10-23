@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const user = JSON.parse(userRaw);
 
-            if (lienConnexion) lienConnexion.style.display = 'none';
-            if (zoneUtilisateur) zoneUtilisateur.style.display = 'inline';
+            if (lienConnexion) lienConnexion.classList.add('hidden');
+            if (zoneUtilisateur) zoneUtilisateur.classList.remove('hidden');
 
             
             const displayName = (user.nom && user.prenom)

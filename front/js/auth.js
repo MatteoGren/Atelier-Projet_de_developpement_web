@@ -5,12 +5,11 @@ const alertBox = document.getElementById('alert-box');
 function notify(message, type = 'error') {
     alertBox.textContent = message;
     alertBox.className = `alert ${type === 'error' ? 'alert-error' : 'alert-success'}`;
-    alertBox.style.display = 'block';
 }
 
 function clearNotification() {
     alertBox.textContent = '';
-    alertBox.style.display = 'none';
+    alertBox.className = 'alert';
 }
 
 // fetch lève une TypeError quand le serveur ne répond pas ; sinon c'est le message de l'API.

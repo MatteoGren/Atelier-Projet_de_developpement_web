@@ -1,3 +1,4 @@
+import Handlebars from 'https://cdn.jsdelivr.net/npm/handlebars@4.7.8/+esm';
 import { dateCourte, dateLisible, prixEuros, urlVideoIntegree } from './format.js';
 
 export const IMAGE_PAR_DEFAUT = 'img/placeholder.svg';
@@ -94,7 +95,7 @@ const TEMPLATE_NAV = `
     {{/if}}
 
     <a href="auth.html" id="lien-connexion">Connexion</a>
-    <span id="zone-utilisateur" style="display: none;">
+    <span id="zone-utilisateur" class="hidden">
         <a href="#" id="btn-deconnexion"> Déconnexion</a>
         (<span id="nom-utilisateur"></span>)
     </span>`;

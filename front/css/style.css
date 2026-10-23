@@ -373,19 +373,21 @@ header button {
 }
 
 .auth-card .alert-error {
+  display: block;
   background-color: #fee2e2;
   color: #b91c1c;
   border: 1px solid #fecaca;
 }
 
 .auth-card .alert-success {
+  display: block;
   background-color: #dcfce7;
   color: #15803d;
   border: 1px solid #bbf7d0;
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 @media screen and (max-width: 600px) {
@@ -903,11 +905,11 @@ main.main-large {
 }
 
 .carte-paiement.form-toggle {
-  display: none !important;
+  display: none;
 }
 
 .carte-paiement.form-toggle.visible {
-  display: block !important;
+  display: block;
 }
 
 .billets-entete.actions-backoffice {
