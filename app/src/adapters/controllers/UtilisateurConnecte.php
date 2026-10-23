@@ -9,19 +9,12 @@ use nrv\application\ports\spi\UtilisateurRepositoryInterface;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Exception\HttpForbiddenException;
 
-// Identifiant de l'utilisateur connecté : attribut de requête, sinon en-tête "Authorization: Bearer <id>".
+// Identifiant de l'utilisateur connecté, posé par le middleware LectureJeton à partir d'un JWT valide.
 class UtilisateurConnecte
 {
     public static function lire(Request $request, string $message = 'Connexion requise.'): string
     {
         $idUtilisateur = $request->getAttribute('idUtilisateur');
-
-        if (!$idUtilisateur) {
-            $authHeader = $request->getHeaderLine('Authorization');
-            if (preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
-                $idUtilisateur = trim($matches[1]);
-            }
-        }
 
         if (!is_string($idUtilisateur) || trim($idUtilisateur) === '') {
             throw new HttpUnauthorizedException($request, $message);

@@ -1,9 +1,118 @@
+@use '_variables.scss' as *;
+
+// ---------------------------------- Mise en page
+
 @mixin colonnes($nb) {
-    grid-template-columns: repeat($nb, 1fr);
+    grid-template-columns: repeat($nb, minmax(0, 1fr));
 }
+
+@mixin grille($gap: $espace) {
+    display: grid;
+    gap: $gap;
+}
+
+// Les arguments laissés à null ne génèrent aucune propriété.
+@mixin flex($justify: null, $align: null, $gap: null, $direction: null, $wrap: null) {
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    justify-content: $justify;
+    align-items: $align;
+    gap: $gap;
+}
+
+// Contenu principal + colonne latérale (billetterie, récapitulatif) à partir du desktop.
+@mixin avec-colonne-laterale($largeur) {
+    @include grille($espace * 2);
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    margin-top: $espace * 2;
+
+    @include a-partir-de($desktop) {
+        grid-template-columns: minmax(0, 1fr) $largeur;
+    }
+
+    > * {
+        min-width: 0; // évite qu'une vidéo ou un long texte fasse déborder la grille
+    }
+}
+
+// ---------------------------------- Responsive
 
 @mixin a-partir-de($largeur) {
     @media (min-width: $largeur) {
         @content;
+    }
+}
+
+@mixin jusqu-a($largeur) {
+    @media screen and (max-width: $largeur) {
+        @content;
+    }
+}
+
+// Taille de texte qui suit la largeur de l'écran entre deux bornes.
+@mixin texte-fluide($min, $max, $ideal: 4vw) {
+    font-size: clamp($min, $ideal, $max);
+}
+
+// ---------------------------------- Composants
+
+@mixin carte($padding: $espace, $ombre-carte: $ombre) {
+    padding: $padding;
+    background-color: $couleur-blanc;
+    border-radius: $rayon;
+    box-shadow: $ombre-carte;
+}
+
+@mixin contour-focus($couleur: $couleur-principale) {
+    outline: 2px solid $couleur;
+    outline-offset: 1px;
+}
+
+@mixin champ($padding: 0 0.75rem) {
+    width: 100%;
+    padding: $padding;
+    border: 1px solid $couleur-bordure;
+    border-radius: $rayon;
+    background-color: $couleur-blanc;
+    color: $couleur-texte;
+    font: inherit;
+    font-size: 1rem;
+
+    &:focus {
+        @include contour-focus;
+        border-color: $couleur-principale;
+    }
+}
+
+// Les boutons - et + remplacent les flèches natives des champs nombre.
+@mixin sans-fleches {
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+// Prix barré + prix remisé affiché seulement quand la classe .remise est présente.
+@mixin prix-remise {
+    span:last-of-type {
+        display: none;
+    }
+
+    &.remise {
+        span:first-of-type {
+            text-decoration: line-through;
+            color: $couleur-texte-secondaire;
+            font-weight: 500;
+        }
+
+        span:last-of-type {
+            display: inline;
+            color: $couleur-principale;
+        }
     }
 }

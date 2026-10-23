@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace nrv\adapters\controllers\actions;
 
 use DateTime;
-use Exception;
 use nrv\application\ports\api\ServiceSpectacleInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpNotFoundException;
 
 class GetSpectaclesAction
 {
+    private const TAILLE_PAGE = 6;
+
     private ServiceSpectacleInterface $serviceSpectacle;
 
     public function __construct(ServiceSpectacleInterface $serviceSpectacle)
@@ -30,55 +32,48 @@ class GetSpectaclesAction
         }
 
         $spectacles = $this->serviceSpectacle->listerSpectacles();
-        $tabSpectacles = [];
-        $taillePage = 0;
-        $tailleTab = 0;
 
-        foreach($spectacles as $spectacle){
-            if($taillePage > 5){
-                $taillePage = 0;
-                $tailleTab += 1;
-            }
-            $tabSpectacles[$tailleTab][$taillePage] = $spectacle;
-            $taillePage += 1;
-        }
-
-        $parametres = $request->getQueryParams();
-        $requestIndex = (int) ($parametres['page'] ?? '');
-        if($requestIndex > count($tabSpectacles)){
-            throw new Exception('Index out of bounds');
-        }
-        if($requestIndex != '' && $requestIndex != null){
-            $donnees = [
-
-            'type' => 'collection',
-            'count' => count($spectacles),
-            'spectacles' => array_map(fn ($dto) => $this->element($dto), $tabSpectacles[$requestIndex - 1]),
-            'links' => [
-                'self' => ['href' => '/spectacles'],
-            ],
-        ];
-        }else{
-            $donnees = [
-            'type' => 'collection',
-            'count' => count($spectacles),
-            'spectacles' => array_map(fn ($dto) => [
-                'spectacle' => array_merge($dto->toArray(), [
-                    'soiree_id' => $dto->soireeId,
-                ]),
+        // Sans ?page : programme complet (le front en tire les listes de filtres).
+        if (!array_key_exists('page', $parametres)) {
+            return $this->repondre($response, [
+                'type' => 'collection',
+                'count' => count($spectacles),
+                'spectacles' => array_map(fn ($dto) => $this->element($dto), $spectacles),
                 'links' => [
-                    'soiree' => $dto->soireeId === null
-                        ? null
-                        : ['href' => '/soirees/' . $dto->soireeId],
+                    'self' => ['href' => '/spectacles'],
                 ],
-            ], $spectacles),
-            'links' => [
-                'self' => ['href' => '/spectacles'],
-            ],
-        ];
+            ]);
         }
-        
-        
+
+        $page = $this->lirePage($request, $parametres['page']);
+        $nbPages = max(1, (int) ceil(count($spectacles) / self::TAILLE_PAGE));
+        if ($page > $nbPages) {
+            throw new HttpNotFoundException($request, "Page $page introuvable : il y a $nbPages page(s).");
+        }
+
+        $liens = [
+            'self' => ['href' => '/spectacles?page=' . $page],
+            'first' => ['href' => '/spectacles?page=1'],
+            'last' => ['href' => '/spectacles?page=' . $nbPages],
+        ];
+        if ($page > 1) {
+            $liens['prev'] = ['href' => '/spectacles?page=' . ($page - 1)];
+        }
+        if ($page < $nbPages) {
+            $liens['next'] = ['href' => '/spectacles?page=' . ($page + 1)];
+        }
+
+        $donnees = [
+            'type' => 'collection',
+            'count' => count($spectacles),
+            'page' => $page,
+            'pages' => $nbPages,
+            'spectacles' => array_map(
+                fn ($dto) => $this->element($dto),
+                array_slice($spectacles, ($page - 1) * self::TAILLE_PAGE, self::TAILLE_PAGE)
+            ),
+            'links' => $liens,
+        ];
 
         return $this->repondre($response, $donnees);
     }
@@ -141,6 +136,15 @@ class GetSpectaclesAction
             throw new HttpBadRequestException($request, 'Date invalide : format attendu AAAA-MM-JJ.');
         }
         return $date;
+    }
+
+    // Numéro de page : entier à partir de 1, sinon erreur 400.
+    private function lirePage(Request $request, mixed $texte): int
+    {
+        if (!is_string($texte) || !preg_match('/^[1-9][0-9]{0,5}$/', $texte)) {
+            throw new HttpBadRequestException($request, 'Page invalide : un entier à partir de 1 est attendu.');
+        }
+        return (int) $texte;
     }
 
     private function repondre(Response $response, array $donnees): Response

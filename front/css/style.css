@@ -1,14 +1,71 @@
+.btn-secondaire, .btn-principal, .auth-card button[type=submit] {
+  padding: 0.9rem;
+  border: 0;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-principal, .auth-card button[type=submit] {
+  width: 100%;
+  background-color: #1e1e1e;
+  color: #fff;
+}
+.btn-principal:hover, .auth-card button[type=submit]:hover, .btn-principal:focus-visible, .auth-card button[type=submit]:focus-visible {
+  background-color: #c0262d;
+}
+
+.btn-secondaire {
+  width: 100%;
+  border: 1px solid #1e1e1e;
+  background-color: #fff;
+  color: #1e1e1e;
+}
+.btn-secondaire:hover, .btn-secondaire:focus-visible {
+  border-color: #c0262d;
+  color: #c0262d;
+}
+
+.infos-soiree .btn-retirer {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #1e1e1e;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.infos-soiree .btn-retirer:hover, .infos-soiree .btn-retirer:focus-visible {
+  color: #c0262d;
+}
+
+a, .lien-ajout-image label {
+  color: #c0262d;
+  transition: color 0.2s ease;
+}
+a:hover, .lien-ajout-image label:hover, a:focus-visible, .lien-ajout-image label:focus-visible {
+  color: #1e1e1e;
+}
+
+.infos-soiree h3 a, header a {
+  text-decoration: none;
+}
+.infos-soiree h3 a:hover, header a:hover, .infos-soiree h3 a:focus-visible, header a:focus-visible {
+  text-decoration: underline;
+}
+
 header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   background-color: #1e1e1e;
   padding: 1rem;
   color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
 }
 header h1 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
   margin: 0;
   color: #c0262d;
   max-width: 70%;
@@ -16,7 +73,6 @@ header h1 {
 header a {
   color: #fff;
   font-weight: bold;
-  text-decoration: none;
 }
 header a:not(#btn-deconnexion, #lien-connexion) {
   padding-right: 0.5rem;
@@ -25,9 +81,8 @@ header a:not(#btn-deconnexion, #lien-connexion)::after {
   content: "|";
   padding-left: 0.5rem;
 }
-header a:hover {
+header a:hover, header a:focus-visible {
   color: #fff;
-  text-decoration: underline;
 }
 
 header button {
@@ -36,7 +91,6 @@ header button {
   color: #fff;
   border: 0;
   font-size: 1rem;
-  text-decoration: none;
   cursor: pointer;
 }
 
@@ -58,33 +112,33 @@ header button {
 .liste-spectacles {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 @media (min-width: 600px) {
   .liste-spectacles {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 1000px) {
   .liste-spectacles {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 .carte-spectacle {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  padding: 0;
   background-color: #fff;
   border-radius: 6px;
-  overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 .carte-spectacle img {
   width: 100%;
   aspect-ratio: 16/10;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 .carte-spectacle .infos {
   padding: 1rem;
@@ -104,14 +158,13 @@ header button {
 .filtres {
   display: grid;
   gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   margin-bottom: 1.5rem;
-  grid-template-columns: repeat(1, 1fr);
 }
 @media (min-width: 600px) {
   .filtres {
-    -moz-column-gap: 1.5rem;
-         column-gap: 1.5rem;
-    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 .filtres h3 {
@@ -127,32 +180,39 @@ header button {
   font-weight: bold;
 }
 .filtres select {
-  min-height: 2.75rem;
+  width: 100%;
   padding: 0 0.75rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #fff;
   color: #1e1e1e;
+  font: inherit;
   font-size: 1rem;
+  min-height: 2.75rem;
 }
 .filtres select:focus {
   outline: 2px solid #c0262d;
   outline-offset: 1px;
+  border-color: #c0262d;
 }
 
-.btn-secondaire {
-  width: 100%;
-  padding: 0.9rem;
-  border: 1px solid #1e1e1e;
-  border-radius: 6px;
-  background-color: #fff;
-  color: #1e1e1e;
-  font-size: 1rem;
-  cursor: pointer;
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
 }
-.btn-secondaire:hover, .btn-secondaire:focus {
+.pagination .btn-secondaire {
+  width: auto;
+  min-width: 2.75rem;
+}
+.pagination [aria-current=page] {
+  background-color: #c0262d;
   border-color: #c0262d;
-  color: #c0262d;
+  color: #fff;
+  cursor: default;
 }
 
 .soiree-infos h2 {
@@ -165,13 +225,14 @@ header button {
 
 .soiree-page {
   display: grid;
-  align-items: start;
   gap: 2rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   margin-top: 2rem;
 }
 @media (min-width: 1000px) {
   .soiree-page {
-    grid-template-columns: 1fr 22rem;
+    grid-template-columns: minmax(0, 1fr) 22rem;
   }
 }
 .soiree-page > * {
@@ -184,17 +245,17 @@ header button {
 #liste-detail-spectacles {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 #liste-detail-spectacles article {
-  min-width: 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column-reverse;
   gap: 2rem;
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 1rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  min-width: 0;
 }
 @media (min-width: 600px) {
   #liste-detail-spectacles article {
@@ -274,9 +335,7 @@ header button {
   color: #c0262d;
 }
 .quantite input[type=number] {
-  -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
+  appearance: textfield;
 }
 .quantite input[type=number]::-webkit-inner-spin-button, .quantite input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -284,18 +343,25 @@ header button {
 }
 
 .auth-card {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   width: 100%;
   max-width: 440px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+@media screen and (max-width: 600px) {
+  .auth-card {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 1.5rem;
+  }
 }
 
 .tabs {
   display: flex;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid #e5e5e5;
   margin-bottom: 2rem;
 }
 
@@ -310,6 +376,7 @@ header button {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 .tab-btn.active {
   color: #c0262d;
@@ -332,14 +399,15 @@ header button {
 }
 
 .auth-card input {
-  display: block;
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #fff;
+  color: #1e1e1e;
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  display: block;
 }
 .auth-card input:focus {
   outline: 2px solid #c0262d;
@@ -348,20 +416,8 @@ header button {
 }
 
 .auth-card button[type=submit] {
-  width: 100%;
   margin-top: 1rem;
-  padding: 0.9rem;
-  border: 0;
-  border-radius: 6px;
-  background-color: #1e1e1e;
-  color: #fff;
-  font-size: 1rem;
   font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-.auth-card button[type=submit]:hover, .auth-card button[type=submit]:focus-visible {
-  background-color: #c0262d;
 }
 
 .auth-card .alert {
@@ -390,18 +446,11 @@ header button {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
-  .auth-card {
-    max-width: 100%;
-    margin: 1rem auto;
-    padding: 1.5rem;
-  }
-}
 .panier-liste {
   display: grid;
+  gap: 2rem;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 2rem;
   margin-top: 2rem;
 }
 @media (min-width: 1000px) {
@@ -418,18 +467,17 @@ header button {
   gap: 1rem;
 }
 .panier-lignes .ligne-panier {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
+  padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
-  padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 @media (min-width: 600px) {
   .panier-lignes .ligne-panier {
     grid-template-columns: minmax(0, 1fr) 14rem;
-    gap: 2rem;
   }
 }
 .panier-lignes #btn-vider-panier {
@@ -446,10 +494,6 @@ header button {
   font-size: 1rem;
   font-weight: 600;
   color: #1e1e1e;
-  text-decoration: none;
-}
-.infos-soiree h3 a:hover {
-  text-decoration: underline;
 }
 .infos-soiree h3 span {
   font-size: 0.7rem;
@@ -473,16 +517,7 @@ header button {
   margin-top: 1rem;
 }
 .infos-soiree .btn-retirer {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: #1e1e1e;
   font-size: 0.75rem;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.infos-soiree .btn-retirer:hover, .infos-soiree .btn-retirer:focus {
-  color: #c0262d;
 }
 
 .tarifs-panier {
@@ -521,7 +556,6 @@ header button {
 }
 .quantite button,
 .quantite input {
-  box-sizing: border-box;
   width: 100%;
   min-width: 0;
   min-height: 2.5rem;
@@ -539,9 +573,7 @@ header button {
   background-color: #f2f2f2;
 }
 .quantite input[type=number] {
-  -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
+  appearance: textfield;
   border-right: 0;
   border-left: 0;
 }
@@ -551,9 +583,9 @@ header button {
 }
 
 .recapitulatif-panier, .presentation-pass {
+  padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
-  padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
 }
@@ -596,9 +628,9 @@ header button {
 
 .paiement-grille {
   display: grid;
+  gap: 2rem;
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 2rem;
   margin-top: 2rem;
 }
 @media (min-width: 1000px) {
@@ -606,11 +638,14 @@ header button {
     grid-template-columns: minmax(0, 1fr) 20rem;
   }
 }
+.paiement-grille > * {
+  min-width: 0;
+}
 
 .carte-paiement {
+  padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
-  padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .carte-paiement fieldset {
@@ -631,16 +666,20 @@ header button {
 }
 .carte-paiement input {
   width: 100%;
-  min-height: 2.5rem;
-  margin-bottom: 1rem;
   padding: 0 0.6rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #1e1e1e;
+  font: inherit;
   font-size: 1rem;
+  min-height: 2.5rem;
+  margin-bottom: 1rem;
 }
 .carte-paiement input:focus {
   outline: 2px solid #c0262d;
-  border-color: transparent;
+  outline-offset: 1px;
+  border-color: #c0262d;
 }
 .carte-paiement .erreur {
   color: #c0262d;
@@ -654,23 +693,23 @@ header button {
 
 .paiement-ligne {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 0 1rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 @media (min-width: 600px) {
   .paiement-ligne {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .confirmation-paiement {
-  max-width: 40rem;
-  margin: 2rem auto;
   padding: 2rem;
   background-color: #fff;
   border-radius: 6px;
-  border-top: 4px solid #c0262d;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  max-width: 40rem;
+  margin: 2rem auto;
+  border-top: 4px solid #c0262d;
   text-align: center;
 }
 .confirmation-paiement h2 {
@@ -696,22 +735,22 @@ header button {
 
 .billets {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 1rem;
 }
 @media (min-width: 1000px) {
   .billets {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .billet {
+  padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
-  border-left: 6px solid #c0262d;
-  padding: 1rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  border-left: 6px solid #c0262d;
 }
 .billet h3 {
   margin: 1rem 0;
@@ -744,8 +783,8 @@ header button {
 
 .billet-infos {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
   gap: 0.4rem 1rem;
+  grid-template-columns: max-content minmax(0, 1fr);
   margin: 0 0 1rem;
 }
 .billet-infos dt {
@@ -778,8 +817,7 @@ header button {
     margin-bottom: 1rem;
     border: 2px solid #000;
     box-shadow: none;
-    -moz-column-break-inside: avoid;
-         break-inside: avoid;
+    break-inside: avoid;
   }
   .billet-festival {
     color: #000;
@@ -787,12 +825,11 @@ header button {
 }
 .backoffice-grille {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
   margin-top: 1.5rem;
   align-items: start;
 }
-
 @media (min-width: 900px) {
   .backoffice-grille {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -801,9 +838,11 @@ header button {
 .backoffice-grille .form-toggle {
   display: none;
 }
-
 .backoffice-grille .form-toggle.visible {
   display: block;
+}
+.backoffice-grille .filtres {
+  margin-bottom: 1rem;
 }
 
 .btn-secondaire.active {
@@ -813,19 +852,24 @@ header button {
 }
 
 .carte-paiement textarea {
-  display: block;
   width: 100%;
-  min-height: 5.5rem;
-  margin-bottom: 1rem;
   padding: 0.6rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: inherit;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #1e1e1e;
+  font: inherit;
   font-size: 1rem;
-  box-sizing: border-box;
+  display: block;
+  min-height: 5.5rem;
+  margin-bottom: 1rem;
   resize: vertical;
 }
-
+.carte-paiement textarea:focus {
+  outline: 2px solid #c0262d;
+  outline-offset: 1px;
+  border-color: #c0262d;
+}
 .carte-paiement textarea:focus {
   outline: 2px solid #1e1e1e;
   outline-offset: 1px;
@@ -836,14 +880,12 @@ header button {
   margin-top: 1.2rem;
   margin-bottom: 1.2rem;
 }
-
 .champ-spectacles-box > label {
   display: block;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
   font-weight: bold;
 }
-
 .champ-spectacles-box .liste-spectacles-selection {
   display: flex;
   flex-direction: column;
@@ -855,19 +897,16 @@ header button {
   border-radius: 2px;
   background-color: #fff;
 }
-
 .champ-spectacles-box .item-spectacle {
   display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
   gap: 0.6rem;
   width: 100%;
   margin: 0;
   padding: 0.15rem 0;
   cursor: pointer;
 }
-
 .champ-spectacles-box .item-spectacle input[type=checkbox] {
   display: inline-block;
   flex: 0 0 15px;
@@ -880,14 +919,12 @@ header button {
   cursor: pointer;
   accent-color: #1e1e1e;
 }
-
 .champ-spectacles-box .item-spectacle span {
   font-size: 0.85rem;
   color: #1e1e1e;
   line-height: 1.2;
   text-align: left;
 }
-
 .champ-spectacles-box .texte-aide {
   margin-top: 0.6rem;
   padding: 0.5rem 0.75rem;
@@ -907,7 +944,6 @@ main.main-large {
 .carte-paiement.form-toggle {
   display: none;
 }
-
 .carte-paiement.form-toggle.visible {
   display: block;
 }
@@ -923,10 +959,6 @@ main.main-large {
 .boutons-backoffice {
   display: flex;
   gap: 1rem;
-}
-
-.backoffice-grille .filtres {
-  margin-bottom: 1rem;
 }
 
 .chargement-spectacles {
@@ -950,9 +982,7 @@ main.main-large {
 .lien-ajout-image {
   margin: -0.5rem 0 0.5rem;
 }
-
 .lien-ajout-image label {
-  color: #c0262d;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -972,24 +1002,24 @@ main.main-large {
 
 .indicateurs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 2rem;
 }
 
 .indicateur {
-  min-width: 0;
   padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  min-width: 0;
 }
 .indicateur p {
   margin-top: 0;
 }
 .indicateur .titre {
   margin-bottom: 0.75rem;
-  color: #666;
+  color: #555;
 }
 .indicateur .valeur {
   margin-bottom: 0.5rem;
@@ -1000,7 +1030,7 @@ main.main-large {
 }
 .indicateur .detail {
   margin-bottom: 0;
-  color: #666;
+  color: #555;
   font-size: 0.9rem;
 }
 
@@ -1008,7 +1038,7 @@ main.main-large {
   margin-top: 1rem;
 }
 .ventes p {
-  color: #666;
+  color: #555;
 }
 .ventes .btn-principal {
   width: auto;
@@ -1021,21 +1051,21 @@ main.main-large {
 
 .grille-soirees {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .carte-soiree {
-  min-width: 0;
   padding: 1rem;
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  min-width: 0;
 }
 .carte-soiree .entete {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -1055,7 +1085,7 @@ main.main-large {
 }
 .carte-soiree .libelle {
   margin-bottom: 0.35rem;
-  color: #666;
+  color: #555;
   font-size: 0.9rem;
 }
 .carte-soiree .places {
@@ -1086,15 +1116,15 @@ main.main-large {
 }
 .carte-soiree .recette {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 0.5rem;
 }
 .carte-soiree .recette p {
   margin: 0;
 }
 .carte-soiree .recette p:first-child {
-  color: #666;
+  color: #555;
   font-size: 0.9rem;
 }
 .carte-soiree .recette p:last-child {
@@ -1104,7 +1134,7 @@ main.main-large {
 
 .grille-soirees-vide {
   grid-column: 1/-1;
-  color: #666;
+  color: #555;
 }
 
 @media screen and (max-width: 1000px) {
@@ -1126,13 +1156,13 @@ main.main-large {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f4f4f4;
   color: #1e1e1e;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
 }
 
 .pieddepage {
@@ -1146,14 +1176,6 @@ body {
   margin: 0;
 }
 
-a {
-  color: #c0262d;
-  transition: color 0.4s ease;
-}
-a:hover, a:focus {
-  color: #1e1e1e;
-}
-
 .message {
   font-style: italic;
 }
@@ -1165,17 +1187,3 @@ main {
   margin: 0 auto;
   padding: 1rem;
 }
-
-.btn-principal {
-  width: 100%;
-  padding: 0.9rem;
-  border: 0;
-  border-radius: 6px;
-  background-color: #1e1e1e;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-}
-.btn-principal:hover, .btn-principal:focus {
-  background-color: #c0262d;
-}/*# sourceMappingURL=style.css.map */

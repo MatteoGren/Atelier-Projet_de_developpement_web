@@ -1,0 +1,73 @@
+@use '_variables.scss' as *;
+
+// Styles communs des boutons et des liens, appliqués avec @extend.
+
+%bouton {
+    padding: 0.9rem;
+    border: 0;
+    border-radius: $rayon;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color $transition, color $transition, border-color $transition;
+}
+
+%bouton-principal {
+    @extend %bouton;
+    width: 100%;
+    background-color: $couleur-texte;
+    color: $couleur-blanc;
+
+    &:hover,
+    &:focus-visible {
+        background-color: $couleur-principale;
+    }
+}
+
+%bouton-secondaire {
+    @extend %bouton;
+    width: 100%;
+    border: 1px solid $couleur-texte;
+    background-color: $couleur-blanc;
+    color: $couleur-texte;
+
+    &:hover,
+    &:focus-visible {
+        border-color: $couleur-principale;
+        color: $couleur-principale;
+    }
+}
+
+// Bouton qui ressemble à un lien (action secondaire dans un texte).
+%bouton-lien {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: $couleur-texte;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+        color: $couleur-principale;
+    }
+}
+
+%lien {
+    color: $couleur-principale;
+    transition: color $transition;
+
+    &:hover,
+    &:focus-visible {
+        color: $couleur-texte;
+    }
+}
+
+// Lien sans soulignement, souligné au survol (menu, titres cliquables).
+%lien-discret {
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+    }
+}

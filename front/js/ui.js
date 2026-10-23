@@ -11,12 +11,32 @@ export function displaySpectacles(spectacles) {
         return {
             ...spectacle,
             image: spectacle.image || IMAGE_PAR_DEFAUT,
+            imagePetite: versionPetite(spectacle.image),
             lienDetail: `soiree.html?id=${encodeURIComponent(idSoiree)}`,
             dateFormatee: dateLisible(spectacle.date)
         };
     });
 
     document.querySelector('#liste-spectacles').innerHTML = templateSpectacles({ spectacles: donnees });
+}
+
+// Boutons 1, 2, 3... ; rien à afficher s'il n'y a qu'une page.
+export function displayPagination(page, pages) {
+    const zone = document.querySelector('#pagination');
+    if (pages <= 1) {
+        zone.innerHTML = '';
+        return;
+    }
+
+    const templatePagination = Handlebars.compile(document.querySelector('#tpl-pagination').innerHTML);
+    zone.innerHTML = templatePagination({
+        pages: Array.from({ length: pages }, (_, i) => ({ numero: i + 1, courante: i + 1 === page }))
+    });
+}
+
+// Copie de 600 px dans img/petites/, seulement pour les photos du festival (pas les URL externes).
+function versionPetite(image) {
+    return /^img\/[^/]+\.jpg$/.test(image ?? '') ? image.replace('img/', 'img/petites/') : null;
 }
 
 // Options des listes déroulantes, tirées du programme complet (dates et styles sans doublon).

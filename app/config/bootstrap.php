@@ -4,34 +4,42 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpException;
 use Slim\Factory\AppFactory;
 
 use nrv\adapters\config\ContainerConfig;
 
 use nrv\adapters\controllers\middlewares\Cors;
+use nrv\adapters\controllers\middlewares\LectureJeton;
 
 // Les tests fournissent leur propre $container (dépôts en mémoire, sans base ni nrv.env).
 if (!isset($container)) {
     // nrv.env est monté en /var/nrv.env par docker compose
     $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../../', 'nrv.env');
     $dotenv->load();
+    $dotenv->required('JWT_SECRET')->notEmpty();
 
     $container = ContainerConfig::build();
 }
 
 $app = AppFactory::createFromContainer($container);
 $app->addBodyParsingMiddleware();
+// Ajouté avant le routing pour s'exécuter après lui : l'attribut idUtilisateur est posé avant les actions.
+$app->add(LectureJeton::class);
 $app->addRoutingMiddleware();
 
-$errorMiddleware = $app->addErrorMiddleware(true, false, false);
+// Les détails techniques (fichier, ligne, requête SQL...) partent dans le journal du serveur, jamais au client.
+$errorMiddleware = $app->addErrorMiddleware(false, true, false);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 $errorHandler->forceContentType('application/json');
 $errorHandler->registerErrorRenderer(
     'application/json',
     function ($exception, $displayErrorDetails) {
-        return json_encode([
-            'message' => $exception->getMessage()
-        ], JSON_UNESCAPED_UNICODE);
+        $message = $exception instanceof HttpException
+            ? $exception->getMessage()
+            : 'Erreur interne du serveur.';
+
+        return json_encode(['message' => $message], JSON_UNESCAPED_UNICODE);
     }
 );
 

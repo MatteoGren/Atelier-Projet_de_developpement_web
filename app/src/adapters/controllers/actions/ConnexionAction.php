@@ -6,6 +6,7 @@ namespace nrv\adapters\controllers\actions;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use nrv\adapters\auth\GestionnaireJwt;
 use nrv\application\exceptions\MotDePasseInvalideException;
 use nrv\application\exceptions\UtilisateurIntrouvableException;
 use nrv\application\ports\api\ServiceUtilisateurInterface;
@@ -15,10 +16,12 @@ use Slim\Exception\HttpUnauthorizedException;
 final class ConnexionAction
 {
     private ServiceUtilisateurInterface $serviceUtilisateur;
+    private GestionnaireJwt $gestionnaireJwt;
 
-    public function __construct(ServiceUtilisateurInterface $serviceUtilisateur)
+    public function __construct(ServiceUtilisateurInterface $serviceUtilisateur, GestionnaireJwt $gestionnaireJwt)
     {
         $this->serviceUtilisateur = $serviceUtilisateur;
+        $this->gestionnaireJwt = $gestionnaireJwt;
     }
 
     public function __invoke(Request $request, Response $response, array $args): Response
@@ -35,23 +38,17 @@ final class ConnexionAction
             throw new HttpUnauthorizedException($request, 'Email ou mot de passe incorrect.', $e);
         }
 
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        session_regenerate_id(true);
-
-        $_SESSION['user'] = [
-            'id'     => $utilisateur->getIdUtilisateur(),
-            'email'  => $utilisateur->getEmail(),
-            'role'   => $utilisateur->getRole(),
-            'nom'    => $utilisateur->getNom(),
-            'prenom' => $utilisateur->getPrenom(),
-        ];
-
         $donnees = [
             'type' => 'resource',
-            'utilisateur' => $_SESSION['user'],
+            'utilisateur' => [
+                'id'     => $utilisateur->getIdUtilisateur(),
+                'email'  => $utilisateur->getEmail(),
+                'role'   => $utilisateur->getRole(),
+                'nom'    => $utilisateur->getNom(),
+                'prenom' => $utilisateur->getPrenom(),
+            ],
+            // À renvoyer dans l'en-tête "Authorization: Bearer <token>" des requêtes protégées.
+            'token' => $this->gestionnaireJwt->creer($utilisateur->getIdUtilisateur(), $utilisateur->getRole()),
             'links' => [
                 'billets' => ['href' => '/billets'],
                 'spectacles' => ['href' => '/spectacles'],

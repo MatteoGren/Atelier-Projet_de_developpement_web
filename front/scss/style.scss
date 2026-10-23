@@ -1,5 +1,6 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
+@use '_placeholders.scss';
 @use '_header.scss';
 @use '_index.scss';
 @use '_soiree.scss';
@@ -16,18 +17,17 @@
 }
 
 body {
+    @include mix.flex($direction: column);
+    min-height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: $couleur-fond;
     color: $couleur-texte;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 .pieddepage {
     background-color: $couleur-texte;
-    color: #fff;
+    color: $couleur-blanc;
     padding: $espace;
     text-align: center;
 
@@ -38,13 +38,7 @@ body {
 }
 
 a {
-    color: $couleur-principale;
-    transition: color 0.4s ease;
-    
-    &:hover,
-    &:focus {
-        color: $couleur-texte;
-    }
+    @extend %lien;
 }
 
 .message {
@@ -60,17 +54,5 @@ main {
 }
 
 .btn-principal {
-    width: 100%;
-    padding: 0.9rem;
-    border: 0;
-    border-radius: 6px;
-    background-color: $couleur-texte;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
-
-    &:hover,
-    &:focus {
-        background-color: $couleur-principale;
-    }
+    @extend %bouton-principal;
 }

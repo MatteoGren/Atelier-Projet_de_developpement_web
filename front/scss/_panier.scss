@@ -1,43 +1,25 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
+@use '_placeholders.scss';
 
 // ---------------------------------- Page Panier
 
 .panier-liste {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: $espace * 2;
-    margin-top: $espace * 2;
-
-    @include mix.a-partir-de($desktop) {
-        grid-template-columns: minmax(0, 1fr) 20rem;
-    }
-
-    >* {
-        min-width: 0;
-    }
+    @include mix.avec-colonne-laterale(20rem);
 }
 
 // ---------------------------------- Lignes du panier
 
 .panier-lignes {
-    display: grid;
-    gap: $espace;
+    @include mix.grille;
 
     .ligne-panier {
-        display: grid;
+        @include mix.carte;
+        @include mix.grille($espace * 2);
         grid-template-columns: minmax(0, 1fr);
-        gap: $espace * 2;
-
-        background-color: #fff;
-        border-radius: 6px;
-        padding: $espace;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
         @include mix.a-partir-de($tablette) {
             grid-template-columns: minmax(0, 1fr) 14rem;
-            gap: $espace * 2;
         }
     }
 
@@ -53,25 +35,21 @@
 
     h3 {
         margin: 0 0 0.5rem;
-    
+
         a {
+            @extend %lien-discret;
             font-size: 1rem;
             font-weight: 600;
             color: $couleur-texte;
-            text-decoration: none;
-
-            &:hover {
-                text-decoration: underline;
-            }
         }
 
         span {
             font-size: 0.7rem;
             margin-left: $espace;
-            border-radius: 6px;
+            border-radius: $rayon;
             background-color: $couleur-principale;
-            color: #fff;
-            padding: $espace / 2;
+            color: $couleur-blanc;
+            padding: $espace * 0.5;
         }
     }
 
@@ -85,7 +63,7 @@
     }
 
     .lieu {
-        color: #555;
+        color: $couleur-texte-secondaire;
     }
 
     .prix-unitaires {
@@ -93,18 +71,8 @@
     }
 
     .btn-retirer {
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: $couleur-texte;
+        @extend %bouton-lien;
         font-size: 0.75rem;
-        text-decoration: underline;
-        cursor: pointer;
-
-        &:hover,
-        &:focus {
-            color: $couleur-principale;
-        }
     }
 }
 
@@ -125,26 +93,10 @@
     }
 
     .sous-total {
+        @include mix.prix-remise;
         margin: 0;
         font-size: 0.85rem;
         font-weight: 700;
-
-        span:last-of-type {
-            display: none;
-        }
-
-        &.remise {
-            span:first-of-type {
-                text-decoration: line-through;
-                color: #555;
-                font-weight: 500;
-            }
-
-            span:last-of-type {
-                display: inline;
-                color: $couleur-principale;
-            }
-        }
     }
 }
 
@@ -156,13 +108,12 @@
 
     button,
     input {
-        box-sizing: border-box;
         width: 100%;
         min-width: 0;
         min-height: 2.5rem;
-        border: 1px solid #ccc;
+        border: 1px solid $couleur-bordure;
         border-radius: 0;
-        background-color: #fff;
+        background-color: $couleur-blanc;
         color: $couleur-texte;
         font-size: 0.85rem;
         text-align: center;
@@ -173,30 +124,21 @@
 
         &:hover,
         &:focus {
-            background-color: #f2f2f2;
+            background-color: $couleur-survol;
         }
     }
 
     input[type='number'] {
-        appearance: textfield;
+        @include mix.sans-fleches;
         border-right: 0;
         border-left: 0;
-
-        &::-webkit-inner-spin-button,
-        &::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
     }
 }
 
 // ---------------------------------- Récapitulatif à droite
 
 .recapitulatif-panier, .presentation-pass {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: $espace;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    @include mix.carte;
     margin-bottom: $espace;
 
     h3 {
@@ -211,37 +153,21 @@
     }
 
     #msg-validation {
-        color: #b91c1c;
+        color: $couleur-erreur;
         margin: $espace 0;
         font-size: 1rem;
     }
 
     .total {
+        @include mix.prix-remise;
         margin-top: $espace;
         font-weight: 700;
-
-        span:last-of-type {
-            display: none;
-        }
-    
-        &.remise {
-            span:first-of-type {
-                text-decoration: line-through;
-                color: #555;
-                font-weight: 500;
-            }
-    
-            span:last-of-type {
-                display: inline;
-                color: $couleur-principale;
-            }
-        }
     }
 
     .note-paiement {
         margin: $espace 0 0;
         font-size: 0.8rem;
         font-style: italic;
-        color: #555;
+        color: $couleur-texte-secondaire;
     }
 }

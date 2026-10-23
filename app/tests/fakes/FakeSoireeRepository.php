@@ -13,6 +13,9 @@ class FakeSoireeRepository implements SoireeRepositoryInterface
     /** @var Soiree[] */
     private array $soirees;
 
+    // Simule une base hors service (erreur PDO) pour vérifier qu'aucun détail ne fuit vers le client.
+    public bool $enPanne = false;
+
     /**
      * @param Soiree[] $soirees
      */
@@ -23,6 +26,9 @@ class FakeSoireeRepository implements SoireeRepositoryInterface
 
     public function findById(string $id): ?Soiree
     {
+        if ($this->enPanne) {
+            throw new \RuntimeException('SQLSTATE[08006] connexion à nrv.db refusée (PDOSoireeRepository.php:42)');
+        }
         foreach ($this->soirees as $soiree) {
             if ($soiree->getId() === $id) {
                 return $soiree;

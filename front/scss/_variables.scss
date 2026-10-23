@@ -1,7 +1,28 @@
+// ---------------------------------- Couleurs
 $couleur-fond: #f4f4f4;
 $couleur-texte: #1e1e1e;
 $couleur-principale: #c0262d;
-$espace: 1rem;
+$couleur-blanc: #fff;
+$couleur-texte-secondaire: #555;
+$couleur-bordure: #ccc;
+$couleur-separateur: #e5e5e5;
+$couleur-survol: #f2f2f2;
 
+$couleur-erreur: #b91c1c;
+$couleur-erreur-fond: #fee2e2;
+$couleur-erreur-bordure: #fecaca;
+$couleur-succes: #15803d;
+$couleur-succes-fond: #dcfce7;
+$couleur-succes-bordure: #bbf7d0;
+
+// ---------------------------------- Formes et effets
+$espace: 1rem;
+$rayon: 6px;
+$ombre: 0 1px 4px rgba(0, 0, 0, 0.15);
+$ombre-forte: 0 4px 12px rgba(0, 0, 0, 0.12);
+$transition: 0.2s ease;
+
+// ---------------------------------- Points de rupture
 $tablette: 600px;
+$ecran-moyen: 900px;
 $desktop: 1000px;

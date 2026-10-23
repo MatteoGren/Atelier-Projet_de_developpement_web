@@ -1,22 +1,25 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
+@use '_placeholders.scss';
 
 // Carte connexion / inscription
 .auth-card {
+    @include mix.carte($espace * 2, $ombre-forte);
     width: 100%;
     max-width: 440px;
     margin: $espace * 2 auto;
-    padding: $espace * 2;
 
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    @include mix.jusqu-a($tablette) {
+        max-width: 100%;
+        margin: $espace auto;
+        padding: $espace * 1.5;
+    }
 }
 
 // Onglets
 .tabs {
-    display: flex;
-    border-bottom: 2px solid #e5e7eb;
+    @include mix.flex;
+    border-bottom: 2px solid $couleur-separateur;
     margin-bottom: $espace * 2;
 }
 
@@ -32,6 +35,7 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
+    transition: color $transition, border-color $transition;
 
     &.active {
         color: $couleur-principale;
@@ -51,7 +55,7 @@
 
 .auth-card label {
     display: block;
-    margin-bottom: $espace / 2;
+    margin-bottom: $espace * 0.5;
 
     font-size: 0.9rem;
     font-weight: 600;
@@ -59,44 +63,15 @@
 }
 
 .auth-card input {
+    @include mix.champ(0.75rem);
     display: block;
-    width: 100%;
-    padding: 0.75rem;
-
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background-color: #fff;
-
-    font: inherit;
-    font-size: 0.95rem;
-
-    &:focus {
-        outline: 2px solid $couleur-principale;
-        outline-offset: 1px;
-        border-color: $couleur-principale;
-    }
 }
 
 // Boutons de validation
 .auth-card button[type="submit"] {
-    width: 100%;
+    @extend %bouton-principal;
     margin-top: $espace;
-    padding: 0.9rem;
-
-    border: 0;
-    border-radius: 6px;
-    background-color: $couleur-texte;
-    color: #fff;
-
-    font-size: 1rem;
     font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-
-    &:hover,
-    &:focus-visible {
-        background-color: $couleur-principale;
-    }
 }
 
 // Alertes
@@ -105,34 +80,25 @@
     margin-bottom: $espace;
     padding: $espace;
 
-    border-radius: 6px;
+    border-radius: $rayon;
     font-size: 0.9rem;
 }
 
 .auth-card .alert-error {
     display: block;
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fecaca;
+    background-color: $couleur-erreur-fond;
+    color: $couleur-erreur;
+    border: 1px solid $couleur-erreur-bordure;
 }
 
 .auth-card .alert-success {
     display: block;
-    background-color: #dcfce7;
-    color: #15803d;
-    border: 1px solid #bbf7d0;
+    background-color: $couleur-succes-fond;
+    color: $couleur-succes;
+    border: 1px solid $couleur-succes-bordure;
 }
 
 // Formulaire masqué lors du changement d'onglet
 .hidden {
     display: none;
-}
-
-// Adaptation mobile
-@media screen and (max-width: $tablette) {
-    .auth-card {
-        max-width: 100%;
-        margin: $espace auto;
-        padding: $espace * 1.5;
-    }
 }

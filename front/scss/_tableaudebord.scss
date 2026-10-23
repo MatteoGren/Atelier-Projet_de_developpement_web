@@ -1,4 +1,5 @@
 @use '_variables.scss' as *;
+@use '_mixins.scss' as mix;
 
 #btn-actualiser {
     margin-top: $espace * 2;
@@ -10,23 +11,19 @@
     color: $couleur-texte;
 
     &--erreur {
-        color: #b91c1c;
+        color: $couleur-erreur;
     }
 }
 
 .indicateurs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: $espace;
+    @include mix.grille;
+    @include mix.colonnes(2);
     margin-bottom: 2rem;
 }
 
 .indicateur {
+    @include mix.carte;
     min-width: 0;
-    padding: $espace;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
     p {
         margin-top: 0;
@@ -34,7 +31,7 @@
 
     .titre {
         margin-bottom: 0.75rem;
-        color: #666;
+        color: $couleur-texte-secondaire;
     }
 
     .valeur {
@@ -47,7 +44,7 @@
 
     .detail {
         margin-bottom: 0;
-        color: #666;
+        color: $couleur-texte-secondaire;
         font-size: 0.9rem;
     }
 }
@@ -56,7 +53,7 @@
     margin-top: 1rem;
 
     p {
-        color: #666;
+        color: $couleur-texte-secondaire;
     }
 
     .btn-principal {
@@ -71,23 +68,16 @@
 }
 
 .grille-soirees {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: $espace;
+    @include mix.grille;
+    @include mix.colonnes(3);
 }
 
 .carte-soiree {
+    @include mix.carte;
     min-width: 0;
-    padding: $espace;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
     .entete {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 0.5rem;
+        @include mix.flex(space-between, flex-start, 0.5rem);
         margin-bottom: $espace;
     }
 
@@ -101,7 +91,7 @@
     .badge {
         flex-shrink: 0;
         padding: 0.25rem 0.5rem;
-        border-radius: 6px;
+        border-radius: $rayon;
         background-color: $couleur-fond;
         font-size: 0.8rem;
         font-weight: bold;
@@ -109,7 +99,7 @@
 
     .libelle {
         margin-bottom: 0.35rem;
-        color: #666;
+        color: $couleur-texte-secondaire;
         font-size: 0.9rem;
     }
 
@@ -125,11 +115,10 @@
         width: 100%;
         height: 8px;
         border: 0;
-        border-radius: 6px;
-        background-color: #e5e5e5;
+        border-radius: $rayon;
+        background-color: $couleur-separateur;
         overflow: hidden;
 
-       
         &::-webkit-progress-value {
             background-color: $couleur-principale;
         }
@@ -142,21 +131,18 @@
     .separateur {
         height: 1px;
         margin: $espace 0;
-        background-color: #e5e5e5;
+        background-color: $couleur-separateur;
     }
 
     .recette {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
+        @include mix.flex(space-between, center, 0.5rem);
 
         p {
             margin: 0;
         }
 
         p:first-child {
-            color: #666;
+            color: $couleur-texte-secondaire;
             font-size: 0.9rem;
         }
 
@@ -169,17 +155,16 @@
 
 .grille-soirees-vide {
     grid-column: 1 / -1;
-    color: #666;
+    color: $couleur-texte-secondaire;
 }
 
-@media screen and (max-width: 1000px) {
+@include mix.jusqu-a($desktop) {
     .grille-soirees {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        @include mix.colonnes(2);
     }
 }
 
-@media screen and (max-width: $tablette) {
-
+@include mix.jusqu-a($tablette) {
     .indicateurs,
     .grille-soirees {
         grid-template-columns: 1fr;

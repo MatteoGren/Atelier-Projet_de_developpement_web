@@ -4,11 +4,7 @@
 // ---------------------------------- Page Billets
 
 .billets-entete {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: $espace;
+    @include mix.flex(space-between, center, $espace, $wrap: wrap);
 
     .btn-principal {
         width: auto;
@@ -17,9 +13,8 @@
 }
 
 .billets {
-    display: grid;
+    @include mix.grille($espace * 2);
     grid-template-columns: minmax(0, 1fr);
-    gap: $espace * 2;
     margin-top: $espace;
 
     @include mix.a-partir-de($desktop) {
@@ -30,11 +25,8 @@
 // ---------------------------------- Un billet
 
 .billet {
-    background-color: #fff;
-    border-radius: 6px;
+    @include mix.carte;
     border-left: 6px solid $couleur-principale;
-    padding: $espace;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
     h3 {
         margin: $espace 0;
@@ -47,9 +39,7 @@
 }
 
 .billet-entete {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    @include mix.flex(space-between, baseline);
     border-bottom: 1px dashed #999;
     padding-bottom: 0.5rem;
 
@@ -69,9 +59,8 @@
 }
 
 .billet-infos {
-    display: grid;
+    @include mix.grille(0.4rem $espace);
     grid-template-columns: max-content minmax(0, 1fr);
-    gap: 0.4rem $espace;
     margin: 0 0 $espace;
 
     dt {
@@ -97,7 +86,7 @@
 
     // .page-billets : plus précis que les règles générales de style.scss, compilées après ce fichier
     .page-billets {
-        background-color: #fff;
+        background-color: $couleur-blanc;
         color: #000;
 
         main {

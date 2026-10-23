@@ -1,30 +1,18 @@
 import { API_URL } from './config.js';
 
+// Programme complet, sans pagination : sert aux listes de filtres.
 export async function getSpectacles() {
-    const nbPage = await getNbPage();
-    const spectacle = await chargerListe(`${API_URL}/spectacles`);
-    const nbSpe = spectacle.length;
-    return [nbPage, spe, nbSpe];
+    return chargerListe(`${API_URL}/spectacles`);
 }
 
-export async function getSpectaclePage(page){
-    return chargerListe(`${API_URL}/spectacles?page=${page}`);
-}
-
-export async function getNbPage(){
-    const reponse = await fetch(`${API_URL}/spectacles`);
+// Renvoie { spectacles, page, pages } pour une page de 6 spectacles.
+export async function getSpectaclePage(page) {
+    const reponse = await fetch(`${API_URL}/spectacles?page=${page}`);
     if (!reponse.ok) {
-        throw new Error(`Erreur ${reponse.status} lors du chargement des spectacles`);
+        throw new Error(`Erreur ${reponse.status} lors du chargement de la page ${page}`);
     }
     const donnees = await reponse.json();
-    let count = donnees['count'];
-    let nbPage = 0;
-    while(count > 0){
-        count = count - 6;
-        nbPage += 1;
-    }
-    return nbPage
-    
+    return { spectacles: donnees.spectacles.map(versSpectacle), page: donnees.page, pages: donnees.pages };
 }
 
 // Filtre vide ('') = non utilisé : l'API renvoie alors tous les spectacles.
@@ -96,12 +84,14 @@ async function chargerListe(url) {
         throw new Error(`Erreur ${reponse.status} lors du chargement des spectacles`);
     }
     const donnees = await reponse.json();
-    // On garde le lien HATEOAS vers la soirée de chaque spectacle.
-    return donnees.spectacles.map((item) => {
-        const lienSoiree = item.links.soiree?.href ?? null;
-        const idSoiree = item.spectacle.soiree_id ?? null;
-        return { ...item.spectacle, idSoiree, lienSoiree };
-    });
+    return donnees.spectacles.map(versSpectacle);
+}
+
+// On garde le lien HATEOAS vers la soirée de chaque spectacle.
+function versSpectacle(item) {
+    const lienSoiree = item.links.soiree?.href ?? null;
+    const idSoiree = item.spectacle.soiree_id ?? null;
+    return { ...item.spectacle, idSoiree, lienSoiree };
 }
 
 // Renvoie null si la soirée n'existe pas (404) ou si l'identifiant est invalide (400).
@@ -119,29 +109,13 @@ export async function getSoiree(id) {
 
 
 export async function validerPanier(panier) {
-    let idUtilisateur = null;
-    const userRaw = localStorage.getItem('user');
-
-    if (userRaw) {
-        try {
-            const user = JSON.parse(userRaw);
-            idUtilisateur = user.id ?? null;
-        } catch {
-            idUtilisateur = null;
-        }
-    }
-
-    if (!idUtilisateur) {
-        const erreur = new Error('Connexion requise');
-        erreur.status = 401;
-        throw erreur;
-    }
+    const connexion = enTeteConnexion();
 
     const reponse = await fetch(`${API_URL}/commandes`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${idUtilisateur}`
+            ...connexion
         },
         body: JSON.stringify({
             lignes: panier.map((ligne) => ({
@@ -168,18 +142,13 @@ export async function validerPanier(panier) {
     return donnees;
 }
 
-// En-tête de connexion, comme pour validerPanier ; erreur 401 si personne n'est connecté.
+// En-tête de connexion avec le jeton JWT reçu à la connexion ; erreur 401 si personne n'est connecté.
 function enTeteConnexion() {
-    let idUtilisateur = null;
-    try {
-        idUtilisateur = JSON.parse(localStorage.getItem('user'))?.id ?? null;
-    } catch {
-        idUtilisateur = null;
-    }
-    if (!idUtilisateur) {
+    const jeton = localStorage.getItem('token');
+    if (!jeton) {
         throw erreurConnexion();
     }
-    return { 'Authorization': `Bearer ${idUtilisateur}` };
+    return { 'Authorization': `Bearer ${jeton}` };
 }
 
 function erreurConnexion() {

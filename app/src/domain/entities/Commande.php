@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace nrv\domain\entities;
 
 use DateTimeImmutable;
@@ -12,21 +14,29 @@ class Commande {
     public const STATUT_VALIDEE = 'validee';
     public const STATUT_ANNULEE = 'annulee';
 
+    private string $idCommande;
+    private string $idUtilisateur;
+    private string $statut;
     private float $montantTotal;
     private DateTimeImmutable $dateCommande;
+    private ?DateTimeImmutable $datePaiement;
 
     private array $billets = [];
 
     public function __construct(
-        private string $idCommande,
-        private string $idUtilisateur,
-        private string $statut = self::STATUT_EN_ATTENTE,
+        string $idCommande,
+        string $idUtilisateur,
+        string $statut = self::STATUT_EN_ATTENTE,
         float $montantTotal = 0.0,
         ?DateTimeImmutable $dateCommande = null,
-        private ?DateTimeImmutable $datePaiement = null
+        ?DateTimeImmutable $datePaiement = null
     ) {
+        $this->idCommande = $idCommande;
+        $this->idUtilisateur = $idUtilisateur;
+        $this->statut = $statut;
         $this->montantTotal = $montantTotal;
         $this->dateCommande = $dateCommande ?? new DateTimeImmutable();
+        $this->datePaiement = $datePaiement;
     }
 
     public function getIdCommande(): string { return $this->idCommande; }

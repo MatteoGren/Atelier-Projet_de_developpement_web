@@ -45,6 +45,24 @@ it('filtre le programme par date ou par style', function (string $requete, array
     'aucun résultat' => ['style=jazz', []],
 ]);
 
+it('découpe le programme en pages de 6 spectacles', function () {
+    $donnees = corps($this->api->get('/spectacles?page=1'));
+
+    expect($donnees['count'])->toBe(4)
+        ->and($donnees['page'])->toBe(1)
+        ->and($donnees['pages'])->toBe(1)
+        ->and($donnees['spectacles'])->toHaveCount(4)
+        ->and($donnees['links']['self'])->toBe(['href' => '/spectacles?page=1'])
+        ->and($donnees['links'])->not->toHaveKeys(['prev', 'next']);
+});
+
+it('répond 404 pour une page après la dernière et 400 pour un numéro invalide', function () {
+    expect($this->api->get('/spectacles?page=2')->getStatusCode())->toBe(404);
+    foreach (['0', '-1', 'abc', '1.5'] as $page) {
+        expect($this->api->get('/spectacles?page=' . $page)->getStatusCode())->toBe(400);
+    }
+});
+
 it('refuse une date de filtre mal formée', function (string $date) {
     expect($this->api->get('/spectacles?date=' . $date)->getStatusCode())->toBe(400);
 })->with(['pas-une-date', '2027-02-30', '04/06/2027']);
@@ -121,11 +139,26 @@ it('répond 404 pour un billet inconnu ou un token mal formé', function (string
     'token mal formé' => 'pas-un-token',
 ]);
 
-it('renvoie les erreurs en JSON avec les en-têtes CORS pour l\'origine appelante', function () {
-    $reponse = $this->api->envoyer('GET', '/soirees/' . uneSoiree(99), entetes: ['Origin' => 'http://localhost:8080']);
+it('renvoie les erreurs en JSON avec les en-têtes CORS pour le front autorisé', function () {
+    $reponse = $this->api->envoyer('GET', '/soirees/' . uneSoiree(99), entetes: ['Origin' => ApiEnMemoire::ORIGINE_FRONT]);
 
     expect($reponse->getStatusCode())->toBe(404)
         ->and(corps($reponse))->toHaveKey('message')
-        ->and($reponse->getHeaderLine('Access-Control-Allow-Origin'))->toBe('http://localhost:8080')
+        ->and($reponse->getHeaderLine('Access-Control-Allow-Origin'))->toBe(ApiEnMemoire::ORIGINE_FRONT)
         ->and($reponse->getHeaderLine('Access-Control-Allow-Headers'))->toContain('Authorization');
+});
+
+it('n\'autorise pas une origine absente de la liste CORS', function () {
+    $reponse = $this->api->envoyer('GET', '/spectacles', entetes: ['Origin' => 'http://site-pirate.example']);
+
+    expect($reponse->getStatusCode())->toBe(200)
+        ->and($reponse->hasHeader('Access-Control-Allow-Origin'))->toBeFalse();
+});
+
+it('renvoie à la connexion un jeton JWT accepté par les routes protégées', function () {
+    $jeton = corps($this->api->post('/sessions', ['email' => 'lea@example.com', 'motDePasse' => 'secret123']))['token'];
+    $reponse = $this->api->envoyer('GET', '/billets', entetes: ['Authorization' => 'Bearer ' . $jeton]);
+
+    expect($jeton)->toBeString()->toContain('.')
+        ->and($reponse->getStatusCode())->toBe(200);
 });

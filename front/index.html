@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NRV.net - Programme du festival</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.8/dist/handlebars.min.js"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth-header.js"></script>
 </head>
@@ -52,18 +51,21 @@
             <script id="tpl-spectacle" type="text/x-handlebars-template">
                 {{#each spectacles}}
                 <article class="carte-spectacle">
-                    <img src="{{image}}" alt="{{titre}}" loading="lazy">
+                    <img src="{{image}}"{{#if imagePetite}} srcset="{{imagePetite}} 600w, {{image}} 1200w" sizes="(min-width: 1000px) 380px, (min-width: 600px) 50vw, 100vw"{{/if}} alt="{{titre}}" loading="lazy">
                     <div class="infos">
                         <h3><a class="lien-titre" href="{{lienDetail}}">{{titre}}</a></h3>
                         <p><time class="date" datetime="{{date}}T{{horaire}}">{{dateFormatee}} à {{horaire}}</time></p>
                     </div>
                 </article>
                 {{/each}}
-                <nav class="pagination">
-                    {{#each pages}}
-                    <button type="button" data-page="{{numero}}" {{#if courante}}disabled{{/if}}>{{numero}}</button>
-                    {{/each}}
-                </nav>
+            </script>
+
+            <nav id="pagination" class="pagination" aria-label="Pages du programme"></nav>
+
+            <script id="tpl-pagination" type="text/x-handlebars-template">
+                {{#each pages}}
+                <button type="button" class="btn-secondaire" data-page="{{numero}}" {{#if courante}}aria-current="page" disabled{{/if}}>{{numero}}</button>
+                {{/each}}
             </script>
         </section>
     </main>

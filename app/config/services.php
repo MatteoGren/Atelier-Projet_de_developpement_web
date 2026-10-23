@@ -1,5 +1,7 @@
 <?php
 
+use nrv\adapters\auth\GestionnaireJwt;
+use nrv\adapters\controllers\middlewares\Cors;
 use nrv\adapters\persistence\PDOBilletRepository;
 use nrv\adapters\persistence\PDOCommandeRepository;
 use nrv\adapters\persistence\PDOSoireeRepository;
@@ -53,8 +55,6 @@ use Psr\Container\ContainerInterface;
                 );
             },
 
-
-            //ajout pour des test perso 
             UtilisateurRepositoryInterface::class => function (ContainerInterface $c): UtilisateurRepositoryInterface {
                 return new UtilisateurRepository($c->get(PDO::class));
             },
@@ -81,6 +81,12 @@ use Psr\Container\ContainerInterface;
                     $c->get(SoireeRepositoryInterface::class),
                     $c->get(UtilisateurRepositoryInterface::class)
                 );
+            },
+            GestionnaireJwt::class => function (ContainerInterface $c): GestionnaireJwt {
+                return new GestionnaireJwt($c->get('jwt.secret'));
+            },
+            Cors::class => function (ContainerInterface $c): Cors {
+                return new Cors($c->get('cors.origines'));
             }
             
 

@@ -6,6 +6,7 @@ namespace nrv\tests\fakes;
 
 use DateTimeImmutable;
 use DI\ContainerBuilder;
+use nrv\adapters\auth\GestionnaireJwt;
 use nrv\application\ports\spi\BilletRepositoryInterface;
 use nrv\application\ports\spi\CommandeRepositoryInterface;
 use nrv\application\ports\spi\SoireeRepositoryInterface;
@@ -23,10 +24,14 @@ use Slim\Psr7\Factory\StreamFactory;
 // Seule la base de données est remplacée : les requêtes traversent tout le reste comme en production.
 class ApiEnMemoire
 {
+    public const SECRET_JWT = 'secret-de-test-assez-long-pour-hs256-0123456789';
+    public const ORIGINE_FRONT = 'http://localhost:31000';
+
     public FakeUtilisateurRepository $utilisateurs;
     public FakeSoireeRepository $soirees;
     public FakeSpectacleRepository $spectacles;
     public FakeCommandeRepository $commandes;
+    public GestionnaireJwt $jwt;
     private App $app;
 
     public function __construct()
@@ -54,6 +59,8 @@ class ApiEnMemoire
         $builder = new ContainerBuilder();
         $builder->addDefinitions(__DIR__ . '/../../config/services.php');
         $builder->addDefinitions([
+            'jwt.secret' => self::SECRET_JWT,
+            'cors.origines' => [self::ORIGINE_FRONT],
             UtilisateurRepositoryInterface::class => $this->utilisateurs,
             SoireeRepositoryInterface::class => $this->soirees,
             SpectacleRepositoryInterface::class => $this->spectacles,
@@ -61,6 +68,7 @@ class ApiEnMemoire
             BilletRepositoryInterface::class => new FakeBilletRepository($this->commandes),
         ]);
         $container = $builder->build();
+        $this->jwt = $container->get(GestionnaireJwt::class);
 
         // bootstrap.php garde le $container fourni au lieu de lire nrv.env et la base.
         $this->app = require __DIR__ . '/../../config/bootstrap.php';
@@ -88,7 +96,7 @@ class ApiEnMemoire
                 ->withBody((new StreamFactory())->createStream(is_string($corps) ? $corps : json_encode($corps)));
         }
         if ($utilisateur !== null) {
-            $requete = $requete->withHeader('Authorization', 'Bearer ' . $utilisateur);
+            $requete = $requete->withHeader('Authorization', 'Bearer ' . $this->jwt->creer($utilisateur, 'client'));
         }
         foreach ($entetes as $nom => $valeur) {
             $requete = $requete->withHeader($nom, $valeur);

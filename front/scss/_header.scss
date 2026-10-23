@@ -1,57 +1,51 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
+@use '_placeholders.scss';
 
 header {
+    @include mix.flex($justify: space-between, $align: center, $gap: $espace, $wrap: wrap);
     background-color: $couleur-texte;
     padding: $espace;
-    color: #fff;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: $espace;
+    color: $couleur-blanc;
 
     h1 {
+        @include mix.texte-fluide(1.4rem, 2rem);
         margin: 0;
         color: $couleur-principale;
         max-width: 70%;
     }
 
     a {
-        color: #fff;
+        @extend %lien-discret;
+        color: $couleur-blanc;
         font-weight: bold;
-        text-decoration: none;
 
         &:not(#btn-deconnexion, #lien-connexion) {
-            padding-right: $espace / 2;
+            padding-right: $espace * 0.5;
 
             &::after {
                 content: "|";
-                padding-left: $espace / 2;
+                padding-left: $espace * 0.5;
             }
         }
 
-        &:hover {
-            color: #fff;
-            text-decoration: underline;
+        &:hover,
+        &:focus-visible {
+            color: $couleur-blanc;
         }
-    } 
+    }
 }
-
 
 header button {
     display: none;
-
     background-color: $couleur-texte;
-    color: #fff;
+    color: $couleur-blanc;
     border: 0;
     font-size: 1rem;
-    text-decoration: none;
     cursor: pointer;
 }
 
-@media screen and (max-width: $tablette) {
+@include mix.jusqu-a($tablette) {
     header button {
         display: inline-block;
     }

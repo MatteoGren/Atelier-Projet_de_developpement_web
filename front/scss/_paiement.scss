@@ -4,24 +4,13 @@
 // ---------------------------------- Page Paiement
 
 .paiement-grille {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-    gap: $espace * 2;
-    margin-top: $espace * 2;
-
-    @include mix.a-partir-de($desktop) {
-        grid-template-columns: minmax(0, 1fr) 20rem;
-    }
+    @include mix.avec-colonne-laterale(20rem);
 }
 
 // ---------------------------------- Formulaire de carte
 
 .carte-paiement {
-    background-color: #fff;
-    border-radius: 6px;
-    padding: $espace;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    @include mix.carte;
 
     fieldset {
         margin: 0 0 $espace;
@@ -43,18 +32,9 @@
     }
 
     input {
-        width: 100%;
+        @include mix.champ(0 0.6rem);
         min-height: 2.5rem;
         margin-bottom: $espace;
-        padding: 0 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-
-        &:focus {
-            outline: 2px solid $couleur-principale;
-            border-color: transparent;
-        }
     }
 
     .erreur {
@@ -65,14 +45,13 @@
         margin: $espace 0 0;
         font-size: 0.8rem;
         font-style: italic;
-        color: #555;
+        color: $couleur-texte-secondaire;
     }
 }
 
 .paiement-ligne {
-    display: grid;
+    @include mix.grille(0 $espace);
     grid-template-columns: minmax(0, 1fr);
-    gap: 0 $espace;
 
     @include mix.a-partir-de($tablette) {
         @include mix.colonnes(2);
@@ -82,13 +61,10 @@
 // ---------------------------------- Confirmation
 
 .confirmation-paiement {
+    @include mix.carte($espace * 2);
     max-width: 40rem;
     margin: $espace * 2 auto;
-    padding: $espace * 2;
-    background-color: #fff;
-    border-radius: 6px;
     border-top: 4px solid $couleur-principale;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
     text-align: center;
 
     h2 {
@@ -97,7 +73,7 @@
 
     .reference {
         font-size: 0.85rem;
-        color: #555;
+        color: $couleur-texte-secondaire;
         word-break: break-all;
     }
 }

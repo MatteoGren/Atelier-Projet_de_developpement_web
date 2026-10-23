@@ -1,129 +1,108 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
-
+@use '_placeholders.scss';
 
 .backoffice-grille {
-  display: grid;
+  @include mix.grille(1.5rem);
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.5rem;
   margin-top: 1.5rem;
   align-items: start;
-}
 
-@media (min-width: 900px) {
-  .backoffice-grille {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @include mix.a-partir-de($ecran-moyen) {
+    @include mix.colonnes(2);
   }
-}
 
-.backoffice-grille .form-toggle {
-  display: none;
-}
+  .form-toggle {
+    display: none;
 
-.backoffice-grille .form-toggle.visible {
-  display: block;
+    &.visible {
+      display: block;
+    }
+  }
+
+  .filtres {
+    margin-bottom: 1rem;
+  }
 }
 
 .btn-secondaire.active {
   background-color: $couleur-principale;
-  color: #fff;
+  color: $couleur-blanc;
   border-color: $couleur-principale;
 }
 
 .carte-paiement textarea {
+  @include mix.champ(0.6rem);
   display: block;
-  width: 100%;
   min-height: 5.5rem;
   margin-bottom: 1rem;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: inherit;
-  font-size: 1rem;
-  box-sizing: border-box;
   resize: vertical;
-}
 
-.carte-paiement textarea:focus {
-  outline: 2px solid $couleur-texte;
-  outline-offset: 1px;
-  border-color: $couleur-texte;
+  &:focus {
+    @include mix.contour-focus($couleur-texte);
+    border-color: $couleur-texte;
+  }
 }
 
 .champ-spectacles-box {
   margin-top: 1.2rem;
   margin-bottom: 1.2rem;
-}
 
-.champ-spectacles-box>label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
-  font-weight: bold;
-}
+  > label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+  }
 
-.champ-spectacles-box .liste-spectacles-selection {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  .liste-spectacles-selection {
+    @include mix.flex($direction: column, $gap: 0.5rem);
+    max-height: 160px;
+    overflow-y: auto;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid $couleur-texte-secondaire;
+    border-radius: 2px;
+    background-color: $couleur-blanc;
+  }
 
-  max-height: 160px;
-  overflow-y: auto;
+  .item-spectacle {
+    @include mix.flex(flex-start, center, 0.6rem);
+    width: 100%;
+    margin: 0;
+    padding: 0.15rem 0;
+    cursor: pointer;
 
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #555;
-  border-radius: 2px;
-  background-color: #fff;
-}
+    input[type="checkbox"] {
+      display: inline-block;
+      flex: 0 0 15px;
+      width: 15px;
+      height: 15px;
+      min-width: 15px;
+      min-height: 15px;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      accent-color: $couleur-texte;
+    }
 
-.champ-spectacles-box .item-spectacle {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.6rem;
+    span {
+      font-size: 0.85rem;
+      color: $couleur-texte;
+      line-height: 1.2;
+      text-align: left;
+    }
+  }
 
-  width: 100%;
-  margin: 0;
-  padding: 0.15rem 0;
-
-  cursor: pointer;
-}
-
-.champ-spectacles-box .item-spectacle input[type="checkbox"] {
-  display: inline-block;
-  flex: 0 0 15px;
-
-  width: 15px;
-  height: 15px;
-  min-width: 15px;
-  min-height: 15px;
-
-  margin: 0;
-  padding: 0;
-
-  cursor: pointer;
-  accent-color: $couleur-texte;
-}
-
-.champ-spectacles-box .item-spectacle span {
-  font-size: 0.85rem;
-  color: $couleur-texte;
-  line-height: 1.2;
-  text-align: left;
-}
-
-.champ-spectacles-box .texte-aide {
-  margin-top: 0.6rem;
-  padding: 0.5rem 0.75rem;
-
-  background-color: $couleur-fond;
-  border-radius: 6px;
-  border-left: 2px solid $couleur-principale;
-
-  font-size: 0.75rem;
-  color: $couleur-texte;
-  line-height: 1.4;
+  .texte-aide {
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background-color: $couleur-fond;
+    border-radius: $rayon;
+    border-left: 2px solid $couleur-principale;
+    font-size: 0.75rem;
+    color: $couleur-texte;
+    line-height: 1.4;
+  }
 }
 
 main.main-large {
@@ -133,10 +112,10 @@ main.main-large {
 
 .carte-paiement.form-toggle {
   display: none;
-}
 
-.carte-paiement.form-toggle.visible {
-  display: block;
+  &.visible {
+    display: block;
+  }
 }
 
 .billets-entete.actions-backoffice {
@@ -148,12 +127,7 @@ main.main-large {
 }
 
 .boutons-backoffice {
-  display: flex;
-  gap: 1rem;
-}
-
-.backoffice-grille .filtres {
-  margin-bottom: 1rem;
+  @include mix.flex($gap: 1rem);
 }
 
 .chargement-spectacles {
@@ -176,10 +150,10 @@ main.main-large {
 
 .lien-ajout-image {
   margin: -0.5rem 0 0.5rem;
-}
 
-.lien-ajout-image label {
-  color: $couleur-principale;
-  text-decoration: underline;
-  cursor: pointer;
+  label {
+    @extend %lien;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }

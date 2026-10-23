@@ -14,20 +14,8 @@
     }
 }
 
-
 .soiree-page {
-    display: grid;
-    align-items: start;
-    gap: $espace * 2;
-    margin-top: $espace * 2;
-
-    @include mix.a-partir-de($desktop) {
-        grid-template-columns: 1fr 22rem;
-    }
-
-    >* {
-        min-width: 0; // évite qu'une vidéo fasse déborder la grille
-    }
+    @include mix.avec-colonne-laterale(22rem);
 
     h3 {
         margin: 0 0 $espace;
@@ -37,27 +25,20 @@
 // ----- Liste des spectacles
 
 #liste-detail-spectacles {
-    display: grid;
-    gap: $espace;
+    @include mix.grille;
     @include mix.colonnes(1);
 
-
     article {
+        @include mix.carte;
+        @include mix.flex($direction: column-reverse, $gap: $espace * 2);
         min-width: 0;
-        display: flex;
-        flex-direction: column-reverse;
-        gap: $espace * 2;
-        background-color: #fff;
-        border-radius: 6px;
-        padding: $espace;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
         @include mix.a-partir-de($tablette) {
             flex-direction: row;
         }
 
         & > div:first-of-type {
-           flex: 2;
+            flex: 2;
         }
 
         & > div:last-of-type {
@@ -100,11 +81,8 @@
 // ----- Billetterie
 
 .billetterie {
-    padding: $espace * 1.25;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    
+    @include mix.carte($espace * 1.25);
+
     .sous-total {
         margin: 0 0 $espace;
         font-weight: bold;
@@ -123,7 +101,7 @@
     p {
         font-size: 0.8rem;
         font-style: italic;
-        color: #555;
+        color: $couleur-texte-secondaire;
     }
 }
 
@@ -134,8 +112,8 @@
     button,
     input {
         min-height: 3rem;
-        border: 1px solid #ccc;
-        background-color: #fff;
+        border: 1px solid $couleur-bordure;
+        background-color: $couleur-blanc;
         font-size: 1rem;
         text-align: center;
     }
@@ -145,14 +123,7 @@
         color: $couleur-principale;
     }
 
-    // Les boutons - et + remplacent les flèches natives
     input[type='number'] {
-        appearance: textfield;
-
-        &::-webkit-inner-spin-button,
-        &::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        @include mix.sans-fleches;
     }
 }

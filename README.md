@@ -10,7 +10,10 @@ API RESTful (PHP / Slim, architecture hexagonale) et front HTML/SCSS/JS.
    POSTGRES_DB=nrv
    POSTGRES_USER=nrv
    POSTGRES_PASSWORD=un_mot_de_passe
+   JWT_SECRET=une_longue_chaine_aleatoire
    ```
+
+   `JWT_SECRET` signe les jetons de connexion (au moins 32 caractères, par exemple `openssl rand -hex 32`) ; l'API refuse de démarrer sans lui. `CORS_ORIGINS` (facultatif) liste les adresses du front autorisées à appeler l'API, séparées par des virgules ; par défaut `http://localhost:31000`, `http://127.0.0.1:31000` et `http://docketu.iutnc.univ-lorraine.fr:31000`.
 
 2. Lancer les conteneurs :
 
@@ -83,6 +86,7 @@ cat > nrv.env <<EOF
 POSTGRES_DB=nrv
 POSTGRES_USER=nrv
 POSTGRES_PASSWORD=$(openssl rand -hex 16)
+JWT_SECRET=$(openssl rand -hex 32)
 EOF
 chmod 600 nrv.env
 docker compose up -d
@@ -102,6 +106,7 @@ Mise à jour : `cd ~/nrv && git pull && docker compose up -d` (puis les mêmes �
 |---------|-------|-------------|
 | GET | `/` | Point d'entrée : liens vers toutes les ressources de l'API |
 | GET | `/spectacles` | Liste des spectacles (titre, date, horaire, image) |
+| GET | `/spectacles?page=N` | Page N du programme (6 spectacles) avec liens `first`/`last`/`prev`/`next` ; 400 si N est invalide, 404 si la page n'existe pas |
 | GET | `/spectacles?date=AAAA-MM-JJ&style=...` | Spectacles filtrés par date et/ou style ; 400 si la date est invalide |
 | POST | `/spectacles` | Crée un spectacle (organisateur ou administrateur) |
 | GET | `/soirees` | Soirées avec places vendues, capacité et recette (tableau de bord) |
@@ -114,9 +119,9 @@ Mise à jour : `cd ~/nrv && git pull && docker compose up -d` (puis les mêmes �
 | GET | `/billets` | Tous les billets payés de l'utilisateur connecté |
 | GET | `/billets/{token}` | Un billet par son lien personnel (public) |
 | POST | `/utilisateurs` | Inscription ; 409 si l'email a déjà un compte |
-| POST | `/sessions` | Connexion ; 401 si l'email ou le mot de passe est incorrect |
+| POST | `/sessions` | Connexion : renvoie l'utilisateur et un jeton JWT (`token`, valable 4 h) ; 401 si l'email ou le mot de passe est incorrect |
 
-Les routes marquées « connexion requise » ou liées à un utilisateur attendent l'en-tête `Authorization: Bearer <identifiant>` ; sans lui, elles répondent 401.
+Les routes marquées « connexion requise » ou liées à un utilisateur attendent l'en-tête `Authorization: Bearer <token>` avec le jeton reçu à la connexion ; sans jeton valide (absent, falsifié ou expiré), elles répondent 401.
 
 ## Tests unitaires
 
