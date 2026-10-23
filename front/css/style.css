@@ -1,4 +1,4 @@
-.entete {
+header {
   background-color: #1e1e1e;
   padding: 1rem;
   color: #fff;
@@ -8,29 +8,29 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-.entete h1 {
+header h1 {
   margin: 0;
   color: #c0262d;
   max-width: 70%;
 }
-.entete a {
+header a {
   color: #fff;
   font-weight: bold;
   text-decoration: none;
 }
-.entete a:not(#btn-deconnexion, #lien-connexion) {
+header a:not(#btn-deconnexion, #lien-connexion) {
   padding-right: 0.5rem;
 }
-.entete a:not(#btn-deconnexion, #lien-connexion)::after {
+header a:not(#btn-deconnexion, #lien-connexion)::after {
   content: "|";
   padding-left: 0.5rem;
 }
-.entete a:hover {
+header a:hover {
   color: #fff;
   text-decoration: underline;
 }
 
-.entete button {
+header button {
   display: none;
   background-color: #1e1e1e;
   color: #fff;
@@ -41,17 +41,17 @@
 }
 
 @media screen and (max-width: 600px) {
-  .entete button {
+  header button {
     display: inline-block;
   }
-  .entete nav {
+  header nav {
     display: none;
     width: 100%;
   }
-  .entete.menu-ouvert button {
+  header.menu-ouvert button {
     color: #c0262d;
   }
-  .entete.menu-ouvert nav {
+  header.menu-ouvert nav {
     display: inline;
   }
 }
@@ -897,6 +897,170 @@
   line-height: 1.4;
 }
 
+#btn-actualiser {
+  margin-top: 2rem;
+  width: auto;
+}
+
+.tableau-bord-message {
+  margin-bottom: 1rem;
+  color: #1e1e1e;
+}
+.tableau-bord-message--erreur {
+  color: #b91c1c;
+}
+
+.indicateurs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.indicateur {
+  min-width: 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.indicateur p {
+  margin-top: 0;
+}
+.indicateur .titre {
+  margin-bottom: 0.75rem;
+  color: #666;
+}
+.indicateur .valeur {
+  margin-bottom: 0.5rem;
+  color: #1e1e1e;
+  font-size: 1.6rem;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+.indicateur .detail {
+  margin-bottom: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.ventes {
+  margin-top: 1rem;
+}
+.ventes p {
+  color: #666;
+}
+.ventes .btn-principal {
+  width: auto;
+  padding: 0.7rem 1rem;
+}
+.ventes .btn-principal:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.grille-soirees {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.carte-soiree {
+  min-width: 0;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.carte-soiree .entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.carte-soiree .titre {
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+.carte-soiree .badge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background-color: #f4f4f4;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.carte-soiree .libelle {
+  margin-bottom: 0.35rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+.carte-soiree .places {
+  margin-bottom: 0.75rem;
+  color: #1e1e1e;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.carte-soiree .progression {
+  display: block;
+  width: 100%;
+  height: 8px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #e5e5e5;
+  overflow: hidden;
+}
+.carte-soiree .progression::-webkit-progress-value {
+  background-color: #c0262d;
+}
+.carte-soiree .progression::-moz-progress-bar {
+  background-color: #c0262d;
+}
+.carte-soiree .separateur {
+  height: 1px;
+  margin: 1rem 0;
+  background-color: #e5e5e5;
+}
+.carte-soiree .recette {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.carte-soiree .recette p {
+  margin: 0;
+}
+.carte-soiree .recette p:first-child {
+  color: #666;
+  font-size: 0.9rem;
+}
+.carte-soiree .recette p:last-child {
+  color: #c0262d;
+  font-weight: bold;
+}
+
+.grille-soirees-vide {
+  grid-column: 1/-1;
+  color: #666;
+}
+
+@media screen and (max-width: 1000px) {
+  .grille-soirees {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media screen and (max-width: 600px) {
+  .indicateurs,
+  .grille-soirees {
+    grid-template-columns: 1fr;
+  }
+  .ventes .entete {
+    align-items: flex-start;
+  }
+}
 * {
   box-sizing: border-box;
 }

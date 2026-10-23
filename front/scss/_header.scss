@@ -1,7 +1,7 @@
 @use '_variables.scss' as *;
 @use '_mixins.scss' as mix;
 
-.entete {
+header {
     background-color: $couleur-texte;
     padding: $espace;
     color: #fff;
@@ -40,7 +40,7 @@
 }
 
 
-.entete button {
+header button {
     display: none;
 
     background-color: $couleur-texte;
@@ -52,20 +52,20 @@
 }
 
 @media screen and (max-width: $tablette) {
-    .entete button {
+    header button {
         display: inline-block;
     }
 
-    .entete nav {
+    header nav {
         display: none;
         width: 100%;
     }
 
-    .entete.menu-ouvert button {
+    header.menu-ouvert button {
         color: $couleur-principale;
     }
 
-    .entete.menu-ouvert nav {
+    header.menu-ouvert nav {
         display: inline;
     }
 }
